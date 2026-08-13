@@ -1,0 +1,292 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las fotos que te hacen ganar — Jose Pico</title>
+<meta name="description" content="Ocho fotos, ocho señales. Qué dice cada una y cómo se consigue la que te falta.">
+<style>
+  .barra{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;margin-bottom:34px;
+  }
+  .barra a.inicio{
+    font-size:11.5px;letter-spacing:4px;text-transform:uppercase;
+    color:#C9A961;text-decoration:none;opacity:.85;
+  }
+  .barra nav{display:flex;gap:18px;flex-wrap:wrap}
+  .barra nav a{
+    font-size:13px;letter-spacing:1.6px;text-transform:uppercase;
+    color:#A79C8B;text-decoration:none;
+  }
+  .barra nav a:hover{color:#C9A961}
+  :root{
+    --negro:#0F0D0B; --carta:#17130F; --oro:#C9A961;
+    --crema:#F2ECE1; --apagado:#A79C8B;
+  }
+  *{box-sizing:border-box;-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--negro);color:var(--crema);
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:17px;line-height:1.6;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:44px 18px 80px}
+
+  header{text-align:center;margin-bottom:34px}
+  .marca{
+    font-size:11.5px;letter-spacing:4px;text-transform:uppercase;
+    color:var(--oro);opacity:.85;margin:0 0 18px;
+  }
+  h1{
+    font-size:clamp(30px,7.5vw,52px);line-height:1.08;margin:0 0 16px;
+    color:var(--crema);font-weight:normal;letter-spacing:-.5px;
+  }
+  h1 em{font-style:normal;color:var(--oro)}
+  .entradilla{
+    max-width:560px;margin:0 auto;color:var(--apagado);
+    font-size:17px;line-height:1.6;
+  }
+
+  .tabs{
+    display:flex;gap:8px;justify-content:center;margin:34px 0 8px;
+  }
+  .tab{
+    flex:1;max-width:190px;
+    background:transparent;border:1px solid rgba(201,169,97,.35);
+    color:var(--oro);font-family:Georgia,serif;font-size:16px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    padding:12px 8px;border-radius:999px;cursor:pointer;transition:.15s;
+  }
+  .tab[aria-selected="true"]{background:var(--oro);color:var(--negro);border-color:var(--oro)}
+
+  .nota-ia{
+    max-width:620px;margin:26px auto 40px;padding:16px 20px;
+    background:rgba(201,169,97,.06);border-left:3px solid var(--oro);
+    border-radius:0 10px 10px 0;font-size:15.5px;color:var(--crema);
+  }
+  .nota-ia b{color:var(--oro)}
+
+  .rejilla{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:680px){.rejilla{grid-template-columns:1fr 1fr}}
+  @media(min-width:1000px){.rejilla{grid-template-columns:1fr 1fr 1fr 1fr}}
+
+  .casilla{
+    background:var(--carta);border:1px solid rgba(201,169,97,.2);
+    border-radius:14px;padding:22px 20px 24px;display:flex;flex-direction:column;
+  }
+  .num{
+    font-size:13px;letter-spacing:2px;color:var(--oro);opacity:.7;
+    margin:0 0 6px;
+  }
+  .casilla h2{
+    font-size:23px;line-height:1.15;margin:0 0 16px;color:var(--crema);
+    font-weight:normal;
+  }
+  .linea{margin:0 0 13px;font-size:16px;line-height:1.55}
+  .linea:last-child{margin-bottom:0}
+  .rot{
+    display:block;font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;
+    color:var(--oro);opacity:.8;margin-bottom:3px;
+  }
+  .linea.error{color:#E8D9C4}
+  .linea.arreglo{color:var(--apagado)}
+  .ia{
+    margin-top:16px;padding-top:12px;border-top:1px solid rgba(201,169,97,.16);
+    font-size:13px;letter-spacing:1.2px;text-transform:uppercase;color:var(--oro);opacity:.75;
+  }
+
+  footer{
+    margin-top:56px;padding-top:24px;text-align:center;
+    border-top:1px solid rgba(201,169,97,.22);color:var(--apagado);font-size:15px;
+  }
+  footer a{color:var(--oro);text-decoration:none}
+  [hidden]{display:none !important}
+</style>
+
+<div class="wrap">
+
+<div class="barra">
+  <a class="inicio" href="/">Jose Pico</a>
+  <nav>
+    <a href="/match-link/">Match Link</a>
+    <a href="/mentoria/">Mentoría</a>
+    <a href="/vibes/">VIBES</a>
+  </nav>
+</div>
+
+<header>
+  <p class="marca">Guía gratuita</p>
+  <h1>Las fotos que<br><em>te hacen ganar</em></h1>
+  <p class="entradilla">Ocho fotos. Cada una manda una señal distinta y tapa un hueco distinto. Las que no tengas, debajo pone cómo se consiguen.</p>
+</header>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-v="h">Hombre</button>
+  <button class="tab" role="tab" aria-selected="false" data-v="m">Mujer</button>
+</div>
+
+<div class="nota-ia">
+  <b>Sobre la IA:</b> arreglar la luz, el fondo, la ropa o la calidad de una foto tuya, adelante — todo el mundo lo hace y no estás diciendo nada que no sea verdad. Inventarte un salto en paracaídas que no diste, no: las apps verifican la foto, y en la primera cita te va a preguntar por el salto.
+</div>
+
+<!-- ================= HOMBRE ================= -->
+<div class="rejilla" id="v-h">
+
+  <div class="casilla">
+    <p class="num">01</p>
+    <h2>Autoridad</h2>
+    <p class="linea"><span class="rot">La señal</span>Te dejan hablar.</p>
+    <p class="linea error"><span class="rot">El error</span>La foto con el traje de la boda de tu primo. Traje no es autoridad; es que ese día se casaba otro.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Un micro inalámbrico en la mano y ya está. Ni público, ni escenario, ni congreso.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">02</p>
+    <h2>Trabajo</h2>
+    <p class="linea"><span class="rot">La señal</span>Produces algo, y se ve dónde.</p>
+    <p class="linea error"><span class="rot">El error</span>La del escritorio con dos monitores y tu espalda. Eso no dice que trabajes; dice que alguien te hizo una foto mientras mirabas un Excel.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>De pie, en tu sitio, con lo que usas en la mano. Casco y obra, cocina, taller, bata, o el portátil en una mesa que no sea la de tu casa.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">03</p>
+    <h2>Deporte</h2>
+    <p class="linea"><span class="rot">La señal</span>Te cuidas, y no hace falta que lo pongas en la bio.</p>
+    <p class="linea error"><span class="rot">El error</span>El espejo del gimnasio con la camiseta levantada. Dice que entrenas, y también que no tienes ningún amigo que te haga una foto.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>En movimiento y de lejos: corriendo, en la bici, saliendo del agua. Aquí la foto tiene que estar bien hecha — si parece de catálogo, ya has ganado.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">04</p>
+    <h2>Viajes</h2>
+    <p class="linea"><span class="rot">La señal</span>Te mueves y sales de tu barrio.</p>
+    <p class="linea error"><span class="rot">El error</span>Tú con la mochila en Atocha. Atocha no es viajar; es esperar.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Un sitio que se reconozca en medio segundo. Cuanto más famoso el fondo, menos tienes que explicar.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">05</p>
+    <h2>Prueba social</h2>
+    <p class="linea"><span class="rot">La señal</span>Hay gente que te aguanta, y encima riéndose.</p>
+    <p class="linea error"><span class="rot">El error</span>La foto de grupo de nueve donde eres el tercero por la izquierda. Tiene que hacer zoom para saber a quién está juzgando.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Dos o tres personas, un bar, y alguien riéndose de algo que no es la cámara. Que no se note posada.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">06</p>
+    <h2>Postureo</h2>
+    <p class="linea"><span class="rot">La señal</span>Sabes vestirte el día que quieres.</p>
+    <p class="linea error"><span class="rot">El error</span>La del ascensor. Ropa buena, cara de sueño y una luz de comisaría.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Cuerpo entero, de día, en la calle. Que alguien te haga tres andando y te quedas con una.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">07</p>
+    <h2>La mascota</h2>
+    <p class="linea"><span class="rot">La señal</span>Cuidas de algo que respira.</p>
+    <p class="linea error"><span class="rot">El error</span>El perro solo, sin ti. Eso es una foto del perro. Está muy bien, pero ella no va a quedar con el perro.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>No compres un perro. Vale el de tu hermana.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">08</p>
+    <h2>Aventura</h2>
+    <p class="linea"><span class="rot">La señal</span>Te da menos miedo la vida que a la media.</p>
+    <p class="linea error"><span class="rot">El error</span>La de la montaña rusa que venden en el parque. Se ve el asiento.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Parapente, buceo, un rafting, una tirolina. Son 60 € y te duran tres años en el perfil.</p>
+  </div>
+
+</div>
+
+<!-- ================= MUJER ================= -->
+<div class="rejilla" id="v-m" hidden>
+
+  <div class="casilla">
+    <p class="num">01</p>
+    <h2>Autoridad</h2>
+    <p class="linea"><span class="rot">La señal</span>Te dejan hablar.</p>
+    <p class="linea error"><span class="rot">El error</span>La del portátil y el café con espuma de corazón. Eso no es autoridad; es que estabas desayunando.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Un micro inalámbrico en la mano y ya está. Ni público, ni escenario, ni congreso.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">02</p>
+    <h2>Trabajo</h2>
+    <p class="linea"><span class="rot">La señal</span>Produces algo, y se ve dónde.</p>
+    <p class="linea error"><span class="rot">El error</span>La agenda abierta, el boli y las uñas. Sale la agenda. Tú no sales.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>De pie, en tu sitio, con lo que usas en la mano. Bata, cámara, cocina, aula, obra, mostrador.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">03</p>
+    <h2>Deporte</h2>
+    <p class="linea"><span class="rot">La señal</span>Te cuidas, y no hace falta que lo pongas en la bio.</p>
+    <p class="linea error"><span class="rot">El error</span>El espejo del gimnasio con las mallas y el móvil delante. Es exactamente la misma foto que tienen otros cuatro millones de perfiles.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>En movimiento y de lejos: corriendo, escalando, saliendo del agua. Aquí la foto tiene que estar bien hecha — si parece de catálogo, ya has ganado.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">04</p>
+    <h2>Viajes</h2>
+    <p class="linea"><span class="rot">La señal</span>Te mueves y sales de tu barrio.</p>
+    <p class="linea error"><span class="rot">El error</span>El mojito en la playa. Todas tenéis el mojito en la playa. Es la misma playa.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Un sitio que se reconozca en medio segundo. Si hay que preguntar dónde es, no cuenta.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">05</p>
+    <h2>Prueba social</h2>
+    <p class="linea"><span class="rot">La señal</span>Hay gente que te aguanta, y encima riéndose.</p>
+    <p class="linea error"><span class="rot">El error</span>Las cinco amigas puestas en fila con el mismo vestido. No sabe cuál eres, y no lo va a preguntar.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Dos o tres personas, un bar, y alguien riéndose de algo que no es la cámara. Que no se note posada.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">06</p>
+    <h2>Postureo</h2>
+    <p class="linea"><span class="rot">La señal</span>Sabes vestirte el día que quieres.</p>
+    <p class="linea error"><span class="rot">El error</span>La del probador. Se ve la cortina y se ve la etiqueta colgando.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Cuerpo entero, de día, en la calle. Que alguien te haga tres andando y te quedas con una.</p>
+    <p class="ia">Se puede con IA</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">07</p>
+    <h2>La llamativa</h2>
+    <p class="linea"><span class="rot">La señal</span>Que se te vea la figura y estés claramente favorecida.</p>
+    <p class="linea"><span class="rot">La prueba</span>Si la mandarías al grupo de la familia, no es esta.</p>
+    <p class="linea error"><span class="rot">El error</span>La del espejo del baño con el móvil tapándote la cara. Es la única foto tuya arreglada del perfil, y sale más el móvil que tú.</p>
+  </div>
+
+  <div class="casilla">
+    <p class="num">08</p>
+    <h2>Aventura</h2>
+    <p class="linea"><span class="rot">La señal</span>Te da menos miedo la vida que a la media.</p>
+    <p class="linea error"><span class="rot">El error</span>La del caballo de la excursión, que iba atado a otro caballo.</p>
+    <p class="linea arreglo"><span class="rot">Si no la tienes</span>Parapente, buceo, un rafting, una tirolina. Son 60 € y te duran tres años en el perfil.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p><a href="https://instagram.com/josempico">@josempico</a> &nbsp;·&nbsp; <a href="https://wa.me/34621321861">WhatsApp</a></p>
+  <p><a href="/">josempico.com</a></p>
+</footer>
+
+</div>
+
+<script>
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(o){ o.setAttribute('aria-selected', o === t ? 'true' : 'false'); });
+      document.getElementById('v-h').hidden = (t.dataset.v !== 'h');
+      document.getElementById('v-m').hidden = (t.dataset.v !== 'm');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+</script>

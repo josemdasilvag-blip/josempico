@@ -1,0 +1,138 @@
+/* Jose Pico — hoja de estilo común
+   Los colores y la tipografía salen de la guía «Las fotos que te hacen ganar»,
+   para que la web y los recursos parezcan la misma cosa. */
+
+:root{
+  --negro:#0F0D0B;
+  --carta:#17130F;
+  --oro:#C9A961;
+  --crema:#F2ECE1;
+  --apagado:#A79C8B;
+  --borde:rgba(201,169,97,.2);
+}
+
+*{box-sizing:border-box;-webkit-text-size-adjust:100%}
+
+body{
+  margin:0;background:var(--negro);color:var(--crema);
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:17px;line-height:1.6;
+}
+
+.wrap{max-width:1000px;margin:0 auto;padding:36px 18px 80px}
+.estrecho{max-width:660px}
+
+a{color:var(--oro)}
+
+/* ---------- cabecera común ---------- */
+
+.barra{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;margin-bottom:48px;
+}
+.marca{
+  font-size:11.5px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--oro);opacity:.85;margin:0;text-decoration:none;
+}
+.barra nav{display:flex;gap:18px;flex-wrap:wrap}
+.barra nav a{
+  font-size:13px;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--apagado);text-decoration:none;transition:.15s;
+}
+.barra nav a:hover,.barra nav a[aria-current="page"]{color:var(--oro)}
+
+/* ---------- titulares ---------- */
+
+h1{
+  font-size:clamp(30px,7vw,50px);line-height:1.08;margin:0 0 18px;
+  font-weight:normal;letter-spacing:-.5px;
+}
+h1 em{font-style:normal;color:var(--oro)}
+
+h2{
+  font-size:clamp(22px,4vw,30px);line-height:1.2;margin:0 0 14px;
+  font-weight:normal;
+}
+
+.entradilla{
+  color:var(--apagado);font-size:18px;line-height:1.6;margin:0 0 12px;
+}
+
+.rotulo{
+  display:block;font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--oro);opacity:.8;margin-bottom:4px;
+}
+
+/* ---------- tarjetas ---------- */
+
+.rejilla{display:grid;grid-template-columns:1fr;gap:16px;margin:36px 0}
+@media(min-width:720px){.rejilla{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.rejilla.tres{grid-template-columns:1fr 1fr 1fr}}
+
+.carta{
+  background:var(--carta);border:1px solid var(--borde);
+  border-radius:14px;padding:24px 22px 26px;
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;transition:.15s;
+}
+a.carta:hover{border-color:rgba(201,169,97,.55)}
+.carta h2{font-size:23px;margin:0 0 12px}
+.carta p{margin:0 0 12px;font-size:16px;line-height:1.55}
+.carta p:last-child{margin-bottom:0}
+.carta .apagado{color:var(--apagado)}
+.carta .pie{
+  margin-top:auto;padding-top:16px;
+  font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--oro);
+}
+
+/* ---------- secciones ---------- */
+
+section{margin:52px 0}
+section p{margin:0 0 14px}
+
+.lista{list-style:none;padding:0;margin:0 0 20px}
+.lista li{
+  padding:14px 0;border-bottom:1px solid rgba(201,169,97,.14);
+  font-size:16.5px;line-height:1.55;
+}
+.lista li:last-child{border-bottom:none}
+
+/* ---------- botones ---------- */
+
+.boton{
+  display:inline-block;background:var(--oro);color:var(--negro);
+  font-family:Georgia,serif;font-size:16px;letter-spacing:1.4px;
+  text-transform:uppercase;text-decoration:none;
+  padding:15px 30px;border-radius:999px;transition:.15s;border:1px solid var(--oro);
+}
+.boton:hover{background:transparent;color:var(--oro)}
+.boton.hueco{background:transparent;color:var(--oro)}
+.boton.hueco:hover{background:var(--oro);color:var(--negro)}
+.acciones{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0}
+
+/* ---------- avisos ---------- */
+
+.nota{
+  padding:16px 20px;margin:26px 0;
+  background:rgba(201,169,97,.06);border-left:3px solid var(--oro);
+  border-radius:0 10px 10px 0;font-size:15.5px;
+}
+.nota b{color:var(--oro)}
+
+/* Marca los huecos que aún no tienen dato real. No debe quedar
+   ninguno visible el día que esto se publique. */
+.pendiente{
+  background:rgba(220,80,80,.12);border-left:3px solid #DC5050;
+  padding:14px 18px;margin:20px 0;border-radius:0 10px 10px 0;
+  font-family:system-ui,sans-serif;font-size:14px;color:#F0C4C4;
+}
+
+/* ---------- pie ---------- */
+
+footer{
+  margin-top:64px;padding-top:26px;text-align:center;
+  border-top:1px solid rgba(201,169,97,.22);
+  color:var(--apagado);font-size:15px;
+}
+footer a{color:var(--oro);text-decoration:none}
+footer .enlaces{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
