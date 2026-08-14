@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>¿Dónde se te mueren los chats? · Jose Pico</title>
+<meta name="description" content="Ocho preguntas. Al final sale tu punto en el mapa.">
+<style>
+:root{
+  --negro:#14110F; --negro2:#1E1A17; --crema:#F2ECE1; --oro:#C9A961;
+  --tenue:#8B8279; --linea:rgba(201,169,97,.22);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--negro); color:var(--crema);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; align-items:center;
+  padding:1.2rem 1.1rem 3rem;
+}
+.app{width:100%;max-width:520px;flex:1;display:flex;flex-direction:column}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
+
+/* ---------- portada ---------- */
+.pantalla{display:none;animation:entra .32s ease both}
+.pantalla.on{display:flex;flex-direction:column;flex:1}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.marca{color:var(--oro);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  text-align:center;margin:.6rem 0 2.4rem}
+#portada{justify-content:center;text-align:center;min-height:78dvh}
+#portada h1{font-size:2.3rem;line-height:1.15;margin:0 0 1rem;color:var(--crema)}
+#portada h1 em{color:var(--oro);font-style:normal}
+#portada p{color:var(--tenue);margin:0 0 2.4rem;font-size:1.02rem}
+
+.btn{
+  display:block;width:100%;background:var(--oro);color:#14110F;border:0;border-radius:10px;
+  padding:1rem 1.2rem;font-size:1.02rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:transform .12s,background .18s;text-align:center;text-decoration:none
+}
+.btn:active{transform:scale(.98)}
+.btn.hueco{background:transparent;color:var(--oro);border:1px solid var(--linea);font-weight:600}
+.btn+.btn{margin-top:.7rem}
+
+/* ---------- preguntas ---------- */
+.barra{height:3px;background:rgba(242,236,225,.1);border-radius:2px;margin:.2rem 0 2rem;overflow:hidden}
+.barra i{display:block;height:100%;background:var(--oro);width:0;transition:width .3s ease}
+.paso{color:var(--tenue);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem}
+.escena{font-family:Georgia,serif;font-size:1.5rem;line-height:1.3;margin:0 0 1.6rem}
+.ops{display:flex;flex-direction:column;gap:.6rem}
+.op{
+  background:var(--negro2);border:1px solid rgba(242,236,225,.1);border-radius:10px;
+  padding:.95rem 1.1rem;text-align:left;color:var(--crema);font:inherit;cursor:pointer;
+  transition:border-color .15s,background .15s
+}
+.op:hover{border-color:var(--linea);background:#252019}
+.op:active{transform:scale(.99)}
+.atras{background:none;border:0;color:var(--tenue);font:inherit;font-size:.9rem;
+  cursor:pointer;padding:1.4rem 0 0;text-align:left;align-self:flex-start}
+
+/* ---------- resultado ---------- */
+#resultado{text-align:center}
+.zona{font-family:Georgia,serif;font-size:2.1rem;line-height:1.15;color:var(--oro);margin:.4rem 0 .7rem}
+.notas{display:flex;justify-content:center;gap:.6rem;margin:0 0 1.1rem;flex-wrap:wrap}
+.nota{border:1px solid var(--linea);border-radius:999px;padding:.28rem .85rem;
+  font-size:.86rem;color:var(--tenue);white-space:nowrap}
+.nota b{color:var(--oro);font-family:Georgia,serif;font-size:1rem;margin-left:.2rem}
+.chiste{color:var(--crema);font-size:1.06rem;margin:0 auto 1.8rem;max-width:26em}
+.explica{color:var(--tenue);font-size:.99rem;line-height:1.7;margin:0 auto 1.4rem;
+  max-width:30em;text-align:left}
+.mapa{width:100%;margin:0 0 1.6rem}
+.remate{color:var(--tenue);font-size:.98rem;font-style:italic;margin:0 0 2.2rem;
+  padding-top:1.4rem;border-top:1px solid rgba(242,236,225,.09)}
+.oferta{background:rgba(201,169,97,.07);border:1px solid var(--linea);border-radius:12px;
+  padding:1.4rem 1.2rem;margin:0 0 1rem;text-align:left}
+.oferta h3{color:var(--oro);font-size:1.18rem;margin:0 0 .6rem}
+.oferta p{margin:0 0 1.2rem;font-size:1rem}
+.pie{color:var(--tenue);font-size:.82rem;text-align:center;margin-top:2.2rem}
+.pie a{color:var(--oro);text-decoration:none}
+canvas{display:none}
+@media(max-width:380px){
+  #portada h1{font-size:1.95rem}
+  .escena{font-size:1.3rem}
+  .zona{font-size:1.75rem}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin:0 0 26px;font-size:14px;letter-spacing:.5px">
+    <a href="/" style="color:#C9A961;text-decoration:none">Jose Pico</a>
+    <a href="/match-link/" style="color:#A79C8B;text-decoration:none">Match Link</a>
+    <a href="/mentoria/" style="color:#A79C8B;text-decoration:none">Mentoría</a>
+    <a href="/vibes/" style="color:#A79C8B;text-decoration:none">VIBES</a>
+    <a href="/fotos/" style="color:#A79C8B;text-decoration:none">Guías</a>
+  </nav>
+  <div class="marca">Jose Pico</div>
+
+  <!-- ============ PORTADA ============ -->
+  <section class="pantalla on" id="portada">
+    <h1>¿Dónde se te<br><em>mueren los chats?</em></h1>
+    <p>Ocho preguntas. Al final sale tu punto en el mapa.</p>
+    <button class="btn" id="empezar">Empezar</button>
+  </section>
+
+  <!-- ============ PREGUNTAS ============ -->
+  <section class="pantalla" id="test">
+    <div class="barra"><i id="progreso"></i></div>
+    <div class="paso" id="paso"></div>
+    <h2 class="escena" id="escena"></h2>
+    <div class="ops" id="ops"></div>
+    <button class="atras" id="atras">← Atrás</button>
+  </section>
+
+  <!-- ============ RESULTADO ============ -->
+  <section class="pantalla" id="resultado">
+    <div class="paso">Aquí estás tú</div>
+    <div class="zona" id="nombreZona"></div>
+    <div class="notas" id="notas"></div>
+    <p class="chiste" id="chisteZona"></p>
+    <div class="mapa" id="mapa"></div>
+    <p class="explica" id="explicaZona"></p>
+    <p class="remate">El mapa dice dónde estás. No dice desde cuándo.</p>
+
+    <div class="oferta">
+      <h3>Y esto es lo que hay debajo</h3>
+      <p>El mapa te dice dónde estás. Lo otro es saber por qué. Tráeme tu última conversación y arrancamos: te digo dónde se cayó y qué había que haber escrito.</p>
+      <a class="btn" id="cta" href="#">Escríbeme y lo vemos</a>
+    </div>
+
+    <button class="btn hueco" id="descargar">Descargar mi mapa</button>
+    <button class="btn hueco" id="otra">Hacerlo otra vez</button>
+
+    <p class="pie">Un test de <a href="https://instagram.com/josempico" target="_blank" rel="noopener">@josempico</a> &nbsp;·&nbsp; <a href="/">josempico.com</a></p>
+  </section>
+</div>
+
+<canvas id="lienzo" width="1080" height="1350"></canvas>
+
+<script>
+/* =====================================================================
+   EL BOTÓN FINAL
+   Abre WhatsApp con el mensaje ya escrito y con la casilla que le ha salido
+   metida dentro, para que la persona solo tenga que darle a enviar.
+   Si algún día cambia el número, se cambia solo aquí: prefijo del país y
+   número seguidos, sin signo más, sin espacios y sin guiones.
+   ===================================================================== */
+var WHATSAPP  = "34621321861";
+var TEXTO_CTA = "Escríbeme por WhatsApp";
+
+/* ------------------------------------------------------------------
+   LOS EJES
+   x  →  quién mueve la conversación   (-)esperas ......... empujas(+)
+   y  →  cuánto enseñas de ti          (-)te guardas ..... te abres(+)
+   Cada respuesta suma entre -2 y +2. Cuatro preguntas por eje: -8 a +8.
+   ------------------------------------------------------------------ */
+var PREGUNTAS = [
+  { eje:"x", escena:"Te ha dejado en visto. Han pasado dos días.", ops:[
+    ["Espero. Si quiere, ya escribirá.", -2],
+    ["Le pongo una reacción a una story, a ver si pica.", -1],
+    ["Le escribo como si no hubiera pasado nada.", 1],
+    ["Le escribo preguntando si pasa algo.", 2]]},
+
+  { eje:"y", escena:"Te pregunta a qué te dedicas.", ops:[
+    ["«Trabajo en una oficina».", -2],
+    ["Le digo el puesto y poco más.", -1],
+    ["Le cuento qué hago y qué me gusta de eso.", 1],
+    ["Le cuento lo que hago, lo que odio y lo que quiero hacer en tres años.", 2]]},
+
+  { eje:"x", escena:"La conversación lleva media hora funcionando bien.", ops:[
+    ["Espero a que proponga algo.", -2],
+    ["Suelto una indirecta y que la coja.", -1],
+    ["Propongo vernos, sin concretar cuándo.", 1],
+    ["Propongo día y sitio.", 2]]},
+
+  { eje:"y", escena:"Sale el tema de tu última relación.", ops:[
+    ["Cambio de tema.", -2],
+    ["Digo que fue hace tiempo y sigo.", -1],
+    ["Cuento lo que pasó por encima.", 1],
+    ["Lo cuento entero, con nombres y fechas.", 2]]},
+
+  { eje:"x", escena:"Normalmente, ¿quién escribe primero?", ops:[
+    ["Casi siempre la otra persona.", -2],
+    ["Suele empezar el otro.", -1],
+    ["Suelo empezar yo.", 1],
+    ["Siempre yo.", 2]]},
+
+  { eje:"y", escena:"Has tenido un día horrible y estás hablando con quien te gusta.", ops:[
+    ["No lo menciono.", -2],
+    ["«Día largo» y sigo con otra cosa.", -1],
+    ["Le cuento por encima qué ha pasado.", 1],
+    ["Se lo cuento entero.", 2]]},
+
+  { eje:"x", escena:"El chat se ha quedado en «jajaja».", ops:[
+    ["Lo dejo morir.", -2],
+    ["Lo dejo estar, ya escribirá.", -1],
+    ["Cambio de tema yo.", 1],
+    ["Le mando un audio.", 2]]},
+
+  { eje:"y", escena:"De tus últimos diez mensajes, ¿cuántos hablan de ti?", ops:[
+    ["Ninguno. Pregunto yo.", -2],
+    ["Uno o dos.", -1],
+    ["Más o menos la mitad.", 1],
+    ["Casi todos.", 2]]}
+];
+
+/* ------------------------------------------------------------------
+   LAS NUEVE ZONAS
+   fila 0 = te guardas (abajo) · fila 2 = te abres (arriba)
+   col  0 = esperas   (izq)   · col  2 = empujas (der)
+   ------------------------------------------------------------------ */
+var ZONAS = [
+  [ {n:"La sala de espera",   e:["Sala de","espera"],
+     c:"Dos personas aguardando a que la otra diga algo interesante. El chat lleva tres días en «jajaja».",
+     p:"No escribes primero y tampoco cuentas nada cuando escribes. La conversación existe, pero la sostiene la buena educación de los dos. Desde fuera no se distingue de un chat con el de la mudanza."},
+
+    {n:"Atención al cliente", e:["Atención","al cliente"],
+     c:"Contestas rápido, contestas bien, contestas todo. También lo hace el banco.",
+     p:"Respondes a todo lo que te preguntan y no sobra ni falta una palabra. Lo que dices está bien; el problema es que después de veinte mensajes la otra persona sigue sin poder contarle a nadie cómo eres."},
+
+    {n:"El interrogatorio",   e:["El","interrogatorio"],
+     c:"Sabe dónde trabajas, dónde vives y con quién sales. No sabe si le caes bien.",
+     p:"Preguntas mucho y te guardas todo. Como quien pregunta suele ser quien tiene interés, la otra persona se queda con la sensación de estar rindiendo cuentas sin saber ante quién."} ],
+
+  [ {n:"El eco",              e:["El eco"],
+     c:"Solo existes cuando te escriben. Y contestas lo justo para que no parezca que estás enfadado.",
+     p:"Cuentas cosas de ti, pero solo cuando te dan pie. Nunca abres tú. Si la otra persona deja de escribir un día, la conversación no se acaba: desaparece, y ninguno de los dos sabría decir cuándo."},
+
+    {n:"El término medio",    e:["El término","medio"],
+     c:"No haces nada mal. Tampoco haces nada que se recuerde.",
+     p:"Preguntas y cuentas, esperas y empujas, todo en su punto. Es la casilla más cómoda del mapa y también la más fácil de olvidar: nada de lo que escribes molesta, y nada se queda."},
+
+    {n:"El que organiza",     e:["El que","organiza"],
+     c:"Tú pones el sitio, tú pones la hora, tú pones el tema. Un día vas a proponer también lo que siente el otro.",
+     p:"Llevas tú el peso de que las cosas pasen, y funciona, que es lo que hace difícil verlo. Mientras empujes, la conversación va. El día que dejes de empujar se sabrá cuánto estaba poniendo el otro."} ],
+
+  [ {n:"El diario",           e:["El diario"],
+     c:"Le contaste lo de tu ex y nadie te lo había preguntado.",
+     p:"Cuentas mucho y esperas poco. Le das a la otra persona material de sobra para conocerte y ninguna razón para preguntarte nada. Lo que llega de vuelta no es interés: es información."},
+
+    {n:"El monólogo",         e:["El monólogo"],
+     c:"Se sabe tu vida entera. Tú sabes que se llama… ¿Marta?",
+     p:"Hablas de ti con soltura y preguntas lo justo. La conversación fluye y se pasa rápido, pero al terminar solo uno de los dos ha aprendido algo del otro."},
+
+    {n:"La avalancha",        e:["La","avalancha"],
+     c:"Siete mensajes seguidos. Tres eran audios.",
+     p:"Empujas mucho y cuentas mucho, y las dos cosas a la vez. Nadie duda de tu interés. Lo que pasa es que la otra persona no tiene hueco para echarte de menos."} ]
+];
+
+/* ------------------------------------------------------------------ */
+var i = 0, x = 0, y = 0, historial = [];
+var $ = function(id){ return document.getElementById(id); };
+
+function verPantalla(id){
+  ["portada","test","resultado"].forEach(function(p){
+    $(p).classList.toggle("on", p === id);
+  });
+  window.scrollTo(0,0);
+}
+
+function pinta(){
+  var p = PREGUNTAS[i];
+  $("paso").textContent = "Pregunta " + (i+1) + " de " + PREGUNTAS.length;
+  $("escena").textContent = p.escena;
+  $("progreso").style.width = (i / PREGUNTAS.length * 100) + "%";
+  $("atras").style.visibility = i === 0 ? "hidden" : "visible";
+  var cont = $("ops");
+  cont.innerHTML = "";
+  p.ops.forEach(function(o){
+    var b = document.createElement("button");
+    b.className = "op";
+    b.textContent = o[0];
+    b.onclick = function(){ responde(p.eje, o[1]); };
+    cont.appendChild(b);
+  });
+}
+
+function responde(eje, valor){
+  historial.push([eje, valor]);
+  if (eje === "x") { x += valor; } else { y += valor; }
+  i++;
+  if (i < PREGUNTAS.length) { pinta(); } else { muestraResultado(); }
+}
+
+$("atras").onclick = function(){
+  if (i === 0) return;
+  i--;
+  var h = historial.pop();
+  if (h[0] === "x") { x -= h[1]; } else { y -= h[1]; }
+  pinta();
+};
+
+/* Corta el rango -8..+8 en tres bandas.
+   El corte va en ±1 y no en ±3: con ±3 la casilla central se comía al 52% de
+   la gente y las cuatro esquinas se quedaban en un 2% cada una. Con ±1 las
+   nueve casillas caen entre el 10% y el 13%. */
+function tercio(v){ return v < -1 ? 0 : (v > 1 ? 2 : 1); }
+
+function zonaActual(){
+  return ZONAS[tercio(y)][tercio(x)];
+}
+
+/* Pasa una puntuación -8..+8 a una fracción 0..1.
+   Se recorta a 0,10-0,90 para que el punto quede siempre dentro de su casilla
+   y no montado sobre la línea del borde. */
+function frac(v){
+  var f = (v + 8) / 16;
+  return Math.max(0.10, Math.min(0.90, f));
+}
+
+/* pasa una puntuación -8..+8 a una nota de 0 a 10 */
+function nota(v){ return Math.round((v + 8) / 16 * 10); }
+
+function muestraResultado(){
+  $("progreso").style.width = "100%";
+  var z = zonaActual();
+  $("nombreZona").textContent = z.n;
+  $("notas").innerHTML =
+    '<span class="nota">Intensidad <b>' + nota(x) + '</b>/10</span>' +
+    '<span class="nota">Exposición <b>' + nota(y) + '</b>/10</span>';
+  $("chisteZona").textContent = z.c;
+  $("explicaZona").textContent = z.p;
+  $("mapa").innerHTML = dibujaSVG();
+  var saludo = "¡Hola Jose! Acabo de hacer el test y me ha salido «" + z.n + "».";
+  $("cta").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(saludo);
+  $("cta").textContent = TEXTO_CTA;
+  verPantalla("resultado");
+}
+
+/* ---------------- el mapa en pantalla (SVG) ----------------
+   Rejilla de nueve casillas con el nombre de cada zona escrito dentro,
+   la casilla del usuario resaltada y su punto encima.               */
+function dibujaSVG(){
+  var W = 400, H = 402;
+  var X0 = 62, X1 = 386, Y0 = 14, Y1 = 338;   // marco de la rejilla
+  var L = X1 - X0, celda = L / 3;
+  var cx = tercio(x), cy = tercio(y);          // casilla activa
+  var px = X0 + frac(x) * L;
+  var py = Y1 - frac(y) * L;
+  var s = [];
+  s.push('<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="Tu posición en el mapa de conversaciones">');
+
+  // casilla resaltada (fila 0 de ZONAS = abajo del todo)
+  var hx = X0 + cx * celda;
+  var hy = Y1 - (cy + 1) * celda;
+  s.push('<rect x="'+hx+'" y="'+hy+'" width="'+celda+'" height="'+celda+'" fill="#C9A961" fill-opacity=".13"/>');
+
+  // líneas
+  for (var k = 0; k <= 3; k++){
+    var t = k * celda;
+    var op = (k === 0 || k === 3) ? .38 : .17;
+    s.push('<line x1="'+(X0+t)+'" y1="'+Y0+'" x2="'+(X0+t)+'" y2="'+Y1+'" stroke="#C9A961" stroke-opacity="'+op+'"/>');
+    s.push('<line x1="'+X0+'" y1="'+(Y0+t)+'" x2="'+X1+'" y2="'+(Y0+t)+'" stroke="#C9A961" stroke-opacity="'+op+'"/>');
+  }
+
+  // nombres de las nueve zonas
+  for (var fy = 0; fy < 3; fy++){
+    for (var fx = 0; fx < 3; fx++){
+      var z = ZONAS[fy][fx];
+      var act = (fx === cx && fy === cy);
+      var mx = X0 + fx * celda + celda/2;
+      var my = Y1 - fy * celda - celda/2;
+      var lin = z.e, base = my - (lin.length - 1) * 6.5;
+      lin.forEach(function(ln, n){
+        s.push('<text x="'+mx+'" y="'+(base + n*13 + 4)+'" text-anchor="middle" '+
+               'font-size="11.5" font-family="Georgia,serif" '+
+               'fill="'+(act ? '#C9A961' : '#8B8279')+'" '+
+               'fill-opacity="'+(act ? '1' : '.62')+'">'+ln+'</text>');
+      });
+    }
+  }
+
+  // escalas de los ejes: 0 a 10 en los extremos y el nombre en el centro
+  var num = 'fill="#8B8279" font-size="11" font-family="-apple-system,Segoe UI,sans-serif"';
+  var nom = 'fill="#C9A961" fill-opacity=".85" font-size="12.5" font-family="Georgia,serif" letter-spacing=".5"';
+  // horizontal
+  s.push('<text x="'+X0+'" y="'+(Y1+19)+'" '+num+' text-anchor="middle">0</text>');
+  s.push('<text x="'+X1+'" y="'+(Y1+19)+'" '+num+' text-anchor="middle">10</text>');
+  s.push('<text x="'+((X0+X1)/2)+'" y="'+(Y1+38)+'" '+nom+' text-anchor="middle">INTENSIDAD</text>');
+  // vertical
+  s.push('<text x="'+(X0-11)+'" y="'+(Y1+4)+'" '+num+' text-anchor="end">0</text>');
+  s.push('<text x="'+(X0-11)+'" y="'+(Y0+10)+'" '+num+' text-anchor="end">10</text>');
+  s.push('<text x="0" y="0" '+nom+' text-anchor="middle" transform="translate('+(X0-34)+','+((Y0+Y1)/2)+') rotate(-90)">EXPOSICIÓN</text>');
+
+  // el punto
+  s.push('<circle cx="'+px+'" cy="'+py+'" r="15" fill="#C9A961" fill-opacity=".22"/>');
+  s.push('<circle cx="'+px+'" cy="'+py+'" r="6.5" fill="#C9A961" stroke="#14110F" stroke-width="2"/>');
+  s.push('</svg>');
+  return s.join("");
+}
+
+/* ---------------- la imagen para stories (canvas) ---------------- */
+function dibujaLienzo(){
+  var c = $("lienzo"), g = c.getContext("2d");
+  var W = c.width, H = c.height, z = zonaActual();
+
+  g.fillStyle = "#14110F"; g.fillRect(0,0,W,H);
+
+  g.textAlign = "center";
+  g.fillStyle = "#C9A961";
+  g.font = "500 26px -apple-system,Segoe UI,sans-serif";
+  g.fillText("¿DÓNDE SE TE MUEREN LOS CHATS?", W/2, 96);
+
+  // ---- cuadrícula ----
+  var M = 150, T = 240, L = W - 2*M;      // margen lateral, tope, lado
+  var celda = L / 3, cx = tercio(x), cy = tercio(y);
+
+  // casilla resaltada
+  g.fillStyle = "rgba(201,169,97,.13)";
+  g.fillRect(M + cx*celda, (T+L) - (cy+1)*celda, celda, celda);
+
+  for (var k = 0; k <= 3; k++){
+    var t = k * celda;
+    g.strokeStyle = "rgba(201,169,97," + ((k===0||k===3) ? ".42" : ".18") + ")";
+    g.lineWidth = 2;
+    g.beginPath(); g.moveTo(M+t, T);   g.lineTo(M+t, T+L);  g.stroke();
+    g.beginPath(); g.moveTo(M,   T+t); g.lineTo(M+L, T+t);  g.stroke();
+  }
+
+  // ---- nombres de las nueve zonas ----
+  g.textAlign = "center";
+  for (var fy = 0; fy < 3; fy++){
+    for (var fx = 0; fx < 3; fx++){
+      var zz = ZONAS[fy][fx], act = (fx === cx && fy === cy);
+      var mx = M + fx*celda + celda/2;
+      var my = (T+L) - fy*celda - celda/2;
+      g.fillStyle = act ? "#C9A961" : "rgba(139,130,121,.66)";
+      g.font = "26px Georgia,serif";
+      var lin = zz.e, base = my - (lin.length - 1) * 15;
+      lin.forEach(function(ln, n){ g.fillText(ln, mx, base + n*30 + 9); });
+    }
+  }
+
+  // ---- escalas de los ejes ----
+  g.fillStyle = "#8B8279";
+  g.font = "24px -apple-system,Segoe UI,sans-serif";
+  g.textAlign = "center";
+  g.fillText("0",  M,   T+L+38);
+  g.fillText("10", M+L, T+L+38);
+  g.fillStyle = "rgba(201,169,97,.85)";
+  g.font = "27px Georgia,serif";
+  g.fillText("INTENSIDAD", M + L/2, T+L+40);
+
+  g.fillStyle = "#8B8279";
+  g.font = "24px -apple-system,Segoe UI,sans-serif";
+  g.textAlign = "right";
+  g.fillText("0",  M-22, T+L+8);
+  g.fillText("10", M-22, T+18);
+  g.save();
+  g.translate(M-64, T + L/2); g.rotate(-Math.PI/2);
+  g.fillStyle = "rgba(201,169,97,.85)";
+  g.font = "27px Georgia,serif";
+  g.textAlign = "center"; g.fillText("EXPOSICIÓN", 0, 0);
+  g.restore();
+
+  // ---- el punto ----
+  var px = M + frac(x) * L;
+  var py = (T + L) - frac(y) * L;
+  g.fillStyle = "rgba(201,169,97,.22)";
+  g.beginPath(); g.arc(px, py, 44, 0, 6.2832); g.fill();
+  g.fillStyle = "#C9A961";
+  g.beginPath(); g.arc(px, py, 19, 0, 6.2832); g.fill();
+  g.strokeStyle = "#14110F"; g.lineWidth = 5;
+  g.beginPath(); g.arc(px, py, 19, 0, 6.2832); g.stroke();
+
+  // ---- las dos notas ----
+  g.textAlign = "center";
+  g.fillStyle = "#8B8279";
+  g.font = "28px -apple-system,Segoe UI,sans-serif";
+  g.fillText("Intensidad " + nota(x) + "/10     ·     Exposición " + nota(y) + "/10",
+             W/2, T + L + 108);
+
+  // ---- nombre de la zona ----
+  g.fillStyle = "#C9A961";
+  g.font = "600 62px Georgia,serif";
+  g.fillText(z.n, W/2, T + L + 182);
+
+  // ---- el chiste, partido en líneas ----
+  g.fillStyle = "#F2ECE1";
+  g.font = "31px -apple-system,Segoe UI,sans-serif";
+  var lineas = parte(g, z.c, W - 200);
+  lineas.forEach(function(ln, n){
+    g.fillText(ln, W/2, T + L + 247 + n*44);
+  });
+
+  g.fillStyle = "#8B8279";
+  g.font = "26px -apple-system,Segoe UI,sans-serif";
+  g.fillText("@josempico", W/2, H - 60);
+  return c;
+}
+
+function parte(g, texto, ancho){
+  var palabras = texto.split(" "), lineas = [], linea = "";
+  palabras.forEach(function(p){
+    var prueba = linea ? linea + " " + p : p;
+    if (g.measureText(prueba).width > ancho && linea){ lineas.push(linea); linea = p; }
+    else { linea = prueba; }
+  });
+  if (linea) lineas.push(linea);
+  return lineas;
+}
+
+/* ---------------- botones ---------------- */
+$("empezar").onclick = function(){ verPantalla("test"); pinta(); };
+
+$("otra").onclick = function(){
+  i = 0; x = 0; y = 0; historial = [];
+  verPantalla("portada");
+};
+
+$("descargar").onclick = function(){
+  var c = dibujaLienzo();
+  c.toBlob(function(b){
+    var u = URL.createObjectURL(b);
+    var a = document.createElement("a");
+    a.href = u;
+    a.download = "mi-mapa-josempico.png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(u); }, 1000);
+  }, "image/png");
+};
+</script>
+</body>
+</html>
