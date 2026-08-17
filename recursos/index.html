@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recursos — Jose Pico</title>
+<meta name="description" content="Las guías y los tests de Jose Pico. Gratis, terminados y sin pedir correo.">
+<link rel="stylesheet" href="/assets/estilo.css?v=20260817b">
+<style>
+  /* ---------- índice de recursos ----------
+     Pensado para crecer: cada recurso es una fila. Añadir uno nuevo
+     es copiar un bloque <a class="recurso"> y cambiar el número. */
+
+  .indice{margin:40px 0 0;border-top:1px solid rgba(201,169,97,.18)}
+
+  .recurso{
+    display:grid;grid-template-columns:auto 1fr;gap:4px 20px;
+    align-items:start;
+    padding:26px 4px;border-bottom:1px solid rgba(201,169,97,.18);
+    text-decoration:none;color:inherit;transition:.15s;
+  }
+  @media(min-width:720px){
+    .recurso{grid-template-columns:auto 1fr auto;gap:6px 26px;padding:30px 8px}
+  }
+  .recurso:hover{background:rgba(201,169,97,.045)}
+
+  .recurso .num{
+    grid-row:1 / span 3;
+    font-size:15px;letter-spacing:2px;color:var(--oro);opacity:.55;
+    padding-top:7px;transition:.15s;
+  }
+  .recurso:hover .num{opacity:1}
+
+  .recurso .tipo{
+    font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+    color:var(--apagado);margin:0 0 6px;
+  }
+  .recurso h2{
+    font-size:clamp(21px,3.4vw,27px);line-height:1.2;margin:0 0 8px;
+    color:var(--crema);font-weight:normal;transition:.15s;
+  }
+  .recurso:hover h2{color:var(--oro)}
+  .recurso .que{margin:0;color:var(--apagado);font-size:16px;line-height:1.55;max-width:60ch}
+
+  .recurso .abrir{
+    grid-column:2;justify-self:start;margin-top:14px;
+    font-size:11.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--oro);
+  }
+  @media(min-width:720px){
+    .recurso .abrir{grid-column:3;grid-row:1 / span 3;justify-self:end;align-self:center;margin-top:0}
+  }
+
+  /* hueco del próximo recurso: mismo ritmo, sin enlace */
+  .proximo{
+    display:grid;grid-template-columns:auto 1fr;gap:4px 20px;
+    padding:26px 4px;border-bottom:1px solid rgba(201,169,97,.18);
+    opacity:.5;
+  }
+  @media(min-width:720px){.proximo{gap:6px 26px;padding:30px 8px}}
+  .proximo .num{font-size:15px;letter-spacing:2px;color:var(--oro);opacity:.5;padding-top:2px}
+  .proximo p{margin:0;color:var(--apagado);font-size:16px}
+
+  .cierre-indice{
+    max-width:640px;margin:48px auto 0;text-align:center;
+    color:var(--apagado);font-size:16px;line-height:1.6;
+  }
+  .cierre-indice a{color:var(--oro);text-decoration:none;border-bottom:1px solid rgba(201,169,97,.35)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="barra">
+    <a class="marca" href="/">Jose Pico</a>
+    <nav>
+      <a href="/match-link/">Match Link</a>
+      <a href="/mentoria/">Mentoría</a>
+      <a href="/vibes/">VIBES</a>
+      <a href="/recursos/" aria-current="page">Recursos</a>
+    </nav>
+  </div>
+
+  <header class="estrecho">
+    <p class="kicker">Gratis, terminados y sin pedir correo</p>
+    <h1>Recursos</h1>
+    <p class="entradilla">Lo que voy soltando para que arregles tu perfil por tu cuenta. No hay versión de pago de esto ni segunda parte que se compra: están enteros.</p>
+  </header>
+
+  <div class="indice">
+
+    <a class="recurso" href="/fotos/">
+      <span class="num">01</span>
+      <p class="tipo">Galería · Fotos</p>
+      <h2>Las fotos que te hacen ganar</h2>
+      <p class="que">Ocho fotos, ocho señales, con un ejemplo de cada una y en versión hombre y mujer. Qué dice cada foto, cuál es el error típico y cómo se consigue la que te falta.</p>
+      <span class="abrir">Abrir →</span>
+    </a>
+
+    <div class="proximo">
+      <span class="num">02</span>
+      <p>El siguiente está en camino.</p>
+    </div>
+
+  </div>
+
+  <p class="cierre-indice">Los voy anunciando en <a href="https://instagram.com/josempico">@josempico</a> según salen. Si quieres que mire tu perfil concreto en vez de leer, eso es la <a href="/mentoria/">mentoría</a>.</p>
+
+  <footer>
+    <div class="enlaces">
+      <a href="https://instagram.com/josempico">@josempico</a>
+      <a href="https://wa.me/34621321861">WhatsApp</a>
+      <a href="/privacidad/">Privacidad</a>
+    </div>
+    <p>Jose Pico · Madrid</p>
+  </footer>
+
+</div>
+</body>
+</html>

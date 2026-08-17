@@ -41,6 +41,21 @@ a{color:var(--oro)}
 }
 .barra nav a:hover,.barra nav a[aria-current="page"]{color:var(--oro)}
 
+/* ---------- logo de marca dentro de la página ----------
+   Los logos se guardan en assets/marca/ ya preparados para fondo oscuro:
+   fondo transparente y la tinta en color crema. Si se añade uno nuevo con
+   fondo claro, hay que convertirlo antes o se verá un ladrillo blanco. */
+
+.logo-marca{
+  display:block;width:100%;max-width:255px;height:auto;
+  margin:0 0 24px;
+}
+@media(max-width:600px){.logo-marca{max-width:200px}}
+
+/* los logos cuadrados piden mucho menos ancho que los apaisados */
+.logo-marca.cuadrado{max-width:74px;border-radius:14px}
+@media(max-width:600px){.logo-marca.cuadrado{max-width:64px}}
+
 /* ---------- titulares ---------- */
 
 h1{
@@ -89,6 +104,71 @@ a.carta:hover{border-color:rgba(201,169,97,.55)}
   font-size:12px;letter-spacing:1.6px;text-transform:uppercase;color:var(--oro);
 }
 
+/* ---------- pasos numerados ----------
+   Para procesos: el número manda y el texto acompaña. */
+
+.pasos{list-style:none;padding:0;margin:32px 0;display:grid;gap:14px}
+@media(min-width:760px){.pasos{grid-template-columns:1fr 1fr;gap:16px}}
+
+.paso{
+  background:var(--carta);border:1px solid var(--borde);
+  border-radius:14px;padding:24px 22px;
+}
+.paso .n{
+  display:block;font-size:36px;line-height:1;
+  color:var(--oro);opacity:.8;margin:0 0 14px;letter-spacing:-1.5px;
+}
+.paso h3{margin:0 0 8px;color:var(--crema);font-size:19px;line-height:1.25}
+.paso p{margin:0;color:var(--apagado);font-size:15.5px;line-height:1.55}
+
+/* ---------- tarjetas con icono ----------
+   Los iconos van como SVG dentro del HTML, sin fichero aparte: son cuatro
+   trazos y así heredan el color del tema y no hacen otra petición. */
+
+.tarjetas{display:grid;grid-template-columns:1fr;gap:14px;margin:30px 0}
+@media(min-width:720px){.tarjetas{grid-template-columns:1fr 1fr}}
+@media(min-width:1000px){.tarjetas.tres{grid-template-columns:1fr 1fr 1fr}}
+
+.tarjeta{
+  background:var(--carta);border:1px solid var(--borde);
+  border-radius:14px;padding:22px 20px;
+}
+.tarjeta .icono{
+  display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;margin:0 0 14px;
+  border:1px solid rgba(201,169,97,.32);border-radius:11px;
+  background:rgba(201,169,97,.05);
+}
+.tarjeta .icono svg{
+  width:21px;height:21px;display:block;
+  stroke:var(--oro);fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.tarjeta h3{margin:0 0 8px;color:var(--crema);font-size:18.5px;line-height:1.25}
+.tarjeta p{margin:0;color:var(--apagado);font-size:15.5px;line-height:1.55}
+
+/* ---------- fotos ----------
+   Las verticales se meten todas en una caja 4:5 con recorte, para que dos
+   fotos de proporciones distintas se vean como si fueran de la misma sesión. */
+
+.foto-ancha{margin:34px 0}
+.foto-ancha img{
+  display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;
+  border-radius:16px;border:1px solid var(--borde);background:var(--carta);
+}
+
+.con-foto{display:grid;grid-template-columns:1fr;gap:22px;align-items:start;margin:30px 0}
+@media(min-width:760px){.con-foto{grid-template-columns:minmax(0,290px) 1fr;gap:30px}}
+.con-foto .retrato{margin:0}
+/* apilado, el retrato no debe comerse la pantalla entera */
+@media(max-width:759px){.con-foto .retrato{max-width:330px}}
+.con-foto .retrato img{
+  display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;
+  object-position:center 15%;
+  border-radius:14px;border:1px solid var(--borde);background:var(--carta);
+}
+.con-foto .lado > p:last-child{margin-bottom:0}
+
 /* ---------- secciones ---------- */
 
 section{margin:52px 0}
@@ -113,6 +193,64 @@ section p{margin:0 0 14px}
 .boton.hueco{background:transparent;color:var(--oro)}
 .boton.hueco:hover{background:var(--oro);color:var(--negro)}
 .acciones{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0}
+
+/* ---------- cuenta de Instagram destacada ---------- */
+
+.cuenta{
+  display:inline-flex;align-items:center;gap:9px;
+  margin:6px 0 0;padding:9px 18px 9px 15px;
+  border:1px solid var(--borde);border-radius:999px;
+  font-size:15.5px;color:var(--apagado);
+}
+.cuenta::before{
+  content:"";width:15px;height:15px;flex:none;
+  border:1.6px solid var(--oro);border-radius:5px;
+}
+.cuenta a{color:var(--oro);text-decoration:none}
+.cuenta a:hover{text-decoration:underline}
+
+/* ---------- rótulo de sección ---------- */
+
+.kicker{
+  font-size:11.5px;letter-spacing:2.6px;text-transform:uppercase;
+  color:var(--oro);opacity:.8;margin:0 0 10px;
+}
+
+/* ---------- insignias ---------- */
+
+.insignias{
+  display:flex;gap:10px;flex-wrap:wrap;
+  list-style:none;padding:0;margin:26px 0 0;
+}
+.insignias li{
+  border:1px solid var(--borde);border-radius:999px;
+  padding:7px 16px;font-size:13.5px;color:var(--apagado);
+}
+
+/* ---------- cifra grande ---------- */
+
+.cifra{text-align:center;margin:44px 0}
+.cifra b{
+  display:block;font-weight:normal;color:var(--oro);
+  font-size:clamp(52px,12vw,86px);line-height:1;
+}
+.cifra span{
+  display:block;margin-top:10px;
+  font-size:12px;letter-spacing:2.2px;text-transform:uppercase;color:var(--apagado);
+}
+
+/* ---------- listas con marca ---------- */
+
+.columnas{display:grid;grid-template-columns:1fr;gap:26px;margin:26px 0}
+@media(min-width:720px){.columnas{grid-template-columns:1fr 1fr}}
+
+.marcas{list-style:none;padding:0;margin:0}
+.marcas li{
+  position:relative;padding:9px 0 9px 26px;
+  font-size:16px;line-height:1.5;
+}
+.marcas li::before{content:"✓";position:absolute;left:0;color:var(--oro)}
+.marcas.no li::before{content:"×";color:#B0654F}
 
 /* ---------- avisos ---------- */
 

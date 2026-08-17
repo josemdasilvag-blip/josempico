@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+    
+  <rect width="512" height="512" fill="#0F0D0B"/>
+  <rect x="34" y="34" width="444" height="444" rx="40"
+        fill="none" stroke="#C9A961" stroke-opacity="0.45" stroke-width="3.4"/>
+    
+  <text x="256" y="250" font-family="Georgia" font-size="195"
+        fill="#C9A961" text-anchor="middle" dominant-baseline="central"
+        letter-spacing="3">1:1</text>
+    
+  <rect x="184" y="356" width="144" height="3.4" fill="#C9A961" fill-opacity="0.55"/>
+  </svg>
