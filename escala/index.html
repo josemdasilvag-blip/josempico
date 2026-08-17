@@ -77,6 +77,15 @@ h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
 .oferta p{margin:0 0 1.2rem;font-size:1rem}
 .pie{color:var(--tenue);font-size:.82rem;text-align:center;margin-top:2.2rem}
 .pie a{color:var(--oro);text-decoration:none}
+.seguir-linea{color:var(--tenue);font-size:.92rem;line-height:1.55;margin:1.1rem 0 0}
+.seguir-linea a{color:var(--oro);text-decoration:none;border-bottom:1px solid var(--linea)}
+.seguir{
+  background:var(--negro2);border:1px solid var(--linea);border-radius:12px;
+  padding:1.4rem 1.2rem;text-align:center;margin:1.8rem 0;
+}
+.seguir h3{color:var(--oro);font-family:Georgia,serif;font-size:1.35rem;margin:0 0 .5rem;font-weight:normal}
+.seguir p{color:var(--tenue);font-size:.97rem;margin:0 0 1.1rem}
+.seguir .btn{display:inline-block;width:auto;padding:.85rem 1.7rem;text-decoration:none;text-align:center}
 canvas{display:none}
 @media(max-width:380px){
   #portada h1{font-size:1.95rem}
@@ -101,6 +110,7 @@ canvas{display:none}
     <h1>¿Dónde se te<br><em>mueren los chats?</em></h1>
     <p>Ocho preguntas. Al final sale tu punto en el mapa.</p>
     <button class="btn" id="empezar">Empezar</button>
+    <p class="seguir-linea">Es gratis y no pide nada. Si te sirve, <a href="https://instagram.com/josempico" target="_blank" rel="noopener">sígueme en @josempico</a> →</p>
   </section>
 
   <!-- ============ PREGUNTAS ============ -->
@@ -121,6 +131,12 @@ canvas{display:none}
     <div class="mapa" id="mapa"></div>
     <p class="explica" id="explicaZona"></p>
     <p class="remate">El mapa dice dónde estás. No dice desde cuándo.</p>
+
+    <section class="seguir">
+      <h3>Ya tienes tu mapa.</h3>
+      <p>Publico cada semana lo que funciona y lo que no en las apps. Sígueme en @josempico y no te pierdes nada.</p>
+      <a class="btn" href="https://instagram.com/josempico" target="_blank" rel="noopener">Seguir a @josempico</a>
+    </section>
 
     <div class="oferta">
       <h3>Y esto es lo que hay debajo</h3>
