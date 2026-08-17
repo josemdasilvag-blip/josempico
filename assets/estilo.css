@@ -157,6 +157,14 @@ a.carta:hover{border-color:rgba(201,169,97,.55)}
   border-radius:16px;border:1px solid var(--borde);background:var(--carta);
 }
 
+.par-fotos{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:34px 0}
+@media(min-width:720px){.par-fotos{gap:20px}}
+.par-fotos figure{margin:0}
+.par-fotos img{
+  display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;
+  border-radius:14px;border:1px solid var(--borde);background:var(--carta);
+}
+
 .con-foto{display:grid;grid-template-columns:1fr;gap:22px;align-items:start;margin:30px 0}
 @media(min-width:760px){.con-foto{grid-template-columns:minmax(0,290px) 1fr;gap:30px}}
 .con-foto .retrato{margin:0}
