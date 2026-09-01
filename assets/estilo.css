@@ -21,6 +21,8 @@ body{
 
 .wrap{max-width:1000px;margin:0 auto;padding:36px 18px 80px}
 .estrecho{max-width:660px}
+/* para bloques de retrato + texto: la columna de lectura se les queda corta */
+.medio{max-width:880px}
 
 a{color:var(--oro)}
 
@@ -166,7 +168,7 @@ a.carta:hover{border-color:rgba(201,169,97,.55)}
 }
 
 .con-foto{display:grid;grid-template-columns:1fr;gap:22px;align-items:start;margin:30px 0}
-@media(min-width:760px){.con-foto{grid-template-columns:minmax(0,290px) 1fr;gap:30px}}
+@media(min-width:760px){.con-foto{grid-template-columns:minmax(0,320px) 1fr;gap:34px}}
 .con-foto .retrato{margin:0}
 /* apilado, el retrato no debe comerse la pantalla entera */
 @media(max-width:759px){.con-foto .retrato{max-width:330px}}
@@ -176,6 +178,10 @@ a.carta:hover{border-color:rgba(201,169,97,.55)}
   border-radius:14px;border:1px solid var(--borde);background:var(--carta);
 }
 .con-foto .lado > p:last-child{margin-bottom:0}
+
+/* poco texto al lado del retrato: retrato más pequeño y ambos a la misma altura */
+.con-foto.compacto{align-items:center}
+@media(min-width:760px){.con-foto.compacto{grid-template-columns:minmax(0,220px) 1fr}}
 
 /* ---------- secciones ---------- */
 
