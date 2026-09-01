@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>¿Dónde se te mueren los chats? · Jose Pico</title>
 <meta name="description" content="Ocho preguntas. Al final sale tu punto en el mapa.">
+<link rel="canonical" href="https://josempico.com/escala/">
+<meta name="theme-color" content="#0F0D0B">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jose Pico">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://josempico.com/escala/">
+<meta property="og:title" content="¿Dónde se te mueren los chats? — el test de Jose Pico">
+<meta property="og:description" content="Ocho preguntas. Al final sale tu punto en el mapa.">
+<meta property="og:image" content="https://josempico.com/assets/jose/jose-1.jpg">
+<meta property="og:image:alt" content="Jose Pico">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 :root{
   --negro:#14110F; --negro2:#1E1A17; --crema:#F2ECE1; --oro:#C9A961;
@@ -92,11 +104,19 @@ canvas{display:none}
   .escena{font-size:1.3rem}
   .zona{font-size:1.75rem}
 }
+
+/* saltar al contenido, foco visible y area tactil del menu */
+.salto{position:absolute;left:-9999px;top:0;background:var(--oro);color:#14110F;
+  padding:12px 18px;text-decoration:none;font-size:14px;letter-spacing:1.2px;z-index:20}
+.salto:focus{left:0}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+.app>nav a{display:inline-block;padding:11px 0}
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
 <script defer src="/assets/medir.js?v=1"></script>
 </head>
 <body>
+<a class="salto" href="#contenido">Saltar al contenido</a>
 <div class="app">
   <nav style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin:0 0 26px;font-size:14px;letter-spacing:.5px">
     <a href="/" style="color:#C9A961;text-decoration:none">Jose Pico</a>
@@ -106,6 +126,8 @@ canvas{display:none}
     <a href="/recursos/" style="color:#A79C8B;text-decoration:none">Recursos</a>
   </nav>
   <div class="marca">Jose Pico</div>
+
+  <main id="contenido">
 
   <!-- ============ PORTADA ============ -->
   <section class="pantalla on" id="portada">
@@ -151,6 +173,7 @@ canvas{display:none}
 
     <p class="pie">Un test de <a href="https://instagram.com/josempico" target="_blank" rel="noopener">@josempico</a> &nbsp;·&nbsp; <a href="/">josempico.com</a></p>
   </section>
+  </main>
 </div>
 
 <canvas id="lienzo" width="1080" height="1350"></canvas>

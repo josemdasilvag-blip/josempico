@@ -9,6 +9,7 @@
   --crema:#F2ECE1;
   --apagado:#A79C8B;
   --borde:rgba(201,169,97,.2);
+  color-scheme:dark;
 }
 
 *{box-sizing:border-box;-webkit-text-size-adjust:100%}
@@ -30,18 +31,24 @@ a{color:var(--oro)}
 
 .barra{
   display:flex;align-items:center;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;margin-bottom:48px;
+  gap:16px;flex-wrap:wrap;margin-bottom:34px;
 }
 .marca{
   font-size:11.5px;letter-spacing:4px;text-transform:uppercase;
   color:var(--oro);opacity:.85;margin:0;text-decoration:none;
 }
-.barra nav{display:flex;gap:18px;flex-wrap:wrap}
+.barra nav{display:flex;gap:0 18px;flex-wrap:wrap}
 .barra nav a{
   font-size:13px;letter-spacing:1.6px;text-transform:uppercase;
-  color:var(--apagado);text-decoration:none;transition:.15s;
+  color:var(--apagado);text-decoration:none;transition:color .15s;
+  display:inline-block;padding:13px 0;
 }
 .barra nav a:hover,.barra nav a[aria-current="page"]{color:var(--oro)}
+@media(max-width:600px){
+  .barra{margin-bottom:26px}
+  .barra nav{width:100%;gap:0 10px;justify-content:space-between}
+  .barra nav a{font-size:12px;letter-spacing:1px}
+}
 
 /* ---------- logo de marca dentro de la página ----------
    Los logos se guardan en assets/marca/ ya preparados para fondo oscuro:
@@ -94,7 +101,7 @@ h3{
   background:var(--carta);border:1px solid var(--borde);
   border-radius:14px;padding:24px 22px 26px;
   display:flex;flex-direction:column;
-  text-decoration:none;color:inherit;transition:.15s;
+  text-decoration:none;color:inherit;transition:border-color .15s;
 }
 a.carta:hover{border-color:rgba(201,169,97,.55)}
 .carta h2{font-size:23px;margin:0 0 12px}
@@ -179,6 +186,12 @@ a.carta:hover{border-color:rgba(201,169,97,.55)}
 }
 .con-foto .lado > p:last-child{margin-bottom:0}
 
+/* retrato y texto empiezan y terminan a la misma altura, sin escalón al final */
+@media(min-width:760px){
+  .con-foto.igualado{align-items:stretch}
+  .con-foto.igualado .retrato img{height:100%;aspect-ratio:auto}
+}
+
 /* poco texto al lado del retrato: retrato más pequeño y ambos a la misma altura */
 .con-foto.compacto{align-items:center}
 @media(min-width:760px){.con-foto.compacto{grid-template-columns:minmax(0,220px) 1fr}}
@@ -201,7 +214,8 @@ section p{margin:0 0 14px}
   display:inline-block;background:var(--oro);color:var(--negro);
   font-family:Georgia,serif;font-size:16px;letter-spacing:1.4px;
   text-transform:uppercase;text-decoration:none;
-  padding:15px 30px;border-radius:999px;transition:.15s;border:1px solid var(--oro);
+  padding:15px 30px;border-radius:999px;border:1px solid var(--oro);
+  transition:background-color .15s,color .15s;
 }
 .boton:hover{background:transparent;color:var(--oro)}
 .boton.hueco{background:transparent;color:var(--oro)}
@@ -222,6 +236,38 @@ section p{margin:0 0 14px}
 }
 .cuenta a{color:var(--oro);text-decoration:none}
 .cuenta a:hover{text-decoration:underline}
+
+/* ---------- muestra de un entregable ---------- */
+
+.documento{
+  background:var(--carta);border:1px solid var(--borde);border-radius:14px;
+  padding:24px 26px;margin:24px 0 10px;
+}
+.documento > :first-child{margin-top:0}
+.documento .rotulo{margin:20px 0 6px}
+.documento p{margin:0;font-size:16px;line-height:1.6}
+
+/* letra pequeña para avisos de anonimato y autorización */
+.letra-chica{font-size:14.5px;line-height:1.55;color:var(--apagado);margin:0 0 26px}
+
+/* ---------- testimonios ---------- */
+
+.testimonio{
+  display:grid;grid-template-columns:1fr;gap:18px;align-items:start;
+  background:var(--carta);border:1px solid var(--borde);border-radius:14px;
+  padding:24px 26px;margin:0 0 18px;
+}
+@media(min-width:620px){.testimonio.con-cara{grid-template-columns:88px 1fr;gap:24px}}
+.testimonio .cara{
+  display:block;width:88px;height:88px;border-radius:999px;object-fit:cover;
+  object-position:center 20%;border:1px solid var(--borde);background:var(--negro);
+}
+.testimonio h3{margin:0 0 12px}
+.testimonio p{margin:0 0 14px}
+.testimonio .lista{margin:0}
+.testimonio .lista li:last-child{padding-bottom:0}
+.testimonio .firma{margin:0;color:var(--apagado);font-size:15px;line-height:1.5}
+.testimonio .firma b{display:block;color:var(--crema);font-weight:normal}
 
 /* ---------- rótulo de sección ---------- */
 
@@ -292,3 +338,17 @@ footer{
 }
 footer a{color:var(--oro);text-decoration:none}
 footer .enlaces{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+
+/* ---------- saltar al contenido y foco visible ----------
+   El enlace vive fuera de la pantalla y aparece al tabular. El contorno del
+   foco es dorado porque el del navegador se pierde sobre el fondo negro. */
+
+.salto{
+  position:absolute;left:-9999px;top:0;z-index:20;
+  background:var(--oro);color:var(--negro);
+  padding:12px 18px;border-radius:0 0 10px 0;
+  font-size:13px;letter-spacing:1.4px;text-transform:uppercase;text-decoration:none;
+}
+.salto:focus{left:0}
+
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px;border-radius:2px}
