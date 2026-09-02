@@ -61,9 +61,10 @@ a{color:var(--oro)}
 }
 @media(max-width:600px){.logo-marca{max-width:200px}}
 
-/* los logos cuadrados piden mucho menos ancho que los apaisados */
-.logo-marca.cuadrado{max-width:74px;border-radius:14px}
-@media(max-width:600px){.logo-marca.cuadrado{max-width:64px}}
+/* los logos cuadrados piden menos ancho que los apaisados, pero no tan poco:
+   a 74px quedaban a media altura del de Match Link, que se ve a 121px de alto */
+.logo-marca.cuadrado{max-width:112px;border-radius:14px}
+@media(max-width:600px){.logo-marca.cuadrado{max-width:92px}}
 
 /* ---------- titulares ---------- */
 
