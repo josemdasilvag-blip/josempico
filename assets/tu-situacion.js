@@ -106,7 +106,7 @@
       que_es:'Te pinta un futuro entero —el viaje, mudaros juntos, conocer a sus padres, el perro— y no cumple nada. Las promesas no son planes, son pegamento para que te quedes.',
       te_pasa:'Hablabais del futuro con detalle: fechas, ciudades, nombres. Te lo creíste porque estaba muy concreto. Pero llegaban las fechas y siempre había un motivo, y otro. Los planes se renovaban en palabras y nunca en calendario.',
       veredicto:'No va a ningún lado. Quien quiere ese futuro da el primer paso pequeño; quien solo lo describe está comprando tiempo.',
-      que_hacer:'Mira lo que hace, no lo que dice que hará. Pon una fecha real a algo concreto y pequeño. Si se deshace, ya sabes cuánto valen las promesas grandes.',
+      que_hacer:'Mira lo que hace, no lo que dice que hará. Pon una fecha real a algo concreto y pequeño. Si se deshace, ya sabes cuánto valen las promesas grandes. Evalúa si hay coherencia entre sus palabras y sus acciones.',
       remate:'El viaje a Japón lleva dos años en «a ver si lo miramos».',
       imagen_frase:'Te prometió un futuro entero. No cumplió ni la primera fecha.'
     },
