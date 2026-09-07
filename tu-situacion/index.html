@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ponle nombre a lo que te hacen · Jose Pico</title>
+<meta name="description" content="Diez preguntas y sale el término exacto: ghosting, breadcrumbing, benching… y los siete que no sabías que tenían nombre.">
+<link rel="canonical" href="https://josempico.com/tu-situacion/">
+<meta name="theme-color" content="#0F0D0B">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Jose Pico">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://josempico.com/tu-situacion/">
+<meta property="og:title" content="Ponle nombre a lo que te hacen — el test de Jose Pico">
+<meta property="og:description" content="Diez preguntas y sale el término exacto: ghosting, breadcrumbing, benching… y los siete que no sabías que tenían nombre.">
+<meta property="og:image" content="https://josempico.com/assets/jose/jose-1.jpg">
+<meta property="og:image:alt" content="Jose Pico">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{
+  --negro:#14110F; --negro2:#1E1A17; --crema:#F2ECE1; --oro:#C9A961;
+  --tenue:#8B8279; --linea:rgba(201,169,97,.22);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--negro); color:var(--crema);
+  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  min-height:100dvh; display:flex; flex-direction:column; align-items:center;
+  padding:1.2rem 1.1rem 3rem;
+}
+.app{width:100%;max-width:520px;flex:1;display:flex;flex-direction:column}
+h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
+
+/* ---------- pantallas ---------- */
+.pantalla{display:none;animation:entra .32s ease both}
+.pantalla.on{display:flex;flex-direction:column;flex:1}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.marca{color:var(--oro);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  text-align:center;margin:.6rem 0 2.4rem}
+#portada{justify-content:center;text-align:center;min-height:78dvh}
+#portada h1{font-size:2.3rem;line-height:1.15;margin:0 0 1rem;color:var(--crema)}
+#portada h1 em{color:var(--oro);font-style:normal}
+#portada p{color:var(--tenue);margin:0 0 2.4rem;font-size:1.02rem}
+
+.btn{
+  display:block;width:100%;background:var(--oro);color:#14110F;border:0;border-radius:10px;
+  padding:1rem 1.2rem;font-size:1.02rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:transform .12s,background .18s;text-align:center;text-decoration:none
+}
+.btn:active{transform:scale(.98)}
+.btn.hueco{background:transparent;color:var(--oro);border:1px solid var(--linea);font-weight:600}
+.btn+.btn{margin-top:.7rem}
+
+/* ---------- preguntas ---------- */
+.barra{height:3px;background:rgba(242,236,225,.1);border-radius:2px;margin:.2rem 0 2rem;overflow:hidden}
+.barra i{display:block;height:100%;background:var(--oro);width:0;transition:width .3s ease}
+.paso{color:var(--tenue);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem}
+.escena{font-family:Georgia,serif;font-size:1.5rem;line-height:1.3;margin:0 0 1.6rem}
+.ops{display:flex;flex-direction:column;gap:.6rem}
+.op{
+  background:var(--negro2);border:1px solid rgba(242,236,225,.1);border-radius:10px;
+  padding:.95rem 1.1rem;text-align:left;color:var(--crema);font:inherit;cursor:pointer;
+  transition:border-color .15s,background .15s
+}
+.op:hover{border-color:var(--linea);background:#252019}
+.op:active{transform:scale(.99)}
+.atras{background:none;border:0;color:var(--tenue);font:inherit;font-size:.9rem;
+  cursor:pointer;padding:1.4rem 0 0;text-align:left;align-self:flex-start}
+
+/* ---------- resultado ---------- */
+#resultado{text-align:center}
+.zona{font-family:Georgia,serif;font-size:2.1rem;line-height:1.15;color:var(--oro);margin:.4rem 0 .3rem}
+.gloss{color:var(--tenue);font-size:1rem;letter-spacing:.03em;margin:0 0 1.3rem}
+.tibio{color:var(--oro);font-size:.95rem;font-style:italic;margin:0 auto 1rem;max-width:26em}
+.chiste{color:var(--crema);font-size:1.06rem;margin:0 auto 1.8rem;max-width:26em}
+.explica{color:var(--tenue);font-size:.99rem;line-height:1.7;margin:0 auto 1.4rem;
+  max-width:30em;text-align:left}
+.remate{color:var(--tenue);font-size:.98rem;font-style:italic;margin:0 0 2.2rem;
+  padding-top:1.4rem;border-top:1px solid rgba(242,236,225,.09)}
+.oferta{background:rgba(201,169,97,.07);border:1px solid var(--linea);border-radius:12px;
+  padding:1.4rem 1.2rem;margin:0 0 1rem;text-align:left}
+.oferta h3{color:var(--oro);font-size:1.18rem;margin:0 0 .6rem}
+.oferta p{margin:0 0 1.2rem;font-size:1rem}
+.pie{color:var(--tenue);font-size:.82rem;text-align:center;margin-top:2.2rem}
+.pie a{color:var(--oro);text-decoration:none}
+.seguir-linea{color:var(--tenue);font-size:.92rem;line-height:1.55;margin:1.1rem 0 0}
+.seguir-linea a{color:var(--oro);text-decoration:none;border-bottom:1px solid var(--linea)}
+.seguir{
+  background:var(--negro2);border:1px solid var(--linea);border-radius:12px;
+  padding:1.4rem 1.2rem;text-align:center;margin:1.8rem 0;
+}
+.seguir h3{color:var(--oro);font-family:Georgia,serif;font-size:1.35rem;margin:0 0 .5rem;font-weight:normal}
+.seguir p{color:var(--tenue);font-size:.97rem;margin:0 0 1.1rem}
+.seguir .btn{display:inline-block;width:auto;padding:.85rem 1.7rem;text-decoration:none;text-align:center}
+canvas{display:none}
+@media(max-width:380px){
+  #portada h1{font-size:1.95rem}
+  .escena{font-size:1.3rem}
+  .zona{font-size:1.75rem}
+}
+
+/* saltar al contenido, foco visible y area tactil del menu */
+.salto{position:absolute;left:-9999px;top:0;background:var(--oro);color:#14110F;
+  padding:12px 18px;text-decoration:none;font-size:14px;letter-spacing:1.2px;z-index:20}
+.salto:focus{left:0}
+:focus-visible{outline:2px solid var(--oro);outline-offset:3px}
+.app>nav a{display:inline-block;padding:11px 0}
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
+<script defer src="/assets/medir.js?v=1"></script>
+</head>
+<body>
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="app">
+  <nav style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin:0 0 26px;font-size:14px;letter-spacing:.5px">
+    <a href="/" style="color:#C9A961;text-decoration:none">Jose Pico</a>
+    <a href="/match-link/" style="color:#A79C8B;text-decoration:none">Match Link</a>
+    <a href="/mentoria/" style="color:#A79C8B;text-decoration:none">Mentoría</a>
+    <a href="/vibes/" style="color:#A79C8B;text-decoration:none">VIBES</a>
+    <a href="/recursos/" style="color:#A79C8B;text-decoration:none">Recursos</a>
+  </nav>
+  <div class="marca">Jose Pico</div>
+
+  <main id="contenido">
+
+  <!-- ============ PORTADA ============ -->
+  <section class="pantalla on" id="portada">
+    <h1>Eso que te hacen<br><em>tiene nombre</em></h1>
+    <p>Diez preguntas y te digo cuál es. Con lo que significa y qué hacer.</p>
+    <button class="btn" id="empezar">Empezar</button>
+    <p class="seguir-linea">Es gratis y no pide nada. Si te sirve, <a href="https://instagram.com/josempico" target="_blank" rel="noopener">sígueme en @josempico</a> →</p>
+  </section>
+
+  <!-- ============ PREGUNTAS ============ -->
+  <section class="pantalla" id="test">
+    <div class="barra"><i id="progreso"></i></div>
+    <div class="paso" id="paso"></div>
+    <h2 class="escena" id="escena"></h2>
+    <div class="ops" id="ops"></div>
+    <button class="atras" id="atras">← Atrás</button>
+  </section>
+
+  <!-- ============ RESULTADO ============ -->
+  <section class="pantalla" id="resultado">
+    <div class="paso" id="kicker"></div>
+    <div class="zona" id="nombre"></div>
+    <div class="gloss" id="gloss"></div>
+    <p class="tibio" id="tibio" hidden></p>
+    <p class="explica" id="quees"></p>
+    <p class="chiste" id="tepasa"></p>
+    <p class="explica" id="veredicto"></p>
+
+    <div class="oferta">
+      <h3 id="frameQuehacer">Qué hacer</h3>
+      <p id="quehacer"></p>
+    </div>
+    <p class="remate" id="remate"></p>
+
+    <section class="seguir">
+      <h3>Ya sabes qué es.</h3>
+      <p>Publico cada semana lo que funciona y lo que no en las apps. Sígueme en @josempico y no te pierdes nada.</p>
+      <a class="btn" href="https://instagram.com/josempico" target="_blank" rel="noopener">Seguir a @josempico</a>
+    </section>
+
+    <div class="oferta">
+      <h3>Y esto es lo que hay debajo</h3>
+      <p>El nombre es el principio. Si quieres que mire tu caso concreto —qué escribir, cuándo cortar, cómo no repetirlo— tráemelo y lo vemos.</p>
+      <a class="btn" id="cta" href="#">Escríbeme y lo vemos</a>
+    </div>
+
+    <button class="btn hueco" id="descargar">Descargar mi resultado</button>
+    <button class="btn hueco" id="otra">Hacerlo otra vez</button>
+
+    <p class="pie">Un test de <a href="https://instagram.com/josempico" target="_blank" rel="noopener">@josempico</a> &nbsp;·&nbsp; <a href="/">josempico.com</a></p>
+  </section>
+  </main>
+</div>
+
+<canvas id="lienzo" width="1080" height="1350"></canvas>
+
+<script src="/assets/tu-situacion.js"></script>
+<script>
+/* =====================================================================
+   INTERFAZ del test. La lógica y el contenido están en
+   /assets/tu-situacion.js (window.TuSituacion).
+   ===================================================================== */
+var S = window.TuSituacion;
+var TOTAL = 10;                 // 1 (rama) + 2 (por rama) + 7 (comunes), siempre
+
+var rama = null;               // se fija en P1
+var puntos = null;             // se crea al elegir rama
+var cola = [S.PREGUNTAS.rama]; // preguntas pendientes; se amplía al saber la rama
+var idx = 0;
+var historial = [];            // [op] aplicadas, para el botón Atrás
+
+var $ = function (id) { return document.getElementById(id); };
+
+function verPantalla(id) {
+  ["portada", "test", "resultado"].forEach(function (p) {
+    $(p).classList.toggle("on", p === id);
+  });
+  window.scrollTo(0, 0);
+}
+
+function pinta() {
+  var p = cola[idx];
+  $("paso").textContent = "Pregunta " + (idx + 1) + " de " + TOTAL;
+  $("escena").textContent = p.texto;
+  $("progreso").style.width = (idx / TOTAL * 100) + "%";
+  $("atras").style.visibility = idx === 0 ? "hidden" : "visible";
+  var cont = $("ops");
+  cont.innerHTML = "";
+  p.ops.forEach(function (o) {
+    var b = document.createElement("button");
+    b.className = "op";
+    b.textContent = o.texto;
+    b.onclick = function () { responde(o); };
+    cont.appendChild(b);
+  });
+}
+
+function responde(op) {
+  if (op.rama) {                       // es P1
+    rama = op.rama;
+    puntos = S.pesoInicial(rama);
+    cola = [S.PREGUNTAS.rama]
+      .concat(S.PREGUNTAS.porRama[rama])
+      .concat(S.PREGUNTAS.comunes);
+  } else {
+    S.aplica(puntos, op.set);
+  }
+  historial.push(op);
+  idx++;
+  if (idx < cola.length) pinta();
+  else muestraResultado();
+}
+
+function atras() {
+  if (idx === 0) return;
+  idx--;
+  var prev = historial.pop();
+  if (prev.rama) {                     // deshacer P1: al estado inicial
+    rama = null; puntos = null;
+    cola = [S.PREGUNTAS.rama];
+  } else {
+    Object.keys(prev.set || {}).forEach(function (k) { puntos[k] -= prev.set[k]; });
+  }
+  pinta();
+}
+
+function muestraResultado() {
+  // Tarea 6 la completa. De momento, solo llegar a la pantalla.
+  $("progreso").style.width = "100%";
+  var r = S.calcula(puntos, rama);
+  $("kicker").textContent = S.ENCUADRE[rama].kicker;
+  $("nombre").textContent = S.FICHAS[r.primario].nombre;
+  verPantalla("resultado");
+}
+
+$("empezar").onclick = function () { verPantalla("test"); pinta(); };
+$("atras").onclick = atras;
+$("otra").onclick = function () {
+  rama = null; puntos = null; cola = [S.PREGUNTAS.rama]; idx = 0; historial = [];
+  verPantalla("portada");
+};
+</script>
+</body>
+</html>
