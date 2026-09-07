@@ -58,11 +58,11 @@ test('pesoInicial devuelve las 10 claves a 0 para patron', () => {
   assert.ok(S.PATRONES.every(k => p[k] === 0));
 });
 
-test('pesoInicial aplica el empujón de la rama ahora', () => {
+test('pesoInicial aplica el empujón de la rama ahora (valores calibrados)', () => {
   const p = S.pesoInicial('ahora');
-  assert.equal(p.situationship, 2);
-  assert.equal(p.zombieing, -2);
-  assert.equal(p.orbiting, 0); // no listado => 0
+  assert.equal(p.orbiting, 2);
+  assert.equal(p.zombieing, -1);
+  assert.equal(p.ghosting, 0); // no listado => 0
 });
 
 test('pesoInicial con rama desconocida no revienta', () => {
@@ -137,4 +137,23 @@ test('recorrido completo de una rama: respuestas de ghosting -> ghosting', () =>
   S.aplica(p, S.PREGUNTAS.comunes[6].ops[0].set);       // "corte limpio y definitivo"
   const r = S.calcula(p, rama);
   assert.equal(r.primario, 'ghosting');
+});
+
+// --- Tarea 4: regresión de la distribución (semilla fija) ---
+
+test('distribución: cada patrón alcanzable en la rama patron (20k tiradas, semilla fija)', () => {
+  let seed = 12345;
+  const rand = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 2 ** 32;
+  const rnd = a => a[Math.floor(rand() * a.length)];
+  const N = 20000, cuenta = {};
+  S.PATRONES.forEach(k => cuenta[k] = 0);
+  for (let i = 0; i < N; i++) {
+    let p = S.pesoInicial('patron');
+    S.PREGUNTAS.porRama.patron.forEach(q => S.aplica(p, rnd(q.ops).set));
+    S.PREGUNTAS.comunes.forEach(q => S.aplica(p, rnd(q.ops).set));
+    cuenta[S.calcula(p, 'patron').primario]++;
+  }
+  for (const k of S.PATRONES) {
+    assert.ok(cuenta[k] / N >= 0.025, `${k} sale solo ${(100 * cuenta[k] / N).toFixed(1)}%`);
+  }
 });

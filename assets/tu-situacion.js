@@ -26,8 +26,8 @@
   // Peso que la rama (P1) pone antes de empezar. Es un empujón, no un filtro:
   // un patrón con peso negativo todavía puede ganar si la conducta lo grita.
   var PESO_RAMA = {
-    ahora:  { benching:2, situationship:2, breadcrumbing:2, pocketing:2, lovebombing:1, futurefaking:1, ghosting:-1, zombieing:-2, ghostlighting:-1 },
-    pasado: { ghosting:2, zombieing:2, ghostlighting:2, orbiting:2, futurefaking:1, lovebombing:1, benching:-2, breadcrumbing:-2 },
+    ahora:  { situationship:1, benching:1, breadcrumbing:1, pocketing:1, orbiting:2, lovebombing:1, futurefaking:1, zombieing:-1 },
+    pasado: { ghosting:2, zombieing:1, ghostlighting:2, orbiting:2, situationship:1, pocketing:2, futurefaking:1, lovebombing:1, benching:1 },
     patron: {}
   };
 
@@ -144,29 +144,29 @@
       ahora:[
         { texto:'¿Cuánto lleváis en esto?', ops:[
           { texto:'Unas semanas', set:{ lovebombing:1 } },
-          { texto:'Un par de meses', set:{ situationship:1, benching:1 } },
-          { texto:'Medio año o más', set:{ situationship:2, pocketing:1, benching:1 } },
+          { texto:'Un par de meses', set:{ situationship:1 } },
+          { texto:'Medio año o más', set:{ pocketing:2 } },
           { texto:'Ni lo sé, ha sido a rachas', set:{ breadcrumbing:2, benching:1 } }
         ]},
         { texto:'¿Habéis hablado de qué sois?', ops:[
           { texto:'Sí, y quedó en nada concreto', set:{ situationship:2 } },
-          { texto:'Lo saqué y lo esquivó', set:{ situationship:2, benching:1 } },
-          { texto:'Ni se ha mencionado', set:{ situationship:1, pocketing:1 } },
-          { texto:'Se lo tomó a broma', set:{ situationship:2, ghostlighting:1 } }
+          { texto:'Lo saqué y lo esquivó', set:{ benching:2 } },
+          { texto:'Ni se ha mencionado', set:{ pocketing:2 } },
+          { texto:'Se lo tomó a broma', set:{ situationship:1, benching:1 } }
         ]}
       ],
       pasado:[
         { texto:'¿Cómo se acabó?', ops:[
           { texto:'Dejó de contestar de un día para otro', set:{ ghosting:3 } },
           { texto:'Se fue apagando sin más', set:{ breadcrumbing:2, ghosting:1 } },
-          { texto:'Lo hablamos y cortó', set:{ ghosting:-2, futurefaking:1 } },
-          { texto:'Desapareció y luego reapareció', set:{ zombieing:3 } }
+          { texto:'Lo hablamos y cortó', set:{ ghosting:-2, situationship:1 } },
+          { texto:'Desapareció y luego reapareció', set:{ zombieing:2 } }
         ]},
         { texto:'¿Cuánto duró?', ops:[
           { texto:'Un par de semanas', set:{ lovebombing:2, ghosting:1 } },
           { texto:'Uno o dos meses', set:{} },
-          { texto:'Más de tres meses', set:{ situationship:1, pocketing:1, futurefaking:1 } },
-          { texto:'A rachas durante un año o más', set:{ breadcrumbing:2, benching:1, zombieing:1 } }
+          { texto:'Más de tres meses', set:{ situationship:1, pocketing:2, futurefaking:1 } },
+          { texto:'A rachas durante un año o más', set:{ breadcrumbing:2, benching:2, zombieing:1 } }
         ]}
       ],
       patron:[
@@ -177,7 +177,7 @@
           { texto:'Cuando pido algo claro', set:{ benching:2, situationship:1, ghostlighting:1 } }
         ]},
         { texto:'¿Qué tienen en común esas personas?', ops:[
-          { texto:'Acaban desapareciendo', set:{ ghosting:2, zombieing:1 } },
+          { texto:'Acaban desapareciendo', set:{ ghosting:2, zombieing:1, orbiting:1 } },
           { texto:'No sueltan pero no avanzan', set:{ benching:2, breadcrumbing:1 } },
           { texto:'Prometen mucho', set:{ futurefaking:2, lovebombing:1 } },
           { texto:'Me tienen en segundo plano', set:{ pocketing:2, benching:1 } }
@@ -194,8 +194,8 @@
       ]},
       { texto:'Normalmente, ¿quién escribe primero?', ops:[
         { texto:'Siempre yo. Si no escribo, no hay nada', set:{ benching:2, breadcrumbing:1 } },
-        { texto:'Aparece justo cuando iba a pasar página', set:{ breadcrumbing:2, zombieing:2 } },
-        { texto:'Iba parejo al principio, luego se apagó su parte', set:{ ghosting:1, situationship:1, breadcrumbing:1 } },
+        { texto:'Aparece justo cuando iba a pasar página', set:{ breadcrumbing:2, zombieing:1 } },
+        { texto:'Iba parejo al principio, luego se apagó su parte', set:{ ghosting:1, situationship:1, breadcrumbing:1, orbiting:1 } },
         { texto:'Él, todo el rato, sin parar', set:{ lovebombing:2 } }
       ]},
       { texto:'¿Hubo planes de futuro?', ops:[
@@ -212,7 +212,7 @@
       ]},
       { texto:'¿Cómo fue el arranque?', ops:[
         { texto:'Intensísimo. Demasiado, demasiado rápido', set:{ lovebombing:3 } },
-        { texto:'Regalos, mensajes sin parar, «nunca había sentido esto»', set:{ lovebombing:3, futurefaking:1 } },
+        { texto:'Regalos, mensajes sin parar, «nunca había sentido esto»', set:{ lovebombing:2, futurefaking:1 } },
         { texto:'Normal, fue subiendo poco a poco', set:{ lovebombing:-1 } },
         { texto:'Frío. Yo siempre tirando del carro', set:{ benching:1, breadcrumbing:1 } }
       ]},
