@@ -49,3 +49,38 @@ test('cada patrón tiene ficha completa', () => {
     }
   }
 });
+
+// --- Tarea 2: pesoInicial y aplica ---
+
+test('pesoInicial devuelve las 10 claves a 0 para patron', () => {
+  const p = S.pesoInicial('patron');
+  assert.equal(Object.keys(p).length, 10);
+  assert.ok(S.PATRONES.every(k => p[k] === 0));
+});
+
+test('pesoInicial aplica el empujón de la rama ahora', () => {
+  const p = S.pesoInicial('ahora');
+  assert.equal(p.situationship, 2);
+  assert.equal(p.zombieing, -2);
+  assert.equal(p.orbiting, 0); // no listado => 0
+});
+
+test('pesoInicial con rama desconocida no revienta', () => {
+  const p = S.pesoInicial('lo-que-sea');
+  assert.ok(S.PATRONES.every(k => p[k] === 0));
+});
+
+test('aplica suma deltas y arranca claves nuevas desde 0', () => {
+  const p = S.pesoInicial('patron');
+  S.aplica(p, { ghosting: 3, orbiting: 1 });
+  S.aplica(p, { ghosting: 2 });
+  assert.equal(p.ghosting, 5);
+  assert.equal(p.orbiting, 1);
+});
+
+test('aplica tolera set vacío o ausente', () => {
+  const p = S.pesoInicial('patron');
+  S.aplica(p, {});
+  S.aplica(p, undefined);
+  assert.ok(S.PATRONES.every(k => p[k] === 0));
+});
