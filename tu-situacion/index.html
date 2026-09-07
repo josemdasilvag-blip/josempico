@@ -275,11 +275,69 @@ function muestraResultado() {
   verPantalla("resultado");
 }
 
+/* ---------------- la tarjeta para stories (canvas) ---------------- */
+function parte(g, texto, ancho) {
+  var palabras = texto.split(" "), lineas = [], linea = "";
+  palabras.forEach(function (p) {
+    var prueba = linea ? linea + " " + p : p;
+    if (g.measureText(prueba).width > ancho && linea) { lineas.push(linea); linea = p; }
+    else { linea = prueba; }
+  });
+  if (linea) lineas.push(linea);
+  return lineas;
+}
+
+function dibujaLienzo() {
+  var c = $("lienzo"), g = c.getContext("2d");
+  var W = c.width, H = c.height;                 // 1080 x 1350
+  var r = S.calcula(puntos, rama);
+  var f = S.FICHAS[r.primario];
+
+  g.fillStyle = "#14110F"; g.fillRect(0, 0, W, H);
+  g.textAlign = "center";
+
+  g.fillStyle = "#C9A961";
+  g.font = "500 30px -apple-system,Segoe UI,sans-serif";
+  g.fillText("PONLE NOMBRE A LO QUE TE HACEN", W / 2, 150);
+
+  g.font = "600 92px Georgia,serif";
+  g.fillText(f.nombre, W / 2, H / 2 - 120);
+
+  g.fillStyle = "#8B8279";
+  g.font = "34px Georgia,serif";
+  var sub = f.gloss + (r.secundario ? "  ·  y un poco de " + S.FICHAS[r.secundario].nombre : "");
+  g.fillText(sub, W / 2, H / 2 - 60);
+
+  g.fillStyle = "#F2ECE1";
+  g.font = "40px -apple-system,Segoe UI,sans-serif";
+  parte(g, f.imagen_frase, W - 200).forEach(function (ln, n) {
+    g.fillText(ln, W / 2, H / 2 + 40 + n * 54);
+  });
+
+  g.fillStyle = "#8B8279";
+  g.font = "28px -apple-system,Segoe UI,sans-serif";
+  g.fillText("Haz el test · josempico.com/tu-situacion", W / 2, H - 130);
+  g.fillStyle = "#C9A961";
+  g.fillText("@josempico", W / 2, H - 80);
+  return c;
+}
+
 $("empezar").onclick = function () { verPantalla("test"); pinta(); };
 $("atras").onclick = atras;
 $("otra").onclick = function () {
   rama = null; puntos = null; cola = [S.PREGUNTAS.rama]; idx = 0; historial = [];
   verPantalla("portada");
+};
+$("descargar").onclick = function () {
+  var c = dibujaLienzo();
+  c.toBlob(function (b) {
+    var u = URL.createObjectURL(b);
+    var a = document.createElement("a");
+    a.href = u;
+    a.download = "mi-resultado-josempico.png";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(u); }, 1000);
+  }, "image/png");
 };
 </script>
 </body>
