@@ -252,11 +252,26 @@ function atras() {
 }
 
 function muestraResultado() {
-  // Tarea 6 la completa. De momento, solo llegar a la pantalla.
   $("progreso").style.width = "100%";
   var r = S.calcula(puntos, rama);
-  $("kicker").textContent = S.ENCUADRE[rama].kicker;
-  $("nombre").textContent = S.FICHAS[r.primario].nombre;
+  var f = S.FICHAS[r.primario];
+  var enc = S.ENCUADRE[rama];
+
+  $("kicker").textContent = enc.kicker;
+  $("nombre").textContent = f.nombre;
+  $("gloss").textContent = f.gloss + (r.secundario ? "  ·  y un poco de " + S.FICHAS[r.secundario].nombre : "");
+  $("tibio").hidden = !r.tibio;
+  if (r.tibio) $("tibio").textContent = "Esto todavía no tiene una forma clara. Lo más cercano es esto:";
+  $("quees").textContent = f.que_es;
+  $("tepasa").textContent = f.te_pasa;
+  $("veredicto").textContent = f.veredicto;
+  $("frameQuehacer").textContent = enc.frase;
+  $("quehacer").textContent = f.que_hacer;
+  $("remate").textContent = f.remate;
+
+  var saludo = "¡Hola Jose! Hice el test de los patrones y me ha salido " + f.nombre + ".";
+  $("cta").href = "https://wa.me/" + S.WHATSAPP + "?text=" + encodeURIComponent(saludo);
+
   verPantalla("resultado");
 }
 
