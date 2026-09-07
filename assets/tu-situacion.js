@@ -43,7 +43,7 @@
       que_es:'Un día está y al siguiente no. Sin discusión, sin «esto no funciona», sin nada. Te deja hablando solo y no vuelve a dar señales.',
       te_pasa:'Veníais bien, o eso creías. Escribiste y no llegó respuesta. Escribiste otra vez y tampoco. No hubo bronca ni motivo: dejó de existir para ti. Lo peor no es que se fuera, es que te toca cerrar tú una puerta que dejó abierta.',
       veredicto:'No va a ningún lado. Quien se va así ya lo había decidido; lo que te ahorró fue la conversación, no la relación.',
-      que_hacer:'No mandes el mensaje número doce. Da la conversación por terminada tú, con la claridad que a él le faltó. Si algún día reaparece —pasa—, ya sabes cuánto vale su palabra.',
+      que_hacer:'No escribas más. Da la conversación por terminada tú, con la claridad que a él le faltó. Si algún día reaparece —pasa—, ya sabes cuánto vale su palabra.',
       remate:'Te bloqueó el duelo, no a ti. Un detalle.',
       imagen_frase:'Un día estaba. Al siguiente, no.'
     },
@@ -53,7 +53,7 @@
       te_pasa:'Desapareció sin explicación y acabaste pasando página a pulso. Justo cuando ya no dolía, volvió: un mensaje ligero, sin disculpa, sin mencionar el vacío que dejó. Quiere retomar en el punto en que le vino bien irse.',
       veredicto:'No vuelve por ti, vuelve porque se le acabó otra cosa o se aburrió. Sin una disculpa clara y un porqué, es una segunda parte con el mismo final.',
       que_hacer:'Antes de contestar con ilusión, pregúntate qué ha cambiado. Puedes decirlo directo: «desapareciste sin decir nada, ¿qué pasó?». Cómo responde a eso te dice todo.',
-      remate:'Los muertos que escriben «hey» no quieren relación, quieren wifi.',
+      remate:'Los muertos que escriben «hey» no quieren una relación. Quieren atención.',
       imagen_frase:'Desapareció. Meses después: «hey, cuánto tiempo».'
     },
     benching: {
@@ -70,7 +70,7 @@
       que_es:'Cortó el contacto de verdad —no escribe, no queda— pero no se va del todo. Ve todas tus stories, te da like a la foto de hace tres años, reacciona a todo. Mira sin entrar.',
       te_pasa:'Dejasteis de hablar, pero ahí sigue: el primero en ver cada story, un like suelto a horas raras, visto y nunca contestado. Suficiente para que no lo olvides, nada para poder contar con él.',
       veredicto:'No va a ningún lado. Si quisiera hablar, hablaría; mirar es gratis y no compromete.',
-      que_hacer:'Si su sombra te tiene enganchado, quítale el escenario: silencia o restringe. No es un castigo, es dejar de actuar para un público que solo mira.',
+      que_hacer:'Si su sombra te tiene enganchado, quítale el escenario. No es un castigo, es dejar de actuar para un público que solo mira. El mejor castigo es dejarle ver sin que te importe ni te genere ninguna emoción, y sin contestarle absolutamente nada. Pero si eso te genera ansiedad, mejor siléncialo, restríngelo o bloquéalo.',
       remate:'Ver tus stories no es una relación, aunque no falle ni una.',
       imagen_frase:'No escribe. Pero es el primero en ver tus stories.'
     },
@@ -96,8 +96,8 @@
       nombre:'Love bombing', gloss:'El bombardeo',
       que_es:'Un principio irreal: mensajes a todas horas, regalos, «nunca había sentido esto por nadie», planes de futuro en la primera semana. Demasiado, demasiado pronto. La intensidad no es amor, es prisa por engancharte.',
       te_pasa:'Te llegó todo de golpe y fue mareante en el buen sentido: te hizo sentir elegido, único, visto como nadie. Fue tan rápido que no te dio tiempo a preguntarte si esa persona te convenía. Ahora que ha bajado el volumen, notas el bajón.',
-      veredicto:'Depende de lo que venga después del subidón. Si se convierte en algo estable y tranquilo, bien. Si se apaga de golpe o la usa para pedirte cosas, era un anzuelo.',
-      que_hacer:'No confundas intensidad con compatibilidad. Baja tú el ritmo y mira si la cosa aguanta el paso normal. Quien te quiere de verdad no necesita deslumbrarte en una semana.',
+      veredicto:'Depende de lo que venga después del subidón. Si se convierte en algo estable y tranquilo, bien. Si se apaga de golpe o la usa para pedirte cosas, era un anzuelo. Lo que dice tiene que ser coherente con lo que hace.',
+      que_hacer:'No confundas intensidad con compatibilidad. Baja tú el ritmo y mira si la cosa aguanta el paso normal. Quien te quiere de verdad no necesita deslumbrarte en una semana. Si sus acciones son coherentes con lo que te dice, sigue adelante. Si sientes que no lo son, déjalo ahí.',
       remate:'Si te tratan como el amor de su vida antes de saber tu segundo apellido, no eres tú: es el guion.',
       imagen_frase:'Demasiado, demasiado pronto. La prisa no era amor.'
     },
