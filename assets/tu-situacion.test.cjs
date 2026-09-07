@@ -84,3 +84,57 @@ test('aplica tolera set vacío o ausente', () => {
   S.aplica(p, undefined);
   assert.ok(S.PATRONES.every(k => p[k] === 0));
 });
+
+// --- Tarea 3: calcula ---
+
+function puntosDesde(pares) {
+  const p = {}; S.PATRONES.forEach(k => p[k] = 0);
+  Object.assign(p, pares);
+  return p;
+}
+
+test('gana el patrón con más puntos', () => {
+  const r = S.calcula(puntosDesde({ ghosting: 9, benching: 3 }), 'pasado');
+  assert.equal(r.primario, 'ghosting');
+});
+
+test('empate: gana el más específico (PRIORIDAD), no ghosting', () => {
+  const r = S.calcula(puntosDesde({ ghosting: 6, ghostlighting: 6 }), 'pasado');
+  assert.equal(r.primario, 'ghostlighting');
+});
+
+test('empate entre dos específicos respeta el orden de PRIORIDAD', () => {
+  const r = S.calcula(puntosDesde({ zombieing: 5, futurefaking: 5 }), 'patron');
+  assert.equal(r.primario, 'zombieing'); // zombieing va antes que futurefaking
+});
+
+test('secundario sale solo si está a <=2 del primario y >= UMBRAL_COMBO', () => {
+  const cerca = S.calcula(puntosDesde({ lovebombing: 8, futurefaking: 6 }), 'patron');
+  assert.equal(cerca.secundario, 'futurefaking');
+  const lejos = S.calcula(puntosDesde({ lovebombing: 8, futurefaking: 3 }), 'patron');
+  assert.equal(lejos.secundario, null); // no llega a UMBRAL_COMBO
+  const gap = S.calcula(puntosDesde({ lovebombing: 9, futurefaking: 5 }), 'patron');
+  assert.equal(gap.secundario, null);   // 9-5 = 4 > 2
+});
+
+test('tibio cuando el máximo no llega a UMBRAL_TIBIO', () => {
+  assert.equal(S.calcula(puntosDesde({ ghosting: 2, benching: 1 }), 'ahora').tibio, true);
+  assert.equal(S.calcula(puntosDesde({ ghosting: 9 }), 'pasado').tibio, false);
+});
+
+test('orden incluye los 10 patrones sin repetir', () => {
+  const r = S.calcula(puntosDesde({ ghosting: 3 }), 'pasado');
+  assert.equal(r.orden.length, 10);
+  assert.equal(new Set(r.orden).size, 10);
+});
+
+test('recorrido completo de una rama: respuestas de ghosting -> ghosting', () => {
+  const rama = 'pasado';
+  let p = S.pesoInicial(rama);
+  S.aplica(p, S.PREGUNTAS.porRama[rama][0].ops[0].set); // "dejó de contestar de un día para otro"
+  S.aplica(p, S.PREGUNTAS.porRama[rama][1].ops[1].set); // "uno o dos meses" (neutro)
+  S.aplica(p, S.PREGUNTAS.comunes[0].ops[2].set);       // "silencio total"
+  S.aplica(p, S.PREGUNTAS.comunes[6].ops[0].set);       // "corte limpio y definitivo"
+  const r = S.calcula(p, rama);
+  assert.equal(r.primario, 'ghosting');
+});
