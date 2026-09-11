@@ -15,19 +15,21 @@
      ================================================================ */
 
   var PATRONES = ['ghosting','zombieing','benching','orbiting','situationship',
-                  'ghostlighting','lovebombing','futurefaking','breadcrumbing','pocketing'];
+                  'ghostlighting','lovebombing','futurefaking','breadcrumbing','pocketing','slowfading'];
 
   var WHATSAPP = '34621321861';
 
-  // Desempate: el más específico gana. ghosting es el genérico y va el último.
+  // Desempate: el más específico gana. slowfading va justo antes que ghosting
+  // (si hay que elegir entre "se apagó" y "desapareció", gana el más descriptivo)
+  // y ghosting es el genérico: va el último y pierde los empates.
   var PRIORIDAD = ['ghostlighting','zombieing','futurefaking','lovebombing','pocketing',
-                   'benching','breadcrumbing','orbiting','situationship','ghosting'];
+                   'benching','breadcrumbing','orbiting','situationship','slowfading','ghosting'];
 
   // Peso que la rama (P1) pone antes de empezar. Es un empujón, no un filtro:
   // un patrón con peso negativo todavía puede ganar si la conducta lo grita.
   var PESO_RAMA = {
-    ahora:  { situationship:1, benching:1, breadcrumbing:1, pocketing:1, orbiting:2, lovebombing:1, futurefaking:1, zombieing:-1 },
-    pasado: { ghosting:2, zombieing:1, ghostlighting:2, orbiting:2, situationship:1, pocketing:2, futurefaking:1, lovebombing:1, benching:1 },
+    ahora:  { situationship:1, benching:1, breadcrumbing:1, pocketing:1, orbiting:2, lovebombing:1, futurefaking:1, zombieing:-1, slowfading:2 },
+    pasado: { ghosting:2, zombieing:1, ghostlighting:2, orbiting:2, situationship:1, pocketing:2, futurefaking:1, lovebombing:1, benching:1, slowfading:1 },
     patron: {}
   };
 
@@ -127,6 +129,15 @@
       que_hacer:'Pide un paso concreto y normal: conocer a un amigo, un plan con más gente. La reacción a algo tan pequeño te dice si eres una relación o un secreto.',
       remate:'Si no sales ni en una story, no eres pareja, eres archivo.',
       imagen_frase:'Lleváis meses. Su gente no sabe que existes.'
+    },
+    slowfading: {
+      nombre:'Slow fading', gloss:'El apagón lento',
+      que_es:'No corta de golpe: se va apagando. Contesta cada vez más tarde, escribe cada vez menos, hasta que un día ya no queda casi nada que cortar.',
+      te_pasa:'Antes contestaba rápido y con ganas. Ahora tarda un día, luego dos, y donde había una frase llega un «jaja» o un emoji. No ha habido bronca ni motivo: solo cada vez menos. Notas la caída mensaje a mensaje, como quien ve bajar el volumen sin que nadie toque el mando.',
+      veredicto:'No va a ningún lado. Es el mismo sitio al que lleva el ghosting, solo que por el camino largo: así nadie tiene que dar la cara ni decir que se acabó.',
+      que_hacer:'No compitas por una atención que ya se está yendo. Si notas la caída, pregunta directo: «¿esto te sigue interesando?». La respuesta —o el silencio— te ahorra los próximos dos meses de mensajes cada vez más cortos.',
+      remate:'No hace falta apagar la luz si la vas bajando un poco cada día.',
+      imagen_frase:'Cada vez tarda más. Cada vez dice menos.'
     }
   };
 
@@ -160,7 +171,8 @@
           { texto:'Dejó de contestar de un día para otro', set:{ ghosting:3 } },
           { texto:'Se fue apagando sin más', set:{ breadcrumbing:2, ghosting:1 } },
           { texto:'Lo hablamos y cortó', set:{ ghosting:-2, situationship:1 } },
-          { texto:'Desapareció y luego reapareció', set:{ zombieing:2 } }
+          { texto:'Desapareció y luego reapareció', set:{ zombieing:2 } },
+          { texto:'Fue apagándose poco a poco, hasta que ya no había nada que cortar', set:{ slowfading:3 } }
         ]},
         { texto:'¿Cuánto duró?', ops:[
           { texto:'Un par de semanas', set:{ lovebombing:2, ghosting:1 } },
@@ -174,13 +186,15 @@
           { texto:'Justo cuando empieza a ir en serio', set:{ ghosting:2, pocketing:1 } },
           { texto:'Después de un principio intensísimo', set:{ lovebombing:3, futurefaking:1 } },
           { texto:'Nunca llega a arrancar del todo', set:{ breadcrumbing:2, situationship:1 } },
-          { texto:'Cuando pido algo claro', set:{ benching:2, situationship:1, ghostlighting:1 } }
+          { texto:'Cuando pido algo claro', set:{ benching:2, situationship:1, ghostlighting:1 } },
+          { texto:'Poco a poco, va bajando el ritmo hasta que se apaga solo', set:{ slowfading:2 } }
         ]},
         { texto:'¿Qué tienen en común esas personas?', ops:[
           { texto:'Acaban desapareciendo', set:{ ghosting:2, zombieing:1, orbiting:1 } },
           { texto:'No sueltan pero no avanzan', set:{ benching:2, breadcrumbing:1 } },
           { texto:'Prometen mucho', set:{ futurefaking:2, lovebombing:1 } },
-          { texto:'Me tienen en segundo plano', set:{ pocketing:2, benching:1 } }
+          { texto:'Me tienen en segundo plano', set:{ pocketing:2, benching:1 } },
+          { texto:'Se van apagando en vez de cortar de golpe', set:{ slowfading:2 } }
         ]}
       ]
     },
@@ -190,7 +204,8 @@
         { texto:'Ve mis stories y reacciona, pero no escribe', set:{ orbiting:3 } },
         { texto:'Nada. Silencio total, no hay señales', set:{ ghosting:3 } },
         { texto:'Está y contesta, pero nunca propone nada', set:{ benching:2, situationship:1 } },
-        { texto:'Reapareció después de meses fuera', set:{ zombieing:3 } }
+        { texto:'Reapareció después de meses fuera', set:{ zombieing:3 } },
+        { texto:'Cada vez tarda más en contestar y escribe menos, pero no ha cortado del todo', set:{ slowfading:3 } }
       ]},
       { texto:'Normalmente, ¿quién escribe primero?', ops:[
         { texto:'Siempre yo. Si no escribo, no hay nada', set:{ benching:2, breadcrumbing:1 } },
@@ -227,7 +242,8 @@
         { texto:'Desapareció y volvió como si nada, meses después', set:{ zombieing:3 } },
         { texto:'No escribe, pero sigue ahí mirándolo todo', set:{ orbiting:3 } },
         { texto:'Va y viene constantemente', set:{ breadcrumbing:2, benching:1 } },
-        { texto:'Le planté cara y negó que hubiera pasado algo raro', set:{ ghostlighting:3 } }
+        { texto:'Le planté cara y negó que hubiera pasado algo raro', set:{ ghostlighting:3 } },
+        { texto:'No ha habido un corte: simplemente cada vez hay menos', set:{ slowfading:3, breadcrumbing:1 } }
       ]}
     ]
   };

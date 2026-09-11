@@ -4,8 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert');
 const S = require('./tu-situacion.js');
 
-test('expone las 10 constantes de patrón', () => {
-  assert.equal(S.PATRONES.length, 10);
+test('expone las 11 constantes de patrón', () => {
+  assert.equal(S.PATRONES.length, 11);
   assert.deepEqual([...S.PRIORIDAD].sort(), [...S.PATRONES].sort());
 });
 
@@ -52,9 +52,9 @@ test('cada patrón tiene ficha completa', () => {
 
 // --- Tarea 2: pesoInicial y aplica ---
 
-test('pesoInicial devuelve las 10 claves a 0 para patron', () => {
+test('pesoInicial devuelve las 11 claves a 0 para patron', () => {
   const p = S.pesoInicial('patron');
-  assert.equal(Object.keys(p).length, 10);
+  assert.equal(Object.keys(p).length, 11);
   assert.ok(S.PATRONES.every(k => p[k] === 0));
 });
 
@@ -122,10 +122,10 @@ test('tibio cuando el máximo no llega a UMBRAL_TIBIO', () => {
   assert.equal(S.calcula(puntosDesde({ ghosting: 9 }), 'pasado').tibio, false);
 });
 
-test('orden incluye los 10 patrones sin repetir', () => {
+test('orden incluye los 11 patrones sin repetir', () => {
   const r = S.calcula(puntosDesde({ ghosting: 3 }), 'pasado');
-  assert.equal(r.orden.length, 10);
-  assert.equal(new Set(r.orden).size, 10);
+  assert.equal(r.orden.length, 11);
+  assert.equal(new Set(r.orden).size, 11);
 });
 
 test('recorrido completo de una rama: respuestas de ghosting -> ghosting', () => {
@@ -137,6 +137,17 @@ test('recorrido completo de una rama: respuestas de ghosting -> ghosting', () =>
   S.aplica(p, S.PREGUNTAS.comunes[6].ops[0].set);       // "corte limpio y definitivo"
   const r = S.calcula(p, rama);
   assert.equal(r.primario, 'ghosting');
+});
+
+test('recorrido completo hacia slow fading: se distingue de ghosting', () => {
+  const rama = 'pasado';
+  let p = S.pesoInicial(rama);
+  S.aplica(p, S.PREGUNTAS.porRama[rama][0].ops[4].set); // "fue apagándose poco a poco"
+  S.aplica(p, S.PREGUNTAS.porRama[rama][1].ops[1].set); // "uno o dos meses" (neutro)
+  S.aplica(p, S.PREGUNTAS.comunes[0].ops[5].set);       // "cada vez tarda más y escribe menos"
+  S.aplica(p, S.PREGUNTAS.comunes[6].ops[5].set);       // "no ha habido un corte, cada vez hay menos"
+  const r = S.calcula(p, rama);
+  assert.equal(r.primario, 'slowfading');
 });
 
 // --- Tarea 4: regresión de la distribución (semilla fija) ---
