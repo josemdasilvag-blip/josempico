@@ -4,8 +4,8 @@ const test = require('node:test');
 const assert = require('node:assert');
 const S = require('./tu-situacion.js');
 
-test('expone las 11 constantes de patrón', () => {
-  assert.equal(S.PATRONES.length, 11);
+test('expone las 15 constantes de patrón', () => {
+  assert.equal(S.PATRONES.length, 15);
   assert.deepEqual([...S.PRIORIDAD].sort(), [...S.PATRONES].sort());
 });
 
@@ -52,9 +52,9 @@ test('cada patrón tiene ficha completa', () => {
 
 // --- Tarea 2: pesoInicial y aplica ---
 
-test('pesoInicial devuelve las 11 claves a 0 para patron', () => {
+test('pesoInicial devuelve las 15 claves a 0 para patron', () => {
   const p = S.pesoInicial('patron');
-  assert.equal(Object.keys(p).length, 11);
+  assert.equal(Object.keys(p).length, 15);
   assert.ok(S.PATRONES.every(k => p[k] === 0));
 });
 
@@ -122,10 +122,10 @@ test('tibio cuando el máximo no llega a UMBRAL_TIBIO', () => {
   assert.equal(S.calcula(puntosDesde({ ghosting: 9 }), 'pasado').tibio, false);
 });
 
-test('orden incluye los 11 patrones sin repetir', () => {
+test('orden incluye los 15 patrones sin repetir', () => {
   const r = S.calcula(puntosDesde({ ghosting: 3 }), 'pasado');
-  assert.equal(r.orden.length, 11);
-  assert.equal(new Set(r.orden).size, 11);
+  assert.equal(r.orden.length, 15);
+  assert.equal(new Set(r.orden).size, 15);
 });
 
 test('recorrido completo de una rama: respuestas de ghosting -> ghosting', () => {

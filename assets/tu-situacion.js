@@ -15,21 +15,24 @@
      ================================================================ */
 
   var PATRONES = ['ghosting','zombieing','benching','orbiting','situationship',
-                  'ghostlighting','lovebombing','futurefaking','breadcrumbing','pocketing','slowfading'];
+                  'ghostlighting','lovebombing','futurefaking','breadcrumbing','pocketing','slowfading',
+                  'blocking','caspering','friendzone','finaltext'];
 
   var WHATSAPP = '34621321861';
 
-  // Desempate: el más específico gana. slowfading va justo antes que ghosting
-  // (si hay que elegir entre "se apagó" y "desapareció", gana el más descriptivo)
-  // y ghosting es el genérico: va el último y pierde los empates.
-  var PRIORIDAD = ['ghostlighting','zombieing','futurefaking','lovebombing','pocketing',
-                   'benching','breadcrumbing','orbiting','situationship','slowfading','ghosting'];
+  // Desempate: el más específico gana. blocking es lo más verificable que hay
+  // (o te bloqueó o no) y va primero. finaltext va el último de todos —es la
+  // única salida "sana" de la lista, y no queremos que gane un empate por
+  // defecto: solo gana cuando sus respuestas dominan de verdad.
+  var PRIORIDAD = ['blocking','ghostlighting','caspering','zombieing','futurefaking','lovebombing',
+                   'pocketing','benching','breadcrumbing','orbiting','friendzone','situationship',
+                   'slowfading','ghosting','finaltext'];
 
   // Peso que la rama (P1) pone antes de empezar. Es un empujón, no un filtro:
   // un patrón con peso negativo todavía puede ganar si la conducta lo grita.
   var PESO_RAMA = {
-    ahora:  { situationship:1, benching:1, breadcrumbing:1, pocketing:1, orbiting:2, lovebombing:1, futurefaking:1, zombieing:-1, slowfading:2 },
-    pasado: { ghosting:2, zombieing:1, ghostlighting:2, orbiting:2, situationship:1, pocketing:2, futurefaking:1, lovebombing:1, benching:1, slowfading:1 },
+    ahora:  { situationship:1, benching:1, breadcrumbing:1, pocketing:1, orbiting:2, lovebombing:1, futurefaking:1, zombieing:-1, slowfading:2, blocking:-2, caspering:1, friendzone:2, finaltext:-3 },
+    pasado: { ghosting:2, zombieing:1, ghostlighting:2, orbiting:2, situationship:1, pocketing:2, futurefaking:1, lovebombing:1, benching:1, slowfading:1, blocking:2, caspering:2, friendzone:1, finaltext:2 },
     patron: {}
   };
 
@@ -138,6 +141,42 @@
       que_hacer:'No compitas por una atención que ya se está yendo. Si notas la caída, pregunta directo: «¿esto te sigue interesando?». La respuesta —o el silencio— te ahorra los próximos dos meses de mensajes cada vez más cortos.',
       remate:'No hace falta apagar la luz si la vas bajando un poco cada día.',
       imagen_frase:'Cada vez tarda más. Cada vez dice menos.'
+    },
+    blocking: {
+      nombre:'Blocking', gloss:'Bloqueo',
+      que_es:'Más que ghosting. No solo deja de contestar: te bloquea. No puedes escribirle, no puedes ver su perfil, no puedes ni comprobar si sigue activo. Es una puerta que no solo se cierra, se sella.',
+      te_pasa:'Un día decides escribir, o solo entrar a ver su perfil, y ya no está. No hay foto, no hay «en línea hace 3 h», no hay nada: para la aplicación, es como si nunca hubiera existido. No tuviste ni el hueco de duda que deja el ghosting: aquí la puerta se cerró con pestillo.',
+      veredicto:'No va a ningún lado, y esta vez ni tú puedes forzarlo. Bloquear es una decisión activa, no una desidia: alguien tuvo que pararse, abrir el menú y elegirlo. Eso dice más que cualquier explicación.',
+      que_hacer:'No hay mensaje que valga, ni cuenta nueva desde la que escribir. Un bloqueo es la frase más clara que existe en esto: se acabó, y sin posibilidad de apelar. Respeta la puerta cerrada, aunque no te haya gustado cómo se cerró.',
+      remate:'Al menos no te deja dudas. Es el único que no miente sobre lo que quiere.',
+      imagen_frase:'No solo dejó de contestar. Te bloqueó.'
+    },
+    caspering: {
+      nombre:'Caspering', gloss:'El fantasma bueno',
+      que_es:'Es un ghosting con aviso. Te manda un mensaje diciendo que esto se acaba, claro y sin rodeos. La diferencia con el ghosting normal: si le escribes después, contesta — solo que la respuesta siempre es la misma, que ya se acabó. No es la peor forma de dejarlo, pero tampoco es un cierre real.',
+      te_pasa:'Te llegó el mensaje: esto no sigue. Fue directo, no te dejó a medias sobre si había esperanza. Pero como encima contesta si le escribes, es fácil quedarse enganchado a esa respuesta amable, esperando que algún día diga otra cosa. Nunca la dice.',
+      veredicto:'No va a ningún lado, aunque duela menos que un ghosting a secas. Te avisó, y eso se agradece. Pero que conteste no es una puerta abierta: es solo buena educación de quien ya decidió no seguir.',
+      que_hacer:'Quédate con lo bueno: al menos sabes a qué atenerte, que ya es más de lo que dan la mayoría de estos patrones. No le escribas esperando que la siguiente respuesta sea distinta — va a ser la misma. Si necesitas cerrarlo del todo, el silencio también es una opción, y esta vez la eliges tú.',
+      remate:'Contestar no es lo mismo que querer seguir hablando.',
+      imagen_frase:'Te dijo que se acababa. Y si escribes, contesta. Nada más.'
+    },
+    friendzone: {
+      nombre:'Friendzone', gloss:'Amistad de verdad',
+      que_es:'No sintió lo mismo, y en vez de dejarte a medias, te lo dijo y te ofreció algo real: su amistad. No es una trampa ni una migaja — si lo aceptas, de verdad eres su amigo o amiga a partir de ahora. Es de las formas más honestas de esta lista.',
+      te_pasa:'Te dejó claro que no hay nada romántico, sin ambigüedad ni esperanza fingida. Y a partir de ahí, hay amistad de verdad: te escribe, cuenta contigo, se ríe contigo. No es un premio de consolación disfrazado — es una relación distinta a la que tú querías, pero sincera.',
+      veredicto:'No va a ir a ningún lado en el plano romántico, y esta vez no es mala gestión suya: es honestidad. La pregunta no es si te quiere de otra forma —ya te ha contestado—, es si tú puedes con la amistad tal y como es.',
+      que_hacer:'Decide con la cabeza fría si puedes ser su amigo o amiga sin que te cueste, o si necesitas algo de distancia para dejar de esperar otra cosa. Ninguna de las dos opciones está mal. Lo que no vale es quedarte ahí fingiendo que solo son amigos mientras sigues esperando que cambie.',
+      remate:'Que no quisiera lo mismo no la convierte en mala persona. A veces solo es que no era eso.',
+      imagen_frase:'No quiso lo mismo. Y aun así, se quedó — como amigo de verdad.'
+    },
+    finaltext: {
+      nombre:'Final text', gloss:'El portazo con aviso',
+      que_es:'Te manda un último mensaje, cortante pero claro: esto se acaba. Y ahí se queda. No hay nada más después, ni aunque le escribas — dijo lo que tenía que decir y desapareció. Tiene algo de responsabilidad afectiva, la justa: te avisó antes de irse, pero no se quedó a hablarlo.',
+      te_pasa:'Llegó el mensaje sin avisar: esto no sigue. Puede que contestaras, puede que hicieras preguntas. No volvió nada. Ni un «ya hablamos», ni una última palabra: un mensaje, y silencio detrás para siempre.',
+      veredicto:'No va a ningún lado, como casi todo en esta lista. Se lleva algo de mérito por decírtelo en vez de desaparecer sin más — pero un mensaje y luego nada tampoco es una conversación. Es un ghosting con un aviso delante.',
+      que_hacer:'Agradece el aviso, que ya es más de lo que dan muchos de estos patrones. Pero no esperes respuesta a lo que le contestaste: ya dijo todo lo que iba a decir. Si te quedaron preguntas, vas a tener que hacer las paces con no tener respuesta.',
+      remate:'Un mensaje de salida sigue siendo una salida.',
+      imagen_frase:'Un último mensaje cortante. Y después, silencio para siempre.'
     }
   };
 
@@ -163,7 +202,8 @@
           { texto:'Sí, y quedó en nada concreto', set:{ situationship:2 } },
           { texto:'Lo saqué y lo esquivó', set:{ benching:2 } },
           { texto:'Ni se ha mencionado', set:{ pocketing:2 } },
-          { texto:'Se lo tomó a broma', set:{ situationship:1, benching:1 } }
+          { texto:'Se lo tomó a broma', set:{ situationship:1, benching:1 } },
+          { texto:'Me dijo que me ve «solo como amigo/a»', set:{ friendzone:3, situationship:-1 } }
         ]}
       ],
       pasado:[
@@ -172,7 +212,9 @@
           { texto:'Se fue apagando sin más', set:{ breadcrumbing:2, ghosting:1 } },
           { texto:'Lo hablamos y cortó', set:{ ghosting:-2, situationship:1 } },
           { texto:'Desapareció y luego reapareció', set:{ zombieing:2 } },
-          { texto:'Fue apagándose poco a poco, hasta que ya no había nada que cortar', set:{ slowfading:3 } }
+          { texto:'Fue apagándose poco a poco, hasta que ya no había nada que cortar', set:{ slowfading:3 } },
+          { texto:'Me bloqueó, sin más', set:{ blocking:3 } },
+          { texto:'Me mandó un último mensaje cortante y ya no contestó más', set:{ finaltext:4 } }
         ]},
         { texto:'¿Cuánto duró?', ops:[
           { texto:'Un par de semanas', set:{ lovebombing:2, ghosting:1 } },
@@ -187,14 +229,19 @@
           { texto:'Después de un principio intensísimo', set:{ lovebombing:3, futurefaking:1 } },
           { texto:'Nunca llega a arrancar del todo', set:{ breadcrumbing:2, situationship:1 } },
           { texto:'Cuando pido algo claro', set:{ benching:2, situationship:1, ghostlighting:1 } },
-          { texto:'Poco a poco, va bajando el ritmo hasta que se apaga solo', set:{ slowfading:2 } }
+          { texto:'Poco a poco, va bajando el ritmo hasta que se apaga solo', set:{ slowfading:2 } },
+          { texto:'Nunca llega a ser pareja, aunque yo quiera', set:{ friendzone:3 } },
+          { texto:'No se tuerce: cuando se acaba, me lo dicen claro', set:{ finaltext:4 } },
+          { texto:'Cuando toca hablar de verdad, directamente me bloquea', set:{ blocking:3 } }
         ]},
         { texto:'¿Qué tienen en común esas personas?', ops:[
           { texto:'Acaban desapareciendo', set:{ ghosting:2, zombieing:1, orbiting:1 } },
           { texto:'No sueltan pero no avanzan', set:{ benching:2, breadcrumbing:1 } },
           { texto:'Prometen mucho', set:{ futurefaking:2, lovebombing:1 } },
           { texto:'Me tienen en segundo plano', set:{ pocketing:2, benching:1 } },
-          { texto:'Se van apagando en vez de cortar de golpe', set:{ slowfading:2 } }
+          { texto:'Se van apagando en vez de cortar de golpe', set:{ slowfading:2 } },
+          { texto:'Me quieren de verdad, pero como amigo o amiga, no como pareja', set:{ friendzone:3 } },
+          { texto:'Son buena gente hasta que hay que dar la cara', set:{ caspering:2 } }
         ]}
       ]
     },
@@ -205,7 +252,8 @@
         { texto:'Nada. Silencio total, no hay señales', set:{ ghosting:3 } },
         { texto:'Está y contesta, pero nunca propone nada', set:{ benching:2, situationship:1 } },
         { texto:'Reapareció después de meses fuera', set:{ zombieing:3 } },
-        { texto:'Cada vez tarda más en contestar y escribe menos, pero no ha cortado del todo', set:{ slowfading:3 } }
+        { texto:'Cada vez tarda más en contestar y escribe menos, pero no ha cortado del todo', set:{ slowfading:3 } },
+        { texto:'Fue sincero sobre no sentir lo mismo, pero sigue apareciendo poco y con buenas formas', set:{ caspering:3 } }
       ]},
       { texto:'Normalmente, ¿quién escribe primero?', ops:[
         { texto:'Siempre yo. Si no escribo, no hay nada', set:{ benching:2, breadcrumbing:1 } },
@@ -217,7 +265,8 @@
         { texto:'Sí: viajes, mudarnos, conocer a su gente', set:{ futurefaking:3, lovebombing:1 } },
         { texto:'Planes vagos que nunca se concretaban', set:{ futurefaking:2, situationship:1 } },
         { texto:'Ninguno. Se vivía el momento', set:{ situationship:2 } },
-        { texto:'Sí, y se cumplían', set:{ ghosting:-1, benching:-1, breadcrumbing:-1, futurefaking:-1, pocketing:-1 } }
+        { texto:'Sí, y se cumplían', set:{ ghosting:-1, benching:-1, breadcrumbing:-1, futurefaking:-1, pocketing:-1 } },
+        { texto:'No, porque siempre ha dicho que solo somos amigos', set:{ friendzone:3 } }
       ]},
       { texto:'¿Te presenta a su gente? ¿Os ve alguien juntos?', ops:[
         { texto:'No conozco a nadie de su vida', set:{ pocketing:3 } },
@@ -235,7 +284,9 @@
         { texto:'Cambió de tema o se lo tomó a risa', set:{ situationship:2, benching:1 } },
         { texto:'Me dijo que me estaba montando películas', set:{ ghostlighting:3 } },
         { texto:'Desapareció justo después', set:{ ghosting:2, ghostlighting:1 } },
-        { texto:'Dijo lo correcto y luego nada cambió', set:{ futurefaking:2, benching:1 } }
+        { texto:'Dijo lo correcto y luego nada cambió', set:{ futurefaking:2, benching:1 } },
+        { texto:'Me dijo que se acababa, y si le escribo después, me contesta', set:{ caspering:4 } },
+        { texto:'Me dijo que se acababa, y desde entonces no ha vuelto a contestar nunca más', set:{ finaltext:4 } }
       ]},
       { texto:'¿Ha habido cortes y regresos?', ops:[
         { texto:'Un corte limpio y definitivo, sin explicación', set:{ ghosting:3 } },
@@ -243,7 +294,8 @@
         { texto:'No escribe, pero sigue ahí mirándolo todo', set:{ orbiting:3 } },
         { texto:'Va y viene constantemente', set:{ breadcrumbing:2, benching:1 } },
         { texto:'Le planté cara y negó que hubiera pasado algo raro', set:{ ghostlighting:3 } },
-        { texto:'No ha habido un corte: simplemente cada vez hay menos', set:{ slowfading:3, breadcrumbing:1 } }
+        { texto:'No ha habido un corte: simplemente cada vez hay menos', set:{ slowfading:3, breadcrumbing:1 } },
+        { texto:'Me bloqueó. No puedo ni verle el perfil', set:{ blocking:3 } }
       ]}
     ]
   };
