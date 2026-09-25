@@ -6,7 +6,7 @@
 <title>¿Dónde se te mueren los chats? · Jose Pico</title>
 <meta name="description" content="Ocho preguntas. Al final sale tu punto en el mapa.">
 <link rel="canonical" href="https://josempico.com/escala/">
-<meta name="theme-color" content="#0F0D0B">
+<meta name="theme-color" content="#080808">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Jose Pico">
@@ -17,21 +17,22 @@
 <meta property="og:image" content="https://josempico.com/assets/jose/jose-1.jpg">
 <meta property="og:image:alt" content="Jose Pico">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Playfair+Display:ital,wght@1,400&display=swap">
 <style>
 :root{
-  --negro:#14110F; --negro2:#1E1A17; --crema:#F2ECE1; --oro:#C9A961;
-  --tenue:#8B8279; --linea:rgba(201,169,97,.22);
+  --negro:#080808; --negro2:#1F1E1E; --crema:#FCFCFC; --oro:#FCFCFC;
+  --tenue:#9A9797; --linea:rgba(212,210,210,.22);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
 body{
   background:var(--negro); color:var(--crema);
-  font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font:17px/1.6 'Inter',system-ui,-apple-system,sans-serif;
   min-height:100dvh; display:flex; flex-direction:column; align-items:center;
   padding:1.2rem 1.1rem 3rem;
 }
 .app{width:100%;max-width:520px;flex:1;display:flex;flex-direction:column}
-h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
+h1,h2,h3,.serif{font-family:'Inter',system-ui,sans-serif;font-weight:700;letter-spacing:-.03em}
 
 /* ---------- portada ---------- */
 .pantalla{display:none;animation:entra .32s ease both}
@@ -46,7 +47,7 @@ h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
 #portada p{color:var(--tenue);margin:0 0 2.4rem;font-size:1.02rem}
 
 .btn{
-  display:block;width:100%;background:var(--oro);color:#14110F;border:0;border-radius:10px;
+  display:block;width:100%;background:transparent;color:var(--crema);border:1px solid #C9A961;border-radius:8px;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem!important;
   padding:1rem 1.2rem;font-size:1.02rem;font-weight:700;cursor:pointer;
   font-family:inherit;transition:transform .12s,background .18s;text-align:center;text-decoration:none
 }
@@ -55,35 +56,35 @@ h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
 .btn+.btn{margin-top:.7rem}
 
 /* ---------- preguntas ---------- */
-.barra{height:3px;background:rgba(242,236,225,.1);border-radius:2px;margin:.2rem 0 2rem;overflow:hidden}
+.barra{height:3px;background:rgba(252,252,252,.1);border-radius:2px;margin:.2rem 0 2rem;overflow:hidden}
 .barra i{display:block;height:100%;background:var(--oro);width:0;transition:width .3s ease}
 .paso{color:var(--tenue);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.7rem}
-.escena{font-family:Georgia,serif;font-size:1.5rem;line-height:1.3;margin:0 0 1.6rem}
+.escena{font-family:'Inter',system-ui,sans-serif;font-size:1.5rem;line-height:1.3;margin:0 0 1.6rem}
 .ops{display:flex;flex-direction:column;gap:.6rem}
 .op{
-  background:var(--negro2);border:1px solid rgba(242,236,225,.1);border-radius:10px;
+  background:var(--negro2);border:1px solid rgba(252,252,252,.1);border-radius:10px;
   padding:.95rem 1.1rem;text-align:left;color:var(--crema);font:inherit;cursor:pointer;
   transition:border-color .15s,background .15s
 }
-.op:hover{border-color:var(--linea);background:#252019}
+.op:hover{border-color:var(--linea);background:#262525}
 .op:active{transform:scale(.99)}
 .atras{background:none;border:0;color:var(--tenue);font:inherit;font-size:.9rem;
   cursor:pointer;padding:1.4rem 0 0;text-align:left;align-self:flex-start}
 
 /* ---------- resultado ---------- */
 #resultado{text-align:center}
-.zona{font-family:Georgia,serif;font-size:2.1rem;line-height:1.15;color:var(--oro);margin:.4rem 0 .7rem}
+.zona{font-family:'Inter',system-ui,sans-serif;font-size:2.1rem;line-height:1.15;color:var(--oro);margin:.4rem 0 .7rem}
 .notas{display:flex;justify-content:center;gap:.6rem;margin:0 0 1.1rem;flex-wrap:wrap}
 .nota{border:1px solid var(--linea);border-radius:999px;padding:.28rem .85rem;
   font-size:.86rem;color:var(--tenue);white-space:nowrap}
-.nota b{color:var(--oro);font-family:Georgia,serif;font-size:1rem;margin-left:.2rem}
+.nota b{color:var(--oro);font-family:'Inter',system-ui,sans-serif;font-size:1rem;margin-left:.2rem}
 .chiste{color:var(--crema);font-size:1.06rem;margin:0 auto 1.8rem;max-width:26em}
 .explica{color:var(--tenue);font-size:.99rem;line-height:1.7;margin:0 auto 1.4rem;
   max-width:30em;text-align:left}
 .mapa{width:100%;margin:0 0 1.6rem}
 .remate{color:var(--tenue);font-size:.98rem;font-style:italic;margin:0 0 2.2rem;
-  padding-top:1.4rem;border-top:1px solid rgba(242,236,225,.09)}
-.oferta{background:rgba(201,169,97,.07);border:1px solid var(--linea);border-radius:12px;
+  padding-top:1.4rem;border-top:1px solid rgba(252,252,252,.09)}
+.oferta{background:rgba(212,210,210,.07);border:1px solid var(--linea);border-radius:12px;
   padding:1.4rem 1.2rem;margin:0 0 1rem;text-align:left}
 .oferta h3{color:var(--oro);font-size:1.18rem;margin:0 0 .6rem}
 .oferta p{margin:0 0 1.2rem;font-size:1rem}
@@ -95,7 +96,7 @@ h1,h2,h3,.serif{font-family:Georgia,"Times New Roman",serif;font-weight:600}
   background:var(--negro2);border:1px solid var(--linea);border-radius:12px;
   padding:1.4rem 1.2rem;text-align:center;margin:1.8rem 0;
 }
-.seguir h3{color:var(--oro);font-family:Georgia,serif;font-size:1.35rem;margin:0 0 .5rem;font-weight:normal}
+.seguir h3{color:var(--oro);font-family:'Inter',system-ui,sans-serif;font-size:1.35rem;margin:0 0 .5rem;font-weight:normal}
 .seguir p{color:var(--tenue);font-size:.97rem;margin:0 0 1.1rem}
 .seguir .btn{display:inline-block;width:auto;padding:.85rem 1.7rem;text-decoration:none;text-align:center}
 canvas{display:none}
@@ -106,7 +107,7 @@ canvas{display:none}
 }
 
 /* saltar al contenido, foco visible y area tactil del menu */
-.salto{position:absolute;left:-9999px;top:0;background:var(--oro);color:#14110F;
+.salto{position:absolute;left:-9999px;top:0;background:var(--oro);color:#171617;
   padding:12px 18px;text-decoration:none;font-size:14px;letter-spacing:1.2px;z-index:20}
 .salto:focus{left:0}
 :focus-visible{outline:2px solid var(--oro);outline-offset:3px}
@@ -119,11 +120,12 @@ canvas{display:none}
 <a class="salto" href="#contenido">Saltar al contenido</a>
 <div class="app">
   <nav style="display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin:0 0 26px;font-size:14px;letter-spacing:.5px">
-    <a href="/" style="color:#C9A961;text-decoration:none">Jose Pico</a>
-    <a href="/match-link/" style="color:#A79C8B;text-decoration:none">Match Link</a>
-    <a href="/mentoria/" style="color:#A79C8B;text-decoration:none">Mentoría</a>
-    <a href="/vibes/" style="color:#A79C8B;text-decoration:none">VIBES</a>
-    <a href="/recursos/" style="color:#A79C8B;text-decoration:none">Recursos</a>
+    <a href="/" style="color:#FCFCFC;text-decoration:none">Jose Pico</a>
+    <a href="/match-link/" style="color:#B5B2B2;text-decoration:none">Match Link</a>
+    <a href="/mentoria/" style="color:#B5B2B2;text-decoration:none">Mentoría</a>
+    <a href="/vibes/" style="color:#B5B2B2;text-decoration:none">VIBES</a>
+    <a href="/recursos/" style="color:#B5B2B2;text-decoration:none">Recursos</a>
+    <a href="/clases/" style="color:#B5B2B2;text-decoration:none">Clases</a>
   </nav>
   <div class="marca">Jose Pico</div>
 
@@ -384,14 +386,14 @@ function dibujaSVG(){
   // casilla resaltada (fila 0 de ZONAS = abajo del todo)
   var hx = X0 + cx * celda;
   var hy = Y1 - (cy + 1) * celda;
-  s.push('<rect x="'+hx+'" y="'+hy+'" width="'+celda+'" height="'+celda+'" fill="#C9A961" fill-opacity=".13"/>');
+  s.push('<rect x="'+hx+'" y="'+hy+'" width="'+celda+'" height="'+celda+'" fill="#FCFCFC" fill-opacity=".13"/>');
 
   // líneas
   for (var k = 0; k <= 3; k++){
     var t = k * celda;
     var op = (k === 0 || k === 3) ? .38 : .17;
-    s.push('<line x1="'+(X0+t)+'" y1="'+Y0+'" x2="'+(X0+t)+'" y2="'+Y1+'" stroke="#C9A961" stroke-opacity="'+op+'"/>');
-    s.push('<line x1="'+X0+'" y1="'+(Y0+t)+'" x2="'+X1+'" y2="'+(Y0+t)+'" stroke="#C9A961" stroke-opacity="'+op+'"/>');
+    s.push('<line x1="'+(X0+t)+'" y1="'+Y0+'" x2="'+(X0+t)+'" y2="'+Y1+'" stroke="#FCFCFC" stroke-opacity="'+op+'"/>');
+    s.push('<line x1="'+X0+'" y1="'+(Y0+t)+'" x2="'+X1+'" y2="'+(Y0+t)+'" stroke="#FCFCFC" stroke-opacity="'+op+'"/>');
   }
 
   // nombres de las nueve zonas
@@ -404,16 +406,16 @@ function dibujaSVG(){
       var lin = z.e, base = my - (lin.length - 1) * 6.5;
       lin.forEach(function(ln, n){
         s.push('<text x="'+mx+'" y="'+(base + n*13 + 4)+'" text-anchor="middle" '+
-               'font-size="11.5" font-family="Georgia,serif" '+
-               'fill="'+(act ? '#C9A961' : '#8B8279')+'" '+
+               'font-size="11.5" font-family="'Inter',system-ui,sans-serif" '+
+               'fill="'+(act ? '#FCFCFC' : '#9A9797')+'" '+
                'fill-opacity="'+(act ? '1' : '.62')+'">'+ln+'</text>');
       });
     }
   }
 
   // escalas de los ejes: 0 a 10 en los extremos y el nombre en el centro
-  var num = 'fill="#8B8279" font-size="11" font-family="-apple-system,Segoe UI,sans-serif"';
-  var nom = 'fill="#C9A961" fill-opacity=".85" font-size="12.5" font-family="Georgia,serif" letter-spacing=".5"';
+  var num = 'fill="#9A9797" font-size="11" font-family="-apple-system,Segoe UI,sans-serif"';
+  var nom = 'fill="#FCFCFC" fill-opacity=".85" font-size="12.5" font-family="'Inter',system-ui,sans-serif" letter-spacing=".5"';
   // horizontal
   s.push('<text x="'+X0+'" y="'+(Y1+19)+'" '+num+' text-anchor="middle">0</text>');
   s.push('<text x="'+X1+'" y="'+(Y1+19)+'" '+num+' text-anchor="middle">10</text>');
@@ -424,8 +426,8 @@ function dibujaSVG(){
   s.push('<text x="0" y="0" '+nom+' text-anchor="middle" transform="translate('+(X0-34)+','+((Y0+Y1)/2)+') rotate(-90)">EXPOSICIÓN</text>');
 
   // el punto
-  s.push('<circle cx="'+px+'" cy="'+py+'" r="15" fill="#C9A961" fill-opacity=".22"/>');
-  s.push('<circle cx="'+px+'" cy="'+py+'" r="6.5" fill="#C9A961" stroke="#14110F" stroke-width="2"/>');
+  s.push('<circle cx="'+px+'" cy="'+py+'" r="15" fill="#FCFCFC" fill-opacity=".22"/>');
+  s.push('<circle cx="'+px+'" cy="'+py+'" r="6.5" fill="#FCFCFC" stroke="#171617" stroke-width="2"/>');
   s.push('</svg>');
   return s.join("");
 }
@@ -435,10 +437,10 @@ function dibujaLienzo(){
   var c = $("lienzo"), g = c.getContext("2d");
   var W = c.width, H = c.height, z = zonaActual();
 
-  g.fillStyle = "#14110F"; g.fillRect(0,0,W,H);
+  g.fillStyle = "#171617"; g.fillRect(0,0,W,H);
 
   g.textAlign = "center";
-  g.fillStyle = "#C9A961";
+  g.fillStyle = "#FCFCFC";
   g.font = "500 26px -apple-system,Segoe UI,sans-serif";
   g.fillText("¿DÓNDE SE TE MUEREN LOS CHATS?", W/2, 96);
 
@@ -447,12 +449,12 @@ function dibujaLienzo(){
   var celda = L / 3, cx = tercio(x), cy = tercio(y);
 
   // casilla resaltada
-  g.fillStyle = "rgba(201,169,97,.13)";
+  g.fillStyle = "rgba(212,210,210,.13)";
   g.fillRect(M + cx*celda, (T+L) - (cy+1)*celda, celda, celda);
 
   for (var k = 0; k <= 3; k++){
     var t = k * celda;
-    g.strokeStyle = "rgba(201,169,97," + ((k===0||k===3) ? ".42" : ".18") + ")";
+    g.strokeStyle = "rgba(212,210,210," + ((k===0||k===3) ? ".42" : ".18") + ")";
     g.lineWidth = 2;
     g.beginPath(); g.moveTo(M+t, T);   g.lineTo(M+t, T+L);  g.stroke();
     g.beginPath(); g.moveTo(M,   T+t); g.lineTo(M+L, T+t);  g.stroke();
@@ -465,66 +467,66 @@ function dibujaLienzo(){
       var zz = ZONAS[fy][fx], act = (fx === cx && fy === cy);
       var mx = M + fx*celda + celda/2;
       var my = (T+L) - fy*celda - celda/2;
-      g.fillStyle = act ? "#C9A961" : "rgba(139,130,121,.66)";
-      g.font = "26px Georgia,serif";
+      g.fillStyle = act ? "#FCFCFC" : "rgba(154,151,151,.66)";
+      g.font = "26px 'Inter',system-ui,sans-serif";
       var lin = zz.e, base = my - (lin.length - 1) * 15;
       lin.forEach(function(ln, n){ g.fillText(ln, mx, base + n*30 + 9); });
     }
   }
 
   // ---- escalas de los ejes ----
-  g.fillStyle = "#8B8279";
+  g.fillStyle = "#9A9797";
   g.font = "24px -apple-system,Segoe UI,sans-serif";
   g.textAlign = "center";
   g.fillText("0",  M,   T+L+38);
   g.fillText("10", M+L, T+L+38);
-  g.fillStyle = "rgba(201,169,97,.85)";
-  g.font = "27px Georgia,serif";
+  g.fillStyle = "rgba(212,210,210,.85)";
+  g.font = "27px 'Inter',system-ui,sans-serif";
   g.fillText("INTENSIDAD", M + L/2, T+L+40);
 
-  g.fillStyle = "#8B8279";
+  g.fillStyle = "#9A9797";
   g.font = "24px -apple-system,Segoe UI,sans-serif";
   g.textAlign = "right";
   g.fillText("0",  M-22, T+L+8);
   g.fillText("10", M-22, T+18);
   g.save();
   g.translate(M-64, T + L/2); g.rotate(-Math.PI/2);
-  g.fillStyle = "rgba(201,169,97,.85)";
-  g.font = "27px Georgia,serif";
+  g.fillStyle = "rgba(212,210,210,.85)";
+  g.font = "27px 'Inter',system-ui,sans-serif";
   g.textAlign = "center"; g.fillText("EXPOSICIÓN", 0, 0);
   g.restore();
 
   // ---- el punto ----
   var px = M + frac(x) * L;
   var py = (T + L) - frac(y) * L;
-  g.fillStyle = "rgba(201,169,97,.22)";
+  g.fillStyle = "rgba(212,210,210,.22)";
   g.beginPath(); g.arc(px, py, 44, 0, 6.2832); g.fill();
-  g.fillStyle = "#C9A961";
+  g.fillStyle = "#FCFCFC";
   g.beginPath(); g.arc(px, py, 19, 0, 6.2832); g.fill();
-  g.strokeStyle = "#14110F"; g.lineWidth = 5;
+  g.strokeStyle = "#171617"; g.lineWidth = 5;
   g.beginPath(); g.arc(px, py, 19, 0, 6.2832); g.stroke();
 
   // ---- las dos notas ----
   g.textAlign = "center";
-  g.fillStyle = "#8B8279";
+  g.fillStyle = "#9A9797";
   g.font = "28px -apple-system,Segoe UI,sans-serif";
   g.fillText("Intensidad " + nota(x) + "/10     ·     Exposición " + nota(y) + "/10",
              W/2, T + L + 108);
 
   // ---- nombre de la zona ----
-  g.fillStyle = "#C9A961";
-  g.font = "600 62px Georgia,serif";
+  g.fillStyle = "#FCFCFC";
+  g.font = "600 62px 'Inter',system-ui,sans-serif";
   g.fillText(z.n, W/2, T + L + 182);
 
   // ---- el chiste, partido en líneas ----
-  g.fillStyle = "#F2ECE1";
+  g.fillStyle = "#FCFCFC";
   g.font = "31px -apple-system,Segoe UI,sans-serif";
   var lineas = parte(g, z.c, W - 200);
   lineas.forEach(function(ln, n){
     g.fillText(ln, W/2, T + L + 247 + n*44);
   });
 
-  g.fillStyle = "#8B8279";
+  g.fillStyle = "#9A9797";
   g.font = "26px -apple-system,Segoe UI,sans-serif";
   g.fillText("@josempico", W/2, H - 60);
   return c;
