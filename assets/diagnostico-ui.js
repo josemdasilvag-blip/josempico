@@ -137,11 +137,6 @@
       $('modulo').textContent = informe.modulo;
       $('reto').textContent = 'Reto ' + informe.reto + ' · ' + informe.retoNombre.charAt(0).toUpperCase() + informe.retoNombre.slice(1);
     } else {
-      var url = D.URL_CURSO;
-      $('retoCurso').textContent = informe.retoNombre.charAt(0).toUpperCase() + informe.retoNombre.slice(1);
-      $('botonCurso').hidden = !url;
-      if (url) $('botonCurso').href = url;
-      $('pronto').hidden = !!url;
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
     }
@@ -180,7 +175,9 @@
       'Mi resultado: ' + informe.titulo + '\n\n' +
       explicacion + '\n\n' +
       'Quiero la llamada gratis de 15 minutos.';
-    this.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+    // Se abre en la misma pestaña: las ventanas nuevas las bloquean algunos navegadores.
+    ev.preventDefault();
+    window.location.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
   };
   $('volver').onclick = function () { ver('test'); atras(); };
 })();
