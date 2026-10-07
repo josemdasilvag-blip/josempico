@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tu diagnóstico — Jose Pico</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#080808">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="/assets/estilo.css?v=20260925">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=1">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
+<script defer src="/assets/medir.js?v=1"></script>
+</head>
+<body data-pagina="compradores">
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="wrap">
+
+  <div class="barra">
+    <span class="marca">Jose Pico</span>
+  </div>
+
+  <main id="contenido" class="diag">
+
+    <!-- ============ PORTADA ============ -->
+    <section id="portada" class="portada">
+      <p class="kicker">Antes de abrir nada</p>
+      <h1>Tu <em>diagnóstico</em></h1>
+      <p class="entradilla">Contesta esto primero. Al final te digo qué módulo abrir y con qué reto empezar.</p>
+      <div class="intro">
+        <b>Menos de tres minutos</b>
+        <p>Contesta pensando en lo que te ha pasado de verdad, no en lo que te gustaría que pasara. Cuanta más honestidad le pongas, mejor te acierto por dónde empezar.</p>
+      </div>
+      <button type="button" class="boton ancho" id="empezar">Empezar</button>
+    </section>
+
+    <!-- ============ PREGUNTAS ============ -->
+    <section id="test" hidden aria-live="polite">
+      <div class="barra-progreso" id="barra" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progreso"></i></div>
+      <h2 class="enunciado" id="enunciado" tabindex="-1"></h2>
+      <div class="ops" id="ops"></div>
+      <button type="button" class="enlace" id="atras" hidden>← Atrás</button>
+    </section>
+
+
+    <!-- ============ RESULTADO ============ -->
+    <section id="resultado" class="resultado" hidden>
+      <p class="kicker">Tu resultado</p>
+      <h2 id="titulo" tabindex="-1"></h2>
+      <div class="nota" id="aviso" hidden></div>
+      <div class="cuerpo" id="cuerpo"></div>
+
+      <div class="carta destacada">
+        <span class="rotulo">Abre en el curso</span>
+        <p class="modulo" id="modulo"></p>
+        <p id="reto"></p>
+      </div>
+
+      <div class="carta" id="datos">
+        <h3>¿Te lo guardo?</h3>
+        <p>Déjame tu nombre y el email con el que compraste, y te acompaño por email durante el curso.</p>
+        <form id="formDatos" novalidate>
+          <label class="campo">Nombre
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" required maxlength="80">
+          </label>
+          <label class="campo">Email
+            <input type="email" id="email" name="email" autocomplete="email" required maxlength="160">
+          </label>
+          <label class="consentimiento">
+            <input type="checkbox" id="acepto" name="acepto" required>
+            <span>Acepto que Jose Pico guarde mi nombre, mi email y mi resultado para acompañarme en el curso por email. Me puedo dar de baja cuando quiera. Lo explico todo en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <button type="submit" class="boton ancho">Guardar mi resultado</button>
+        </form>
+        <p class="pronto" id="enviado" hidden>Hecho: guardado</p>
+      </div>
+
+      <button type="button" class="enlace" id="volver">← Cambiar la última respuesta</button>
+      <button type="button" class="boton hueco" id="otra">Hacerlo otra vez</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="enlaces">
+      <a href="/privacidad/">Privacidad</a>
+    </div>
+    <p>Jose Pico</p>
+  </footer>
+
+</div>
+<script src="/assets/diagnostico.js?v=4"></script>
+<script src="/assets/diagnostico-ui.js?v=2"></script>
+</body>
+</html>

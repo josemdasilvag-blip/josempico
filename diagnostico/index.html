@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Diagnóstico · ¿Por dónde empiezo? — Jose Pico</title>
+<meta name="description" content="Unas preguntas sobre lo que te pasa de verdad con las citas. Al final te digo dónde se te rompe y cuál es tu primer paso. Menos de tres minutos.">
+<link rel="canonical" href="https://josempico.com/diagnostico/">
+<meta name="theme-color" content="#080808">
+<meta name="color-scheme" content="dark">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jose Pico">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://josempico.com/diagnostico/">
+<meta property="og:title" content="¿Por dónde empiezo? — el diagnóstico de Jose Pico">
+<meta property="og:description" content="Unas preguntas sobre lo que te pasa de verdad con las citas. Al final te digo dónde se te rompe y cuál es tu primer paso.">
+<meta property="og:image" content="https://josempico.com/assets/jose/jose-1.jpg">
+<meta property="og:image:alt" content="Jose Pico">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/assets/estilo.css?v=20260925">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=1">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
+<script defer src="/assets/medir.js?v=1"></script>
+</head>
+<body data-pagina="publica">
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="wrap">
+
+  <div class="barra">
+    <a class="marca" href="/">Jose Pico</a>
+    <nav>
+      <a href="/mentoria/">Mentoría</a>
+      <a href="/match-link/">Match Link</a>
+      <a href="/vibes/">VIBES</a>
+      <a href="/recursos/">Recursos</a>
+      <a href="/clases/">Clases</a>
+    </nav>
+  </div>
+
+  <main id="contenido" class="diag">
+
+    <!-- ============ PORTADA ============ -->
+    <section id="portada" class="portada">
+      <p class="kicker">Diagnóstico gratis</p>
+      <h1>¿Por dónde <em>empiezo?</em></h1>
+      <p class="entradilla">Unas preguntas sobre lo que te pasa de verdad con las citas. Al final te digo dónde se te rompe y cuál es tu primer paso.</p>
+      <div class="intro">
+        <b>Menos de tres minutos</b>
+        <p>Contesta pensando en lo que te ha pasado de verdad, no en lo que te gustaría que pasara. Cuanta más honestidad le pongas, mejor te acierto por dónde empezar.</p>
+      </div>
+      <button type="button" class="boton ancho" id="empezar">Empezar</button>
+    </section>
+
+    <!-- ============ PREGUNTAS ============ -->
+    <section id="test" hidden aria-live="polite">
+      <div class="barra-progreso" id="barra" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progreso"></i></div>
+      <h2 class="enunciado" id="enunciado" tabindex="-1"></h2>
+      <div class="ops" id="ops"></div>
+      <button type="button" class="enlace" id="atras" hidden>← Atrás</button>
+    </section>
+
+
+    <!-- ============ RESULTADO ============ -->
+    <section id="resultado" class="resultado" hidden>
+      <p class="kicker">Tu resultado</p>
+      <h2 id="titulo" tabindex="-1"></h2>
+      <div class="nota" id="aviso" hidden></div>
+      <div class="cuerpo" id="cuerpo"></div>
+
+      <div class="carta destacada">
+        <h3>Revisa tu resultado conmigo</h3>
+        <p>Una llamada gratis de 15 minutos para verlo con tu caso delante. Pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
+        <div class="acciones">
+          <a class="boton" id="botonLlamada" href="https://wa.me/34621321861" target="_blank" rel="noopener">Pedir mi llamada gratis</a>
+        </div>
+      </div>
+
+      <div class="carta">
+        <h3>Tu siguiente paso está dentro del curso</h3>
+        <p><span id="retoCurso"></span> está en el curso, con el resto de retos y la biblioteca entera. Empiezas por el tuyo y sigues desde ahí.</p>
+        <div class="acciones">
+          <a class="boton hueco" id="botonCurso" href="#" hidden>Ver el curso</a>
+        </div>
+        <p class="pronto" id="pronto">Muy pronto</p>
+      </div>
+
+      <div class="carta" id="datos">
+        <h3>¿Te lo guardo?</h3>
+        <p>Déjame tu nombre y tu email y te mando tu resultado y lo que viene después.</p>
+        <form id="formDatos" novalidate>
+          <label class="campo">Nombre
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" required maxlength="80">
+          </label>
+          <label class="campo">Email
+            <input type="email" id="email" name="email" autocomplete="email" required maxlength="160">
+          </label>
+          <label class="consentimiento">
+            <input type="checkbox" id="acepto" name="acepto" required>
+            <span>Acepto que Jose Pico guarde mi nombre, mi email y mi resultado para escribirme sobre el diagnóstico y el curso. Me puedo dar de baja cuando quiera. Lo explico todo en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <button type="submit" class="boton ancho">Guardar mi resultado</button>
+        </form>
+        <p class="pronto" id="enviado" hidden>Hecho: guardado</p>
+      </div>
+
+      <button type="button" class="enlace" id="volver">← Cambiar la última respuesta</button>
+      <button type="button" class="boton hueco" id="otra">Hacerlo otra vez</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="enlaces">
+      <a href="https://instagram.com/josempico">@josempico</a>
+      <a href="https://www.youtube.com/@Josempico90">YouTube</a>
+      <a href="/privacidad/">Privacidad</a>
+    </div>
+    <p>Jose Pico</p>
+  </footer>
+
+</div>
+<script src="/assets/diagnostico.js?v=4"></script>
+<script src="/assets/diagnostico-ui.js?v=3"></script>
+</body>
+</html>

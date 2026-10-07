@@ -1,0 +1,14 @@
+/* Pruebas de paso — encima de estilo.css y diagnostico.css (reutiliza .diag). */
+
+.diag .lista-q{margin:-8px 0 22px;padding:0 0 0 20px;color:var(--ash);font-size:16px;line-height:1.6}
+.diag .lista-q li{margin:0 0 4px}
+.diag .ayuda{margin:-10px 0 22px;color:var(--pebble);font-size:15px;line-height:1.5}
+
+.diag .reto-nombre{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--pebble);margin:-16px 0 24px}
+.diag .tareas{margin:24px 0 0}
+.diag .tareas ul{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.diag .tareas li{color:var(--ash);font-size:16.5px;line-height:1.55}
+.diag .tareas li b{display:block;color:var(--bone);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 2px}
+.diag .parada{margin:24px 0 0;color:var(--pebble);font-size:15px;line-height:1.55;font-style:italic}
+.diag .resultado .boton.hueco{margin-top:32px}
+.diag .resultado .enlace{display:block}

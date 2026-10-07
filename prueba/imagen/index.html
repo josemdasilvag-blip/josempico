@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prueba de paso · Imagen — Jose Pico</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#080808">
+<meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="/assets/estilo.css?v=20260925">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=1">
+<link rel="stylesheet" href="/assets/pruebas.css?v=2">
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
+<script defer src="/assets/medir.js?v=1"></script>
+</head>
+<body data-campo="imagen">
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="wrap">
+
+  <div class="barra">
+    <span class="marca">Jose Pico</span>
+  </div>
+
+  <main id="contenido" class="diag">
+
+    <!-- ============ PORTADA ============ -->
+    <section id="portada" class="portada">
+      <p class="kicker">Prueba de paso · imagen</p>
+      <h1>¿Pasas de <em>imagen</em>?</h1>
+      <p class="entradilla">Se hace dos veces: el día 8, para ver si el reto está hecho, y semanas después, para medir si ha cambiado algo de verdad.</p>
+      <div class="intro">
+        <b>Menos de dos minutos</b>
+        <p>Contesta con lo que has hecho, no con lo que pensabas hacer. Si te engañas aquí, te mando a medir algo que todavía no toca.</p>
+      </div>
+      <button type="button" class="boton ancho" id="empezar">Empezar</button>
+    </section>
+
+    <!-- ============ PREGUNTAS ============ -->
+    <section id="test" hidden aria-live="polite">
+      <div class="barra-progreso" id="barra" role="progressbar" aria-label="Progreso" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progreso"></i></div>
+      <h2 class="enunciado" id="enunciado" tabindex="-1"></h2>
+      <ul class="lista-q" id="lista" hidden></ul>
+      <p class="ayuda" id="ayuda" hidden></p>
+      <div class="ops" id="ops"></div>
+      <button type="button" class="enlace" id="atras" hidden>← Atrás</button>
+    </section>
+
+
+    <!-- ============ RESULTADO ============ -->
+    <section id="resultado" class="resultado" hidden>
+      <p class="kicker">Tu resultado</p>
+      <h2 id="titulo" tabindex="-1"></h2>
+      <p class="reto-nombre" id="reto"></p>
+      <div class="cuerpo" id="cuerpo"></div>
+      <p class="parada" id="parada" hidden></p>
+
+      <div class="carta destacada" id="datos">
+        <h3>¿Te aviso cuando toque el siguiente paso?</h3>
+        <p>Déjame tu nombre y el email con el que compraste. Me llega tu resultado y te escribo cuando toque medir o pasar al siguiente campo.</p>
+        <form id="formDatos" novalidate>
+          <label class="campo">Nombre
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" required maxlength="80">
+          </label>
+          <label class="campo">Email
+            <input type="email" id="email" name="email" autocomplete="email" required maxlength="160">
+          </label>
+          <label class="consentimiento">
+            <input type="checkbox" id="acepto" name="acepto" required>
+            <span>Acepto que Jose Pico guarde mi nombre, mi email y mis respuestas para acompañarme en el curso por email. Me puedo dar de baja cuando quiera. Lo explico todo en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <button type="submit" class="boton ancho">Avísame</button>
+        </form>
+        <p class="pronto" id="enviado" hidden>Hecho: te escribo cuando toque</p>
+      </div>
+      <button type="button" class="enlace" id="volver">← Cambiar la última respuesta</button>
+      <button type="button" class="boton hueco" id="otra">Hacerla otra vez</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="enlaces">
+      <a href="/privacidad/">Privacidad</a>
+    </div>
+    <p>Jose Pico</p>
+  </footer>
+
+</div>
+<script src="/assets/pruebas.js?v=3"></script>
+<script src="/assets/pruebas-ui.js?v=2"></script>
+</body>
+</html>

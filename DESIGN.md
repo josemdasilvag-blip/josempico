@@ -5,7 +5,7 @@ Sistema visual de la web desde el 25/09/2026. Sale del estilo de Refero Styles
 Se toma el lenguaje visual, no la marca ajena.
 
 > Galería negra, puntuación en oro. Tipografía enorme en blanco sobre un fondo casi
-> negro, un único acento rojo y una itálica serif como contrapunto.
+> negro, un único acento en oro y una itálica serif como contrapunto.
 
 ## Colores
 
