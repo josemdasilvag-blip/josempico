@@ -172,11 +172,13 @@
       $('nombreLlamada').focus();
       return;
     }
-    var mayus = function (t) { return t.charAt(0).toUpperCase() + t.slice(1); };
+    // La explicación del resultado, en texto plano (el informe viene en HTML).
+    var plano = function (html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent.trim(); };
+    var explicacion = informe.parrafos.map(plano).filter(Boolean).join('\n\n');
     var texto = 'Hola Jose! Soy ' + nombre + ' y he hecho el diagnóstico.\n' +
-      'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n' +
-      'Mi resultado: ' + informe.titulo + '\n' +
-      'Por dónde empiezo: ' + mayus(informe.retoNombre) + '\n' +
+      'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n\n' +
+      'Mi resultado: ' + informe.titulo + '\n\n' +
+      explicacion + '\n\n' +
       'Quiero la llamada gratis de 15 minutos.';
     this.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
   };
