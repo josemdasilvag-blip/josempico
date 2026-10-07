@@ -142,14 +142,8 @@
       $('botonCurso').hidden = !url;
       if (url) $('botonCurso').href = url;
       $('pronto').hidden = !!url;
-      // La llamada se pide por WhatsApp, con el resultado ya escrito (sin datos personales).
-      var mayus = function (t) { return t.charAt(0).toUpperCase() + t.slice(1); };
-      var texto = 'Hola Jose! He hecho el diagnóstico.\n' +
-        'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n' +
-        'Mi resultado: ' + informe.titulo + '\n' +
-        'Por dónde empiezo: ' + mayus(informe.retoNombre) + '\n' +
-        'Quiero la llamada gratis de 15 minutos.';
-      $('botonLlamada').href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+      // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
+      $('avisoNombre').hidden = true;
     }
     // Mientras no esté conectado el correo (WEBHOOK_URL vacío), no se ofrece guardar el resultado.
     $('datos').hidden = !D.WEBHOOK_URL;
@@ -169,5 +163,22 @@
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
   $('otra').onclick = otraVez;
+  // Al pulsar "Pedir mi llamada": exige el nombre y monta el mensaje en ese momento.
+  if ($('botonLlamada')) $('botonLlamada').onclick = function (ev) {
+    var nombre = $('nombreLlamada').value.trim();
+    if (!nombre) {
+      ev.preventDefault();
+      $('avisoNombre').hidden = false;
+      $('nombreLlamada').focus();
+      return;
+    }
+    var mayus = function (t) { return t.charAt(0).toUpperCase() + t.slice(1); };
+    var texto = 'Hola Jose! Soy ' + nombre + ' y he hecho el diagnóstico.\n' +
+      'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n' +
+      'Mi resultado: ' + informe.titulo + '\n' +
+      'Por dónde empiezo: ' + mayus(informe.retoNombre) + '\n' +
+      'Quiero la llamada gratis de 15 minutos.';
+    this.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+  };
   $('volver').onclick = function () { ver('test'); atras(); };
 })();

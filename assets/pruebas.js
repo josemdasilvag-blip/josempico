@@ -554,11 +554,11 @@
         op('largo', 'Un mensaje largo, contándole lo que me gustó', false),
         op('nada', 'Nada', false)
       ], { tipo: 'clave', dia: '3', barajar: true, fallo: 'Esa noche, un mensaje corto: «lo he pasado muy bien, gracias».' }));
-      l.push(q('despues', '¿Y al día siguiente?', [
+      l.push(q('despues', '¿Y a los dos días?', [
         op('ligero', 'Algo ligero, un par de bromas, y lo corté yo', true),
         op('no_escribi', 'No escribí: no lo tenía claro, o fue mal', true),
         op('mucho', 'Le escribí mucho', false)
-      ], { tipo: 'clave', dia: '4', barajar: true, fallo: 'Al día siguiente, algo ligero, un par de bromas, y córtalo tú.' }));
+      ], { tipo: 'clave', dia: '4', barajar: true, fallo: 'A los dos días, algo ligero, un par de bromas, y córtalo tú.' }));
       l.push(q('segunda', '¿Propusiste la segunda cita?', [
         op('tercer_cuarto', 'Sí, al tercer o cuarto día, con día, hora y sitio', true),
         op('antes', 'Sí, pero antes del tercer día', false),

@@ -65,3 +65,6 @@
 .diag .carta .acciones{margin:16px 0 0}
 .diag .modulo{font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--bone);margin:0 0 6px}
 .diag .pronto{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone);margin:16px 0 0}
+
+.diag .aviso-nombre{margin:8px 0 0;font-size:14px;color:var(--ash)}
+.diag .carta.destacada label.campo{margin-top:16px}

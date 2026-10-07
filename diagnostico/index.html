@@ -69,7 +69,11 @@
 
       <div class="carta destacada">
         <h3>Revisa tu resultado conmigo</h3>
-        <p>Una llamada gratis de 15 minutos para verlo con tu caso delante. Pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
+        <p>Una llamada gratis de 15 minutos para verlo con tu caso delante. Escribe tu nombre, pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
+        <label class="campo">Tu nombre
+          <input type="text" id="nombreLlamada" autocomplete="given-name" maxlength="60" required>
+        </label>
+        <p class="aviso-nombre" id="avisoNombre" hidden>Escribe tu nombre para que sepa con quién hablo.</p>
         <div class="acciones">
           <a class="boton" id="botonLlamada" href="https://wa.me/34621321861" target="_blank" rel="noopener">Pedir mi llamada gratis</a>
         </div>
@@ -120,6 +124,6 @@
 
 </div>
 <script src="/assets/diagnostico.js?v=4"></script>
-<script src="/assets/diagnostico-ui.js?v=3"></script>
+<script src="/assets/diagnostico-ui.js?v=4"></script>
 </body>
 </html>
