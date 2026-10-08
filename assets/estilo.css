@@ -380,3 +380,13 @@ footer .enlaces{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;marg
 @media(prefers-reduced-motion:reduce){
   *{transition:none!important}
 }
+
+/* Vídeos propios (bienvenida, Match Link): póster y carga al pulsar */
+.video-web{margin:0 0 24px;border:1px solid var(--iron,#525252);background:#000;overflow:hidden}
+.video-web video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#000}
+.video-web.vertical{max-width:380px;margin:0 auto 40px}
+.video-web.vertical video{aspect-ratio:9/16}
+@media (max-width:760px){
+  .video-web:not(.vertical) video{aspect-ratio:9/16;max-height:82svh}
+  .video-web:not(.vertical){max-width:420px;margin-inline:auto}
+}
