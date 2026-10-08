@@ -4,7 +4,7 @@
 
    La lógica y los textos están en /assets/diagnostico.js (window.Diagnostico).
    La página indica cuál es con <body data-pagina="publica|compradores">.
-   La URL del curso y el webhook de Hotmart Send se cambian en diagnostico.js.
+   La URL del programa y la del alta en MailerLite (SUSCRIBIR_URL) se cambian en diagnostico.js.
    ===================================================================== */
 (function () {
   'use strict';
@@ -109,6 +109,7 @@
       secundario: resultado.secundario,
       reto: informe.reto,
       pagina: PAGINA,
+      origen: 'diagnostico',
       fecha: new Date().toISOString()
     });
     form.hidden = true;
@@ -140,8 +141,8 @@
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
     }
-    // Mientras no esté conectado el correo (WEBHOOK_URL vacío), no se ofrece guardar el resultado.
-    $('datos').hidden = !D.WEBHOOK_URL;
+    // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.
+    $("datos").hidden = !D.SUSCRIBIR_URL;
     $('formDatos').hidden = false;
     $('enviado').hidden = true;
     ver('resultado');

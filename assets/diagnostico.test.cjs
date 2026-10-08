@@ -477,7 +477,7 @@ test('enviarResultado: sin URL no llama a nada ni rompe', async () => {
   const ok = await D.enviarResultado({ email: 'a@b.c' }, '', () => { llamado = true; });
   assert.equal(ok, false);
   assert.equal(llamado, false);
-  assert.equal(D.WEBHOOK_URL, '');
+  assert.equal(D.SUSCRIBIR_URL, 'https://josempico.com/api/suscribir');
 });
 
 test('enviarResultado: POST JSON en el cuerpo, nunca en la URL; los errores no rompen', async () => {

@@ -4,7 +4,7 @@
 
    La lógica y los textos están en /assets/pruebas.js (window.Pruebas).
    La página indica su campo con <body data-campo="imagen|perfil|conversacion|cita">.
-   El webhook de Hotmart Send se cambia en pruebas.js.
+   La URL del alta en MailerLite (SUSCRIBIR_URL) se cambia en pruebas.js.
    ===================================================================== */
 (function () {
   'use strict';
@@ -113,6 +113,7 @@
       reto: res.reto,
       resultado: res.codigo,
       respuestas: respuestas,
+      origen: 'prueba',
       fecha: new Date().toISOString()
     });
     $('formDatos').hidden = true;

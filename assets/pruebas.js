@@ -7,7 +7,7 @@
    (window.Pruebas) y en Node (require).
 
    BLOQUES:
-   0. CONFIGURACIÓN  → webhook de Hotmart Send
+   0. CONFIGURACIÓN  → alta en MailerLite
    1. CAMPOS         → nombres, retos, cuándo se mide y el siguiente campo
    2. PREGUNTAS      → textos exactos del formulario (ok: true = ✅, false = ❌)
    3. MOTOR          → no tocar sin correr:  node --test assets/pruebas.test.cjs
@@ -20,10 +20,8 @@
      0. CONFIGURACIÓN
      ================================================================ */
 
-  // Webhook de Hotmart Send. Vacío: no se envía nada y no rompe.
-  var WEBHOOK_URL = 'https://handler.send.hotmart.com/convert/wlTKLA7';
-  // Token de esa integración («Integraciones vía webhook» en Hotmart Send). Va en el cuerpo, nunca en la URL.
-  var HOTTOK = 'f2094df2-1ac2-4c45-bbe5-5b826b0ca9c6';
+  // Alta en MailerLite a través del Worker de josempico.com (worker-correo/). Vacío: no se envía nada.
+  var SUSCRIBIR_URL = 'https://josempico.com/api/suscribir';
 
   /* ================================================================
      1. CAMPOS
@@ -903,30 +901,22 @@
   }
 
   /* ================================================================
-     4. ENVÍO a Hotmart Send
+     4. ENVÍO a MailerLite (vía Worker)
      datos: { nombre, email, sexo, campo, momento, reto, resultado, respuestas, fecha }
-     POST de formulario, nunca en la URL. Sin URL no hace nada.
+     POST JSON, nunca en la URL. Sin URL no hace nada.
      ================================================================ */
   function enviarResultado(datos, url, fetchImpl) {
-    url = url === undefined ? WEBHOOK_URL : url;
+    url = url === undefined ? SUSCRIBIR_URL : url;
     fetchImpl = fetchImpl || (typeof fetch !== 'undefined' ? fetch : null);
     if (!url || !fetchImpl) return Promise.resolve(false);
-    // Hotmart Send no responde a CORS: se manda como formulario (petición simple, sin preflight)
-    // y en modo no-cors. Pide «hottok» y «email» en el cuerpo; el nombre va como «name».
-    var cuerpo = new URLSearchParams();
-    cuerpo.append('hottok', HOTTOK);
-    Object.keys(datos).forEach(function (k) {
-      var v = datos[k];
-      if (v === undefined || v === null) return;
-      cuerpo.append(k === 'nombre' ? 'name' : k, typeof v === 'object' ? JSON.stringify(v) : String(v));
-    });
+    // JSON al Worker de josempico.com, que lo pasa a MailerLite (el token vive allí, no en la web).
     try {
       return Promise.resolve(fetchImpl(url, {
         method: 'POST',
-        mode: 'no-cors',
-        body: cuerpo,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos),
         keepalive: true
-      })).then(function () { return true; }, function () { return false; });
+      })).then(function (r) { return !!(r && (r.ok === undefined || r.ok)); }, function () { return false; });
     } catch (e) {
       return Promise.resolve(false);
     }
