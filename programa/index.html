@@ -97,10 +97,11 @@
 
   <section class="estrecho">
     <figure class="video-web">
-      <video controls playsinline preload="none" poster="/assets/video/bienvenida-poster.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa">
+      <video controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa">
         <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4" type="video/mp4">
         <source src="/assets/video/bienvenida.mp4" type="video/mp4">
       </video>
+        <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
     </figure>
   </section>
 
