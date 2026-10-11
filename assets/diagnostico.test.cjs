@@ -463,7 +463,8 @@ test('informe: la página pública no habla de "toda la biblioteca"', () => {
 test('informe: todas las personas del anexo generan informe completo, en las dos páginas', () => {
   for (const [id, , , , , meta] of ANEXO) for (const pag of ['publica', 'compradores']) {
     const i = inf(id, pag, meta);
-    assert.ok(i.titulo && i.reto && i.modulo && i.parrafos.length >= 3, id);
+    assert.ok(i.titulo && i.reto && i.modulo && i.gancho && i.parrafos.length >= (pag === 'publica' ? 2 : 3), id);
+    if (pag === 'publica') assert.ok(!/reto/i.test(i.parrafos.join(' ')), id + ': la página pública no manda al reto');
     assert.ok(!i.parrafos.join(' ').includes('undefined'), id);
   }
 });

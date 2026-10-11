@@ -1,0 +1,21 @@
+# Worker josepico-correo (josempico.com/api/suscribir). Secretos: ML_TOKEN, BREVO_KEY.
+name = "josepico-correo"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+routes = [
+  { pattern = "josempico.com/api/suscribir*", zone_name = "josempico.com" },
+  { pattern = "www.josempico.com/api/suscribir*", zone_name = "josempico.com" },
+]
+
+# Cada hora de 8 a 19 UTC (10–21 h en Madrid en verano): manda los correos del día que toquen.
+[triggers]
+crons = ["0 8-19 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "josepico-correo"
+database_id = "2b0ab971-9a13-4229-a6c6-457509e44154"
+
+[vars]
+GRUPOS = '{"diag_P1": "200753053979116652", "diag_P2": "200753054143743229", "diag_P3": "200753054299981250", "diag_P4": "200753054480336637", "diag_P5": "200753054628186067", "diag_S": "200753055112627886", "diag_ajuste": "200753055267817263", "prueba_imagen": "200753055421958069", "prueba_perfil": "200753055583437898", "prueba_conversacion": "200753055721850021", "prueba_cita": "200753055847679229", "sin_clasificar": "200753056000771423"}'

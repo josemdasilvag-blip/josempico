@@ -141,6 +141,7 @@
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
     }
+    if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
     // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.
     $("datos").hidden = !D.SUSCRIBIR_URL;
     $('formDatos').hidden = false;

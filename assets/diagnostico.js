@@ -595,6 +595,17 @@
      no se inserta nada que haya escrito la persona.
      ================================================================ */
 
+  // Lo que se le promete a quien deja el correo: «te mando los 7 cambios que tienes que hacer para…»
+  var GANCHO = {
+    P1: { h: 'empezar a atraer a las mujeres que te gustan', m: 'llamar la atención de los hombres que te gustan' },
+    P2: { h: 'que tu perfil empiece a funcionar', m: 'que tu perfil empiece a funcionar' },
+    P3: { h: 'que tus conversaciones acaben en una cita', m: 'que tus conversaciones acaben en una cita' },
+    P4: { h: 'que después de la primera cita haya una segunda', m: 'que después de la primera cita haya una segunda' },
+    P5: { h: 'que lo que empieza no se te caiga', m: 'que lo que empieza no se te caiga' },
+    S: { h: 'entrar en la app con buen pie desde el primer día', m: 'entrar en la app con buen pie desde el primer día' },
+    ajuste: { h: 'afinar lo que todavía tiene margen', m: 'afinar lo que todavía tiene margen' }
+  };
+
   var TITULOS = {
     P1: 'Tienes dificultad para atraer',
     P2: 'Tu perfil no está funcionando',
@@ -761,6 +772,8 @@
     var funciona = parrafoFunciona(loQueFunciona(r, resp));
     var cs = ETAPA_DE[p] ? citas(r, resp, ETAPA_DE[p], 2) : [];
     var dicho = meHasDicho(cs);
+    // En la página pública no se manda al reto: el reto está dentro del programa.
+    var paso = function (h) { if (opciones.pagina !== 'publica') P.push(h); };
     var sec = r.secundario ? b('Y otra cosa que también flojea: ' + NOMBRE_ETAPA[r.secundario] + '.') +
       ' Pero déjala para después: se nota mucho más cuando lo primero está resuelto.' : null;
 
@@ -770,15 +783,15 @@
       var c1 = citas(r, resp, r.etapaAjuste, 1);
       P.push('Lo que sí hay es margen, y está en ' + b(NOMBRE_ETAPA[clave]) + '.' + (c1.length ? ' ' + meHasDicho(c1) : ''));
       P.push('No es un problema. Es lo siguiente que afinar.');
-      P.push(b('Tu siguiente paso: ' + reto.nombre + '.'));
+      paso(b('Tu siguiente paso: ' + reto.nombre + '.'));
     } else {
       P.push(b(funciona));
       if (p === 'P1') {
         if (dicho) P.push(dicho);
-        P.push('Eso tiene una lectura clara: ' + b('te está costando atraer.') + ' Y atraer, antes que ninguna otra cosa, es imagen: la física, lo que ven cuando te tienen delante, y la que proyectas — cómo estás en persona.');
+        P.push('Eso tiene una lectura clara: ' + b('te está costando atraer.') + ' Y atraer, antes que ninguna otra cosa, es imagen: la física, lo que ven cuando te tienen delante, y la proyectada: lo que transmites en persona y en tus perfiles digitales.');
         P.push('La buena noticia es que ' + b('la imagen es lo que más se puede trabajar') + ', y lo que más rápido se nota.');
         if (libre(r, [3])) P.push(b('No te hace falta aprender frases nuevas ni cambiar cómo escribes.') + ' Mientras esto no cambie, eso no va a mover nada.');
-        P.push(b('Tu siguiente paso: el reto de 7 días de imagen.') + ' Siete acciones pequeñas, la mayoría gratis, y al final una foto tuya al lado de otra del primer día.');
+        paso(b('Tu siguiente paso: el reto de 7 días de imagen.') + ' Siete acciones pequeñas, la mayoría gratis, y al final una foto tuya al lado de otra del primer día.');
       } else if (p === 'P2') {
         if (dicho) P.push(dicho);
         if (r.fotos) {
@@ -787,32 +800,30 @@
           P.push('Traducido: ' + b('tu perfil no está enseñando lo que tienes.') + ' Ahí se pierde la gente antes de llegar a leerte.');
           if (libre(r, [3])) P.push(b('No necesitas cambiar cómo hablas.') + ' Necesitas que la primera puerta de la app funcione.');
         }
-        P.push(b('Tu siguiente paso: el reto de 7 días de perfil.') + ' Los cuatro primeros días no cuestan nada y se hacen desde el sofá.');
+        paso(b('Tu siguiente paso: el reto de 7 días de perfil.') + ' Los cuatro primeros días no cuestan nada y se hacen desde el sofá.');
       } else if (p === 'P3') {
         if (dicho) P.push(dicho);
         var ex = explicacionP3(cs, s);
         P.push('Eso tiene una lectura concreta: ' + b('la conversación no está llevando a ningún sitio.') + (ex ? ' ' + ex : ''));
         if (r.senales.apps && r.senales.x2a !== 'bajo' && libre(r, [2])) P.push(b('No necesitas más matches.') + ' Necesitas que los que ya tienes lleguen a una mesa.');
-        P.push(b('Tu siguiente paso: el reto de 7 días de conversaciones.') + ' No toca ni una foto: va entero de lo que escribes.');
+        paso(b('Tu siguiente paso: el reto de 7 días de conversaciones.') + ' No toca ni una foto: va entero de lo que escribes.');
       } else if (p === 'P4') {
         if (dicho) P.push(dicho);
         P.push('Aquí hay algo que conviene saber: ' + b('lo que tumba una segunda cita casi nunca pasa en la primera. Pasa en los días de después.'));
         if (libre(r, [1, 3])) P.push(b('No tienes que cambiar cómo atraes ni cómo escribes.') + ' Llegar a la cita ya lo tienes.');
-        P.push(b('Tu siguiente paso: el reto de 7 días de citas.') + ' Gira alrededor de una cita real, y el trabajo de verdad está en los días de después.');
+        paso(b('Tu siguiente paso: el reto de 7 días de citas.') + ' Gira alrededor de una cita real, y el trabajo de verdad está en los días de después.');
       } else if (p === 'P5') {
         if (dicho) P.push(dicho);
         P.push('Llegar a la tercera cita no es poco: atraes, conversas y tienes segundas. ' + b('Lo que falla viene después, cuando ya hay algo empezando:') + ' leer si el interés es real, ponerle nombre a lo que tienen y el primer roce.');
         if (libre(r, [2, 3])) P.push(b('No tienes que cambiar tu perfil ni cómo consigues citas.'));
-        P.push(b('Tu siguiente paso: el reto de 7 días para retener.') + ' Una semana para mirar qué pasó las últimas veces y qué vas a hacer distinto. Y si ahora mismo estás con alguien, ve directo al de 4 semanas, que está en el mismo módulo.');
+        paso(b('Tu siguiente paso: el reto de 7 días para retener.') + ' Una semana para mirar qué pasó las últimas veces y qué vas a hacer distinto. Y si ahora mismo estás con alguien, ve directo al de 4 semanas, que está en el mismo módulo.');
       } else if (p === 'S') {
         P.push('Lo primero es estar en una app. Pero no te la descargues esta noche y subas lo primero que tengas en la galería: ' + b('primero se construye la imagen, y después se abre la app.'));
-        P.push(b('Tu siguiente paso: el reto de 7 días de tu primer perfil.') + ' Al séptimo día tienes un perfil hecho bien desde cero, y un número que te dice por dónde seguir.');
+        paso(b('Tu siguiente paso: el reto de 7 días de tu primer perfil.') + ' Al séptimo día tienes un perfil hecho bien desde cero, y un número que te dice por dónde seguir.');
       }
       if (sec) P.push(sec);
     }
-    P.push(opciones.pagina === 'publica'
-      ? 'Te recomiendo empezar por aquí.'
-      : 'Te recomiendo empezar por aquí. Si prefieres otra cosa, toda la biblioteca está abierta.');
+    if (opciones.pagina !== 'publica') P.push('Te recomiendo empezar por aquí. Si prefieres otra cosa, toda la biblioteca está abierta.');
 
     var aviso = r.bajaConfianza ? [
       'Por cómo has contestado, este resultado puede no ser del todo fiable: has ido muy rápido, o algunas respuestas no encajan entre sí.',
@@ -822,6 +833,7 @@
     return {
       titulo: TITULOS[p],
       clave: clave,
+      gancho: (GANCHO[p] || GANCHO.ajuste)[s] || (GANCHO[p] || GANCHO.ajuste).h,
       reto: reto[s],
       retoNombre: reto.nombre,
       modulo: reto.modulo,

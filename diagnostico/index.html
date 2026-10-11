@@ -73,10 +73,11 @@
       </div>
 
       <figure class="video-web">
-        <video controls playsinline preload="none" poster="/assets/video/bienvenida-poster.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa y por qué empezar por el diagnóstico">
+        <video controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa y por qué empezar por el diagnóstico">
           <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4" type="video/mp4">
           <source src="/assets/video/bienvenida.mp4" type="video/mp4">
         </video>
+        <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
       </figure>
 
       <div class="carta destacada">
@@ -92,8 +93,8 @@
       </div>
 
       <div class="carta" id="datos">
-        <h3>¿Te lo guardo?</h3>
-        <p>Déjame tu nombre y tu email y te mando tu resultado y lo que viene después.</p>
+        <h3>¿Quieres saber qué cambiar exactamente?</h3>
+        <p>Déjame tu correo y te mando los 7 cambios que tienes que hacer para <span id="gancho">darle la vuelta a esto</span>. Después, un consejo práctico de cada uno.</p>
         <form id="formDatos" novalidate>
           <label class="campo">Nombre
             <input type="text" id="nombre" name="nombre" autocomplete="given-name" required maxlength="80">
@@ -105,9 +106,9 @@
             <input type="checkbox" id="acepto" name="acepto" required>
             <span>Acepto que Jose Pico guarde mi nombre, mi email y mi resultado para escribirme sobre el diagnóstico y el programa. Me puedo dar de baja cuando quiera. Lo explico todo en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
           </label>
-          <button type="submit" class="boton ancho">Guardar mi resultado</button>
+          <button type="submit" class="boton ancho">Mándame los 7 cambios</button>
         </form>
-        <p class="pronto" id="enviado" hidden>Hecho: guardado</p>
+        <p class="pronto" id="enviado" hidden>Hecho. En unos minutos te llega el primer correo (si no lo ves, mira en promociones o spam).</p>
       </div>
 
       <button type="button" class="enlace" id="volver">← Cambiar la última respuesta</button>
@@ -126,7 +127,7 @@
   </footer>
 
 </div>
-<script src="/assets/diagnostico.js?v=5"></script>
-<script src="/assets/diagnostico-ui.js?v=6"></script>
+<script src="/assets/diagnostico.js?v=6"></script>
+<script src="/assets/diagnostico-ui.js?v=7"></script>
 </body>
 </html>
