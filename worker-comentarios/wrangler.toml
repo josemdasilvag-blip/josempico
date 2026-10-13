@@ -1,0 +1,17 @@
+# Worker josepico-comentarios: comentario con palabra clave en Instagram → DM (ver worker.js).
+# Secretos: IG_TOKEN (token de Instagram, lo pone Jose) y CLAVE_ESTADO (para ver /api/comentarios/estado).
+name = "josepico-comentarios"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+routes = [
+  { pattern = "josempico.com/api/comentarios*", zone_name = "josempico.com" },
+]
+
+# Cada 5 minutos.
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[kv_namespaces]]
+binding = "ESTADO"
+id = "b558b5786ec5415d8b1e842e3a544855"

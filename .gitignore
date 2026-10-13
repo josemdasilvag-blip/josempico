@@ -4,3 +4,5 @@ testimonios.html
 docs/
 .claude/
 worker-correo/.wrangler/
+worker-comentarios/.clave-estado.txt
+worker-comentarios/.wrangler/
