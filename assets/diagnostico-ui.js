@@ -88,12 +88,22 @@
     };
   }
 
+  // Contador en Umami (lo ve Jose en Events). Sin datos personales; si Umami no está, no hace nada.
+  function cuenta(evento) {
+    try {
+      if (window.umami && typeof window.umami.track === 'function') {
+        window.umami.track(evento, { resultado: informe.titulo, sexo: resp.G0 === 'm' ? 'mujer' : 'hombre', pagina: PAGINA });
+      }
+    } catch (e) { /* medir nunca rompe el diagnóstico */ }
+  }
+
   // Al contestar la última: el resultado sale directamente, sin pedir nada.
   function termina() {
     limpia();
     resultado = D.calcula(resp, meta());
     informe = D.informe(resultado, resp, { pagina: PAGINA });
     muestra();
+    cuenta('diagnostico-completado');
   }
 
   // El email es opcional y va debajo del resultado.
@@ -114,6 +124,7 @@
     });
     form.hidden = true;
     $('enviado').hidden = false;
+    cuenta('diagnostico-correo');
   }
 
   function parrafo(html, clase) {
