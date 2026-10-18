@@ -187,7 +187,7 @@
       'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n\n' +
       'Mi resultado: ' + informe.titulo + '\n\n' +
       explicacion + '\n\n' +
-      'Quiero la llamada gratis de 30 minutos.';
+      'Quiero la llamada de 30 minutos.';
     // Se abre en la misma pestaña: las ventanas nuevas las bloquean algunos navegadores.
     ev.preventDefault();
     window.location.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
