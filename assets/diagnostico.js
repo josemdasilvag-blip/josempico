@@ -617,12 +617,12 @@
   };
 
   var RETOS = {
-    P1: { h: '51', m: '51b', nombre: 'el reto de 7 días de imagen', modulo: 'Módulo 1 · Tu imagen y tu mejor versión' },
-    P2: { h: '48', m: '48b', nombre: 'el reto de 7 días de perfil', modulo: 'Módulo 2 · Tu perfil digital' },
-    P3: { h: '49', m: '49b', nombre: 'el reto de 7 días de conversaciones', modulo: 'Módulo 4 · Primeras conversaciones' },
-    P4: { h: '50', m: '50b', nombre: 'el reto de 7 días de citas', modulo: 'Módulo 5 · La cita y mantener el interés inicial' },
-    P5: { h: '58b', m: '58b', nombre: 'el reto de 7 días para retener', modulo: 'Módulo 6 · Retener, cuando ya llevan un tiempo saliendo' },
-    S: { h: '57', m: '57b', nombre: 'el reto de 7 días de tu primer perfil', modulo: 'Módulo 2 · Tu perfil digital' }
+    P1: { h: '51', m: '51b', nombre: 'el reto de 7 días de imagen', modulo: 'Módulo 2 · Tu imagen y tu mejor versión' },
+    P2: { h: '48', m: '48b', nombre: 'el reto de 7 días de perfil', modulo: 'Módulo 3 · Tu perfil digital' },
+    P3: { h: '49', m: '49b', nombre: 'el reto de 7 días de conversaciones', modulo: 'Módulo 5 · Primeras conversaciones' },
+    P4: { h: '50', m: '50b', nombre: 'el reto de 7 días de citas', modulo: 'Módulo 6 · La cita y mantener el interés inicial' },
+    P5: { h: '58b', m: '58b', nombre: 'el reto de 7 días para retener', modulo: 'Módulo 7 · Retener, cuando ya llevan un tiempo saliendo' },
+    S: { h: '57', m: '57b', nombre: 'el reto de 7 días de tu primer perfil', modulo: 'Módulo 3 · Tu perfil digital' }
   };
 
   // Nombres de etapa del borrador; P5 y S no tienen nombre en el borrador (ver notas).
