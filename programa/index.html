@@ -32,6 +32,9 @@
   .precios .acciones{margin:20px 0 4px}
   .carta .cuotas{font-size:14px;color:var(--pebble);margin:0}
   .cuotas a{color:var(--ash)}
+  #precios[hidden]{display:none}
+  .moneda{font-size:14px;color:var(--pebble);margin:8px 0 0}
+  .moneda button{font:inherit;color:var(--ash);background:none;border:0;padding:0;border-bottom:1px solid var(--iron);cursor:pointer}
   .modulos{display:grid;gap:12px;margin:24px 0;padding:0;list-style:none}
   @media(min-width:720px){.modulos{grid-template-columns:1fr 1fr}}
   .modulos li{background:var(--charcoal);border:1px solid var(--borde);border-radius:8px;padding:20px 22px}
@@ -52,11 +55,7 @@
   "name": "Atraer, mantener y retener: ligar y conseguir pareja",
   "url": "https://josempico.com/programa/",
   "brand": {"@type": "Person", "name": "Jose Pico"},
-  "description": "Programa para ligar y conseguir pareja, paso a paso, con versión para hombres y para mujeres.",
-  "offers": [
-    {"@type": "Offer", "name": "Programa completo", "price": "397", "priceCurrency": "EUR", "url": "https://pay.hotmart.com/D107845267A?off=c4ljuhys"},
-    {"@type": "Offer", "name": "Módulo suelto", "price": "87", "priceCurrency": "EUR"}
-  ]
+  "description": "Programa para ligar y conseguir pareja, paso a paso, con versión para hombres y para mujeres."
 }
 </script>
 </head>
@@ -97,8 +96,8 @@
   <section class="estrecho">
     <figure class="video-web">
       <video controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa">
-        <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4" type="video/mp4">
-        <source src="/assets/video/bienvenida.mp4" type="video/mp4">
+        <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4?v=20261019" type="video/mp4">
+        <source src="/assets/video/bienvenida.mp4?v=20261019" type="video/mp4">
       </video>
         <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
     </figure>
@@ -197,14 +196,15 @@
     </div>
   </section>
 
-  <section class="estrecho" id="precios">
+  <section class="estrecho" id="precios" hidden>
     <p class="kicker">Opciones</p>
     <h2>Elige cómo <em>quieres</em> entrar</h2>
+    <p class="moneda"><span data-eur="Precios para España y Europa, en euros." data-usd="Precios para Latinoamérica, en dólares (US$).">Precios para España y Europa, en euros.</span> <button type="button" id="otra-moneda" data-eur="¿Estás en Latinoamérica? Ver precios en US$" data-usd="¿Estás en España o en Europa? Ver precios en €">¿Estás en Latinoamérica? Ver precios en US$</button></p>
 
     <div class="precios">
       <div class="carta">
         <h3>Programa completo</h3>
-        <p class="importe">397 € <small>IVA incluido</small></p>
+        <p class="importe"><span data-eur="397 €" data-usd="247 US$">397 €</span> <small data-eur="IVA incluido" data-usd="pago único">IVA incluido</small></p>
         <p>Los 9 módulos, a tu ritmo.</p>
         <ul class="marcas">
           <li>Diagnóstico para saber por dónde empezar</li>
@@ -212,8 +212,8 @@
           <li>Un directo grupal de preguntas al mes durante 3 meses</li>
           <li>Al terminarlo, una sesión privada de evaluación conmigo</li>
         </ul>
-        <div class="acciones"><a class="boton hueco" href="https://pay.hotmart.com/D107845267A?off=c4ljuhys">Entrar al programa</a></div>
-        <p class="cuotas">¿Mejor a plazos? <a href="https://pay.hotmart.com/D107845267A?off=pai40vth">Hasta 6 cuotas</a> (con recargo de Hotmart).</p>
+        <div class="acciones"><a class="boton hueco" href="https://pay.hotmart.com/D107845267A?off=c4ljuhys" data-eur="https://pay.hotmart.com/D107845267A?off=c4ljuhys" data-usd="https://pay.hotmart.com/D107845267A?off=npb3i8p0">Entrar al programa</a></div>
+        <p class="cuotas">¿Mejor a plazos? <a href="https://pay.hotmart.com/D107845267A?off=pai40vth" data-eur="https://pay.hotmart.com/D107845267A?off=pai40vth" data-usd="https://pay.hotmart.com/D107845267A?off=frrbnzti">Hasta 6 cuotas</a> (con recargo de Hotmart).</p>
       </div>
 
       <div class="carta destacada">
@@ -230,17 +230,17 @@
       </div>
     </div>
 
-    <h3>O solo el módulo que te hace falta · 87 €</h3>
+    <h3>O solo el módulo que te hace falta · <span data-eur="87 €" data-usd="47 US$">87 €</span></h3>
     <p>Si ya sabes dónde se te cae, entra solo a ese módulo. Cada uno incluye también el módulo 0, con el diagnóstico, y al completarlo, una sesión privada de evaluación conmigo.</p>
     <ul class="modulos">
-      <li><h3>1 · Mentalidad y creencias</h3><p>Las ideas que te frenan para atraer, y por qué cuidar tu imagen no te quita valores.</p><a href="https://pay.hotmart.com/D107845267A?off=dpvsxtk6">Comprar · 87 €</a></li>
-      <li><h3>2 · Tu imagen</h3><p>Imagen física, seguridad, presencia y en qué se fijan primero.</p><a href="https://pay.hotmart.com/D107845267A?off=xssoijij">Comprar · 87 €</a></li>
-      <li><h3>3 · Tu perfil digital</h3><p>Fotos, bio, qué app usar, Instagram y cuántos matches son normales.</p><a href="https://pay.hotmart.com/D107845267A?off=489cbjw3">Comprar · 87 €</a></li>
-      <li><h3>4 · Elegir bien</h3><p>Qué buscas de verdad, atracción y conexión, y las red flags.</p><a href="https://pay.hotmart.com/D107845267A?off=xrwynzyv">Comprar · 87 €</a></li>
-      <li><h3>5 · Conversaciones</h3><p>El primer mensaje, sacar la cita y salir de la app.</p><a href="https://pay.hotmart.com/D107845267A?off=ed35i89a">Comprar · 87 €</a></li>
-      <li><h3>6 · La cita</h3><p>La primera, la segunda y la tercera, y leer el interés real.</p><a href="https://pay.hotmart.com/D107845267A?off=aiuzjrqt">Comprar · 87 €</a></li>
-      <li><h3>7 · Retener</h3><p>Que no se apague, la exclusividad y discutir bien.</p><a href="https://pay.hotmart.com/D107845267A?off=f4ne3nso">Comprar · 87 €</a></li>
-      <li><h3>8 · Patrones y mindset</h3><p>Ghosting, límites, cuándo cortar, el rechazo y el desgaste.</p><a href="https://pay.hotmart.com/D107845267A?off=9by2lzfa">Comprar · 87 €</a></li>
+      <li><h3>1 · Mentalidad y creencias</h3><p>Las ideas que te frenan para atraer, y por qué cuidar tu imagen no te quita valores.</p><a href="https://pay.hotmart.com/D107845267A?off=dpvsxtk6" data-eur="https://pay.hotmart.com/D107845267A?off=dpvsxtk6" data-usd="https://pay.hotmart.com/D107845267A?off=mbl95vn3"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>2 · Tu imagen</h3><p>Imagen física, seguridad, presencia y en qué se fijan primero.</p><a href="https://pay.hotmart.com/D107845267A?off=xssoijij" data-eur="https://pay.hotmart.com/D107845267A?off=xssoijij" data-usd="https://pay.hotmart.com/D107845267A?off=y0btcjir"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>3 · Tu perfil digital</h3><p>Fotos, bio, qué app usar, Instagram y cuántos matches son normales.</p><a href="https://pay.hotmart.com/D107845267A?off=489cbjw3" data-eur="https://pay.hotmart.com/D107845267A?off=489cbjw3" data-usd="https://pay.hotmart.com/D107845267A?off=cbld8wm7"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>4 · Elegir bien</h3><p>Qué buscas de verdad, atracción y conexión, y las red flags.</p><a href="https://pay.hotmart.com/D107845267A?off=xrwynzyv" data-eur="https://pay.hotmart.com/D107845267A?off=xrwynzyv" data-usd="https://pay.hotmart.com/D107845267A?off=cc8dam0s"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>5 · Conversaciones</h3><p>El primer mensaje, sacar la cita y salir de la app.</p><a href="https://pay.hotmart.com/D107845267A?off=ed35i89a" data-eur="https://pay.hotmart.com/D107845267A?off=ed35i89a" data-usd="https://pay.hotmart.com/D107845267A?off=f4aoi184"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>6 · La cita</h3><p>La primera, la segunda y la tercera, y leer el interés real.</p><a href="https://pay.hotmart.com/D107845267A?off=aiuzjrqt" data-eur="https://pay.hotmart.com/D107845267A?off=aiuzjrqt" data-usd="https://pay.hotmart.com/D107845267A?off=g1hb8nwi"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>7 · Retener</h3><p>Que no se apague, la exclusividad y discutir bien.</p><a href="https://pay.hotmart.com/D107845267A?off=f4ne3nso" data-eur="https://pay.hotmart.com/D107845267A?off=f4ne3nso" data-usd="https://pay.hotmart.com/D107845267A?off=418p3821"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
+      <li><h3>8 · Patrones y mindset</h3><p>Ghosting, límites, cuándo cortar, el rechazo y el desgaste.</p><a href="https://pay.hotmart.com/D107845267A?off=9by2lzfa" data-eur="https://pay.hotmart.com/D107845267A?off=9by2lzfa" data-usd="https://pay.hotmart.com/D107845267A?off=9dsw32zm"><span data-eur="Comprar · 87 €" data-usd="Comprar · 47 US$">Comprar · 87 €</span></a></li>
     </ul>
 
     <div class="nota">
@@ -309,5 +309,32 @@
   </footer>
 
 </div>
+<script>
+/* Precios ocultos: solo con ?reserva (enlace que manda Jose tras la llamada).
+   Moneda según el país (Cloudflare /cdn-cgi/trace). ?reserva=usd o ?reserva=eur la fuerza. */
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(!q.has("reserva"))return;
+  var sec=document.getElementById("precios");
+  sec.hidden=false;
+  var LATAM="MX GT SV HN NI CR PA CU DO PR CO VE EC PE BO CL AR UY PY BR".split(" ");
+  var actual="eur";
+  function poner(m){
+    actual=m;
+    sec.querySelectorAll("[data-eur]").forEach(function(el){
+      var v=el.getAttribute("data-"+m);
+      if(el.tagName==="A")el.href=v;else el.textContent=v;
+    });
+  }
+  document.getElementById("otra-moneda").addEventListener("click",function(){poner(actual==="eur"?"usd":"eur")});
+  var f=(q.get("reserva")||"").toLowerCase();
+  if(f==="usd"||f==="eur"){poner(f)}
+  else fetch("/cdn-cgi/trace").then(function(r){return r.text()}).then(function(t){
+    var m=t.match(/^loc=([A-Z]{2})$/m);
+    if(m&&LATAM.indexOf(m[1])>-1)poner("usd");
+  }).catch(function(){});
+  sec.scrollIntoView();
+})();
+</script>
 </body>
 </html>
