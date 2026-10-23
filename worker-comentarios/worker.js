@@ -13,7 +13,7 @@
 
 const API = 'https://graph.instagram.com/v23.0';
 
-// Palabras clave → mensaje privado. Se comparan sin tildes ni mayúsculas y por «contiene».
+// Palabras clave → mensaje privado. Se comparan sin tildes ni mayúsculas y como palabras completas.
 const REGLAS = [
   {
     palabras: ['diagnostico', 'recurso'],
@@ -21,6 +21,12 @@ const REGLAS = [
         'Son 3 minutos y te dice dónde se te está cayendo todo: la imagen, el perfil, las conversaciones o la cita.\n\n' +
         'Al final tienes una llamada conmigo para verlo juntos.',
     respuesta: '¡Te lo acabo de mandar por DM! 📩',
+  },
+  {
+    palabras: ['guia'],
+    dm: '¡Hola! 🙌 Aquí tienes la guía:\n\nhttps://josempico.com/recursos/guia-patrones-de-interes.pdf\n\n' +
+        'Léela con calma y, si te surge cualquier duda, me escribes por aquí.',
+    respuesta: '¡Te la acabo de mandar por DM! 📩',
   },
 ];
 
@@ -33,7 +39,7 @@ export const normaliza = s => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
 
 export function regla(texto) {
   const t = normaliza(texto);
-  return REGLAS.find(r => r.palabras.some(p => t.includes(p))) || null;
+  return REGLAS.find(r => r.palabras.some(p => new RegExp(`\\b${p}\\b`).test(t))) || null;
 }
 
 async function ig(env, token, ruta, opciones = {}) {
