@@ -24,7 +24,7 @@ const REGLAS = [
   },
   {
     palabras: ['guia'],
-    dm: '¡Hola! 🙌 Aquí tienes la guía:\n\nhttps://josempico.com/recursos/guia-patrones-de-interes.pdf\n\n' +
+    dm: '¡Hola! 🙌 Aquí tienes la guía:\n\nhttps://josempico.com/recursos/guia-patrones-de-interes.pdf?v=6e5ec82\n\n' +
         'Léela con calma y, si te surge cualquier duda, me escribes por aquí.',
     respuesta: '¡Te la acabo de mandar por DM! 📩',
   },
