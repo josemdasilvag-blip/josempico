@@ -16,7 +16,7 @@ const API = 'https://graph.instagram.com/v23.0';
 // Palabras clave → mensaje privado. Se comparan sin tildes ni mayúsculas y como palabras completas.
 const REGLAS = [
   {
-    palabras: ['diagnostico', 'recurso'],
+    palabras: ['diagnostico'],
     dm: '¡Hola! 🙌 Aquí tienes el diagnóstico:\n\njosempico.com/diagnostico/?utm_source=instagram\n\n' +
         'Son 3 minutos y te dice dónde se te está cayendo todo: la imagen, el perfil, las conversaciones o la cita.\n\n' +
         'Al final tienes una llamada conmigo para verlo juntos.',
@@ -25,6 +25,12 @@ const REGLAS = [
   {
     palabras: ['guia'],
     dm: '¡Hola! 🙌 Aquí tienes la guía:\n\nhttps://josempico.com/recursos/guia-patrones-de-interes.pdf?v=6e5ec82\n\n' +
+        'Léela con calma y, si te surge cualquier duda, me escribes por aquí.',
+    respuesta: '¡Te la acabo de mandar por DM! 📩',
+  },
+  {
+    palabras: ['recurso'],
+    dm: '¡Hola! 🙌 Aquí tienes la guía:\n\nhttps://josempico.com/recursos/guia-cuando-se-apaga.pdf?v=620b79f\n\n' +
         'Léela con calma y, si te surge cualquier duda, me escribes por aquí.',
     respuesta: '¡Te la acabo de mandar por DM! 📩',
   },
