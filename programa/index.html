@@ -199,7 +199,7 @@
   <section class="estrecho" id="precios" hidden>
     <p class="kicker">Opciones</p>
     <h2>Elige cómo <em>quieres</em> entrar</h2>
-    <p class="moneda"><span data-eur="Precios para España y Europa, en euros." data-usd="Precios para Latinoamérica, en dólares (US$).">Precios para España y Europa, en euros.</span> <button type="button" id="otra-moneda" data-eur="¿Estás en Latinoamérica? Ver precios en US$" data-usd="¿Estás en España o en Europa? Ver precios en €">¿Estás en Latinoamérica? Ver precios en US$</button></p>
+    <p class="moneda"><span data-eur="Precios en euros." data-usd="Precios en dólares (US$).">Precios en euros.</span></p>
 
     <div class="precios">
       <div class="carta">
@@ -312,28 +312,19 @@
 </div>
 <script>
 /* Precios ocultos: solo con ?reserva (enlace que manda Jose tras la llamada).
-   Moneda según el país (Cloudflare /cdn-cgi/trace). ?reserva=usd o ?reserva=eur la fuerza. */
+   ?reserva → euros (España y Europa). ?reserva=usd → dólares (Latinoamérica).
+   Sin cambio de moneda en la página: cada persona ve solo los precios de su enlace. */
 (function(){
   var q=new URLSearchParams(location.search);
   if(!q.has("reserva"))return;
   var sec=document.getElementById("precios");
   sec.hidden=false;
-  var LATAM="MX GT SV HN NI CR PA CU DO PR CO VE EC PE BO CL AR UY PY BR".split(" ");
-  var actual="eur";
-  function poner(m){
-    actual=m;
-    sec.querySelectorAll("[data-eur]").forEach(function(el){
-      var v=el.getAttribute("data-"+m);
+  if((q.get("reserva")||"").toLowerCase()==="usd"){
+    sec.querySelectorAll("[data-usd]").forEach(function(el){
+      var v=el.getAttribute("data-usd");
       if(el.tagName==="A")el.href=v;else el.textContent=v;
     });
   }
-  document.getElementById("otra-moneda").addEventListener("click",function(){poner(actual==="eur"?"usd":"eur")});
-  var f=(q.get("reserva")||"").toLowerCase();
-  if(f==="usd"||f==="eur"){poner(f)}
-  else fetch("/cdn-cgi/trace").then(function(r){return r.text()}).then(function(t){
-    var m=t.match(/^loc=([A-Z]{2})$/m);
-    if(m&&LATAM.indexOf(m[1])>-1)poner("usd");
-  }).catch(function(){});
   sec.scrollIntoView();
   /* En el móvil las imágenes de arriba cargan después y empujan los precios: volver a bajar, salvo que ya se haya movido. */
   var movido=false;
