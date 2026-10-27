@@ -335,6 +335,12 @@
     if(m&&LATAM.indexOf(m[1])>-1)poner("usd");
   }).catch(function(){});
   sec.scrollIntoView();
+  /* En el móvil las imágenes de arriba cargan después y empujan los precios: volver a bajar, salvo que ya se haya movido. */
+  var movido=false;
+  ["touchstart","wheel","keydown"].forEach(function(e){addEventListener(e,function(){movido=true},{once:true,passive:true})});
+  function otraVez(){if(!movido)sec.scrollIntoView()}
+  addEventListener("load",otraVez);
+  setTimeout(otraVez,1200);
 })();
 </script>
 </body>
