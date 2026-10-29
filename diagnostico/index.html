@@ -80,7 +80,15 @@
         <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
       </figure>
 
-      <div class="carta destacada">
+      <div class="carta destacada" id="cartaAcompanamiento" hidden>
+        <h3>Trabajemos tu caso</h3>
+        <p>Con este resultado ya sabemos por dónde empezar. Mira cómo trabajaríamos tu caso juntos y, si encaja contigo, pide tu llamada de 30 minutos conmigo.</p>
+        <div class="acciones">
+          <a class="boton" href="/acompanamiento/?origen=diagnostico" data-umami-event="diagnostico_a_acompanamiento">Ver cómo trabajaríamos tu caso</a>
+        </div>
+      </div>
+
+      <div class="carta destacada" id="cartaWhatsApp">
         <h3>Revisa tu resultado conmigo</h3>
         <p>Una llamada de 30 minutos para verlo con tu caso delante. Escribe tu nombre, pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
         <label class="campo">Tu nombre
@@ -128,6 +136,6 @@
 
 </div>
 <script src="/assets/diagnostico.js?v=7"></script>
-<script src="/assets/diagnostico-ui.js?v=9"></script>
+<script src="/assets/diagnostico-ui.js?v=10"></script>
 </body>
 </html>

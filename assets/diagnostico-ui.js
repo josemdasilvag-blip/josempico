@@ -151,6 +151,12 @@
     } else {
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
+      // Mujeres: la campaña las lleva a la landing del acompañamiento. Hombres: llamada por WhatsApp.
+      if ($('cartaAcompanamiento')) {
+        var mujer = resp.G0 === 'm';
+        $('cartaAcompanamiento').hidden = !mujer;
+        $('cartaWhatsApp').hidden = mujer;
+      }
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
     // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.

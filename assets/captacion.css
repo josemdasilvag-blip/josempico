@@ -1,0 +1,52 @@
+/* Jose Pico · recorrido de solicitud. Complementa /assets/estilo.css. */
+.embudo{max-width:1080px;margin:0 auto}
+.embudo .hero{padding:24px 0 56px;border-bottom:1px solid var(--borde)}
+.embudo .hero .kicker{margin-bottom:20px}
+.embudo .hero h1{max-width:980px}
+.embudo .hero .entradilla{max-width:720px}
+.embudo section{padding:64px 0;border-bottom:1px solid var(--borde)}
+.embudo section:last-of-type{border-bottom:0}
+.embudo .bloque-corto{max-width:720px}
+.embudo .marcador{font:700 11px/1.4 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--pebble);margin:0 0 20px}
+.embudo .pasos-linea{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;list-style:none;padding:0;margin:36px 0 0}
+.embudo .pasos-linea li{border-top:1px solid var(--iron);padding:17px 14px 8px 0;color:var(--ash);font-size:15px;line-height:1.45}
+.embudo .pasos-linea strong{display:block;font-size:11px;letter-spacing:.2em;color:var(--bone);margin-bottom:8px}
+.embudo .dos-columnas{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:42px;align-items:center}
+.embudo .foto-jose{margin:0;background:var(--charcoal);border:1px solid var(--borde);border-radius:8px;overflow:hidden}
+.embudo .foto-jose img{display:block;width:100%;max-height:500px;object-fit:cover}
+.embudo .foto-jose figcaption{padding:11px 15px;font-size:12px;letter-spacing:.08em;color:var(--pebble)}
+.embudo .lista-simple{list-style:none;margin:24px 0;padding:0}
+.embudo .lista-simple li{padding:14px 0;border-top:1px solid var(--borde);color:var(--ash)}
+.embudo .lista-simple li:last-child{border-bottom:1px solid var(--borde)}
+.embudo .lista-simple b{color:var(--bone)}
+.embudo .resalte{background:var(--charcoal);border:1px solid var(--borde);border-left:2px solid var(--rojo);border-radius:8px;padding:26px 30px}
+.embudo .resalte p:last-child{margin-bottom:0}
+.embudo .precio{font-size:clamp(40px,7vw,74px);font-weight:700;letter-spacing:-.07em;line-height:1;margin:18px 0 8px}
+.embudo .precio small{font-size:15px;font-weight:400;letter-spacing:0;color:var(--pebble)}
+.embudo .tarifas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+.embudo .tarifas p{display:flex;flex-direction:column;gap:6px;border:1px solid var(--borde);border-radius:6px;padding:18px;margin:0}
+.embudo .tarifas span,.embudo .tarifas small{font-size:13px;color:var(--pebble)}
+.embudo .tarifas strong{font-size:clamp(27px,4vw,42px);line-height:1.1;letter-spacing:-.05em;color:var(--bone)}
+@media(max-width:520px){.embudo .tarifas{grid-template-columns:1fr}}
+.embudo .nota{font-size:14px;color:var(--pebble);line-height:1.6}
+.embudo .video-marco{background:#000;border:1px solid var(--iron);border-radius:8px;overflow:hidden;margin:28px 0}
+.embudo .video-marco video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.embudo .video-resumen{min-height:320px;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,6vw,64px);background:var(--charcoal)}
+.embudo .video-resumen p{max-width:600px;margin:0 0 14px;color:var(--ash)}
+.embudo .video-resumen h2{max-width:670px}
+.embudo .solicitud-marco{max-width:760px;margin:26px auto 0;border:1px solid var(--borde);border-radius:8px;background:var(--void);padding:16px}
+.embudo .solicitud-marco iframe{width:100%;min-height:1080px;border:0;display:block;background:#080808;color-scheme:light}/* igual que Tally: si no coinciden, Chrome pinta un fondo blanco detrás de su letra blanca */
+.embudo .agenda-marco{max-width:900px;margin:26px auto 0;border:1px solid var(--borde);border-radius:8px;background:var(--charcoal);overflow:hidden}
+.embudo .agenda-marco iframe{width:100%;min-height:760px;border:0;display:block;background:#fff}
+.embudo .confirmacion-sello{display:inline-block;border:1px solid var(--rojo);border-radius:4px;padding:7px 12px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;margin-bottom:26px}
+.embudo details{padding:18px 0;border-bottom:1px solid var(--borde)}
+.embudo details summary{cursor:pointer;font-weight:700}
+.embudo details p{color:var(--ash);margin-bottom:0}
+.embudo a:focus-visible,.embudo summary:focus-visible{outline:2px solid var(--rojo);outline-offset:4px}
+@media(max-width:760px){
+  .embudo section{padding:48px 0}
+  .embudo .dos-columnas{grid-template-columns:1fr;gap:24px}
+  .embudo .pasos-linea{grid-template-columns:1fr 1fr;gap:6px 16px}
+  .embudo .solicitud-marco{padding:4px}
+}
+@media(max-width:480px){.embudo .pasos-linea{grid-template-columns:1fr}.embudo .video-resumen{min-height:270px}}
