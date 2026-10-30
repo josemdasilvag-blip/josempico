@@ -30,7 +30,7 @@
 @media(max-width:520px){.embudo .tarifas{grid-template-columns:1fr}}
 .embudo .nota{font-size:14px;color:var(--pebble);line-height:1.6}
 .embudo .video-marco{background:#000;border:1px solid var(--iron);border-radius:8px;overflow:hidden;margin:28px 0}
-.embudo .video-marco video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.embudo .video-marco video,.embudo .video-marco iframe{display:block;width:100%;aspect-ratio:16/9;border:0;background:#000}
 .embudo .video-resumen{min-height:320px;display:flex;flex-direction:column;justify-content:center;padding:clamp(28px,6vw,64px);background:var(--charcoal)}
 .embudo .video-resumen p{max-width:600px;margin:0 0 14px;color:var(--ash)}
 .embudo .video-resumen h2{max-width:670px}
