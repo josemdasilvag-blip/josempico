@@ -151,11 +151,13 @@
     } else {
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
-      // Mujeres: la campaña las lleva a la landing del acompañamiento. Hombres: llamada por WhatsApp.
+      // La campaña lleva a cada uno a su landing del acompañamiento (páginas separadas por sexo).
       if ($('cartaAcompanamiento')) {
         var mujer = resp.G0 === 'm';
-        $('cartaAcompanamiento').hidden = !mujer;
-        $('cartaWhatsApp').hidden = mujer;
+        var enlace = $('cartaAcompanamiento').querySelector('a.boton');
+        enlace.href = (mujer ? '/acompanamiento/' : '/acompanamiento-hombre/') + '?origen=diagnostico';
+        $('cartaAcompanamiento').hidden = false;
+        $('cartaWhatsApp').hidden = true;
       }
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
