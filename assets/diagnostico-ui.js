@@ -175,7 +175,10 @@
     $('empezar').focus();
   }
 
-  $('empezar').onclick = function () { ver('test'); pinta(); };
+  $('empezar').onclick = function () {
+    if (window.umami && typeof window.umami.track === 'function') window.umami.track('diagnostico-iniciado', { pagina: PAGINA });
+    ver('test'); pinta();
+  };
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
   $('otra').onclick = otraVez;

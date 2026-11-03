@@ -41,16 +41,18 @@
     caja.id = 'avisoCookies';
     caja.setAttribute('role', 'dialog');
     caja.setAttribute('aria-label', 'Aviso de cookies');
-    caja.style.cssText = 'position:fixed;left:16px;right:16px;bottom:16px;z-index:9999;max-width:560px;margin:0 auto;' +
-      'background:#171617;color:#fcfcfc;border:1px solid #525252;border-radius:8px;padding:18px 20px;' +
-      'font:14px/1.5 Inter,system-ui,sans-serif;box-shadow:0 8px 30px rgba(0,0,0,.5)';
+    // Arriba y compacto: abajo tapaba el botón «Empezar» del diagnóstico en el móvil.
+    caja.style.cssText = 'position:fixed;left:0;right:0;top:0;z-index:9999;background:#171617;color:#fcfcfc;' +
+      'border-bottom:1px solid #525252;padding:10px 16px;font:13px/1.4 Inter,system-ui,sans-serif;' +
+      'display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 4px 18px rgba(0,0,0,.5)';
+    var boton = 'padding:7px 14px;border-radius:6px;font:inherit;cursor:pointer;';
     caja.innerHTML =
-      '<p style="margin:0 0 14px">Uso cookies de Meta para saber qué anuncios te traen hasta aquí y mostrar los míos ' +
-      'a quien le puedan servir. Solo se activan si aceptas. <a href="/privacidad/#cookies" style="color:#c9a961">Más información</a>.</p>' +
-      '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
-      '<button type="button" data-v="si" style="flex:1;min-width:120px;padding:11px;border-radius:8px;border:0;background:#c9a961;color:#080808;font-weight:700;cursor:pointer">Aceptar</button>' +
-      '<button type="button" data-v="no" style="flex:1;min-width:120px;padding:11px;border-radius:8px;border:1px solid #525252;background:transparent;color:#fcfcfc;cursor:pointer">Rechazar</button>' +
-      '</div>';
+      '<span style="flex:1 1 220px;max-width:560px">Uso cookies de Meta para medir mis anuncios. ' +
+      '<a href="/privacidad/#cookies" style="color:#c9a961">Más info</a></span>' +
+      '<span style="display:flex;gap:8px">' +
+      '<button type="button" data-v="si" style="' + boton + 'border:0;background:#c9a961;color:#080808;font-weight:700">Aceptar</button>' +
+      '<button type="button" data-v="no" style="' + boton + 'border:1px solid #525252;background:transparent;color:#fcfcfc">Rechazar</button>' +
+      '</span>';
     caja.addEventListener('click', function (e) {
       var v = e.target.getAttribute && e.target.getAttribute('data-v');
       if (!v) return;
