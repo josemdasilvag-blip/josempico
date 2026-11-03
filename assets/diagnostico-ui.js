@@ -155,7 +155,7 @@
       if ($('cartaAcompanamiento')) {
         var mujer = resp.G0 === 'm';
         var enlace = $('cartaAcompanamiento').querySelector('a.boton');
-        enlace.href = (mujer ? '/acompanamiento/' : '/acompanamiento-hombre/') + '?origen=diagnostico';
+        enlace.href = (mujer ? '/prepara-tu-llamada/' : '/prepara-tu-llamada-hombre/') + '?origen=diagnostico';
         $('cartaAcompanamiento').hidden = false;
         $('cartaWhatsApp').hidden = true;
       }
