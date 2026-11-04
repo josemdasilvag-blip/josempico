@@ -387,9 +387,9 @@ const txt = h => h.replace(/<[^>]+>/g, '');
 const inf = (id, pagina, meta) => D.informe(calc(P[id], meta), P[id], { pagina: pagina || 'compradores' });
 
 test('informe: título, reto y módulo según principal y sexo', () => {
-  const a = inf('H10'); assert.equal(a.titulo, 'Las conversaciones se apagan'); assert.equal(a.reto, '49'); assert.equal(a.modulo, 'Módulo 4 · Primeras conversaciones');
+  const a = inf('H10'); assert.equal(a.titulo, 'Las conversaciones se apagan'); assert.equal(a.reto, '49'); assert.equal(a.modulo, 'Módulo 5 · Primeras conversaciones');
   const b = inf('M17'); assert.equal(b.reto, '48b');
-  const c = inf('M16'); assert.equal(c.reto, '57b'); assert.equal(c.modulo, 'Módulo 2 · Tu perfil digital');
+  const c = inf('M16'); assert.equal(c.reto, '57b'); assert.equal(c.modulo, 'Módulo 3 · Tu perfil digital');
   const d = inf('M22'); assert.equal(d.reto, '58b');
   const e = inf('H05'); assert.equal(e.reto, '51');
   const f = inf('H12'); assert.equal(f.titulo, 'No hay nada roto');
