@@ -106,7 +106,7 @@
     ] };
   }
   function preguntaFotos() {
-    return { texto: 'Cuando has quedado con alguien que conociste por una app o por redes, ¿te han dicho, o has notado, que no te parecías a tus fotos?', orden: true, ops: [
+    return { texto: 'Cuando has quedado con alguien que conociste por una app o por redes, ¿esa persona te ha dicho, o te ha dado a entender, que tú no te parecías a tus fotos?', orden: true, ops: [
       { id: 'nunca', texto: 'Nunca', v: null },
       { id: 'una', texto: 'Una vez', v: null },
       { id: 'mas_una', texto: 'Más de una vez', v: null },
