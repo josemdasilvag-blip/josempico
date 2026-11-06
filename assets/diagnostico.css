@@ -18,6 +18,8 @@
 .diag .boton{justify-content:center;cursor:pointer;min-height:48px}
 .diag button.boton{font-family:var(--sans)}
 .diag .boton.ancho{display:flex;width:100%}
+/* Botón de entrada: era una etiqueta pequeña de 12 px. Ahora es la acción clara de la portada. */
+.diag #empezar{font-size:15px;letter-spacing:.1em;min-height:58px;border-color:var(--rojo)}
 
 /* preguntas */
 .diag .barra-progreso{height:3px;background:var(--smoke);border-radius:2px;margin:0 0 32px;overflow:hidden}
