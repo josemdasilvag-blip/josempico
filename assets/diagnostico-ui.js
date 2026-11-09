@@ -17,6 +17,17 @@
   var ordenes = {};       // orden de opciones ya barajado por pregunta
   var inicio = 0;
   var resultado = null, informe = null;
+  // Objetivos (solo página pública): tras el fallo, 2 o 3 preguntas de qué quiere lograr.
+  var fase = 'diagnostico';   // 'diagnostico' | 'objetivos'
+  var objPreg = [], objIdx = 0, objResp = {}, ref = '';
+
+  function nuevoRef() {
+    try {
+      var a = new Uint8Array(16);
+      crypto.getRandomValues(a);
+      return Array.prototype.map.call(a, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+    } catch (e) { return ''; }
+  }
 
   function $(id) { return document.getElementById(id); }
 
@@ -65,6 +76,10 @@
   }
 
   function atras() {
+    if (fase === 'objetivos') {
+      if (objIdx > 0) { objIdx--; delete objResp[objPreg[objIdx].id]; pintaObj(); }
+      return;
+    }
     var h = historial.pop();
     if (!h) return;
     delete resp[h.q];
@@ -101,9 +116,50 @@
   function termina() {
     limpia();
     resultado = D.calcula(resp, meta());
-    informe = D.informe(resultado, resp, { pagina: PAGINA });
+    var preguntas = PAGINA === 'publica' ? D.objetivosDe(resp.G0, resultado.principal) : [];
+    if (preguntas.length) { empiezaObjetivos(preguntas); return; }
+    cierra();
+  }
+
+  function cierra() {
+    informe = D.informe(resultado, resp, { pagina: PAGINA, objetivos: PAGINA === 'publica' ? objResp : null });
     muestra();
     cuenta('diagnostico-completado');
+  }
+
+  // Preguntas de objetivo: se pintan en la misma pantalla de test, con su propio progreso.
+  function empiezaObjetivos(preguntas) {
+    fase = 'objetivos';
+    objPreg = preguntas; objIdx = 0; objResp = {};
+    ref = nuevoRef();
+    pintaObj();
+  }
+
+  function pintaObj() {
+    if (objIdx >= objPreg.length) {
+      fase = 'diagnostico';
+      D.guardarObjetivo({ ref: ref, sexo: resp.G0, principal: resultado.principal, respuestas: objResp,
+        pagina: PAGINA, fecha: new Date().toISOString() });
+      cierra();
+      return;
+    }
+    var q = objPreg[objIdx];
+    ver('test');
+    $('progreso').style.width = Math.round(objIdx / objPreg.length * 100) + '%';
+    $('barra').setAttribute('aria-valuenow', Math.round(objIdx / objPreg.length * 100));
+    $('enunciado').textContent = q.texto;
+    var cont = $('ops');
+    cont.innerHTML = '';
+    q.ops.forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'op';
+      b.textContent = o.texto;
+      b.onclick = function () { objResp[q.id] = o.id; objIdx++; pintaObj(); };
+      cont.appendChild(b);
+    });
+    $('atras').hidden = objIdx === 0;
+    $('enunciado').focus();
   }
 
   // El email es opcional y va debajo del resultado.
@@ -120,6 +176,7 @@
       reto: informe.reto,
       pagina: PAGINA,
       origen: 'diagnostico',
+      ref: ref,
       fecha: new Date().toISOString()
     });
     form.hidden = true;
@@ -172,6 +229,7 @@
 
   function otraVez() {
     resp = {}; historial = []; ordenes = {}; resultado = null; informe = null;
+    fase = 'diagnostico'; objPreg = []; objIdx = 0; objResp = {}; ref = '';
     ver('portada');
     $('empezar').focus();
   }

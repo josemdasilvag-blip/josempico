@@ -11,3 +11,16 @@ CREATE TABLE IF NOT EXISTS contactos (
   baja     INTEGER NOT NULL DEFAULT 0,
   token    TEXT NOT NULL UNIQUE
 );
+
+-- Qué quiere lograr cada persona en el diagnóstico (página pública). ref = id aleatorio de la visita.
+-- respuestas = JSON {pregunta: opción}; email y nombre se rellenan si luego deja su correo con ese ref.
+CREATE TABLE IF NOT EXISTS objetivos (
+  ref        TEXT PRIMARY KEY,
+  creado     INTEGER NOT NULL,
+  sexo       TEXT NOT NULL,
+  fallo      TEXT NOT NULL,
+  respuestas TEXT NOT NULL,
+  pagina     TEXT,
+  email      TEXT,
+  nombre     TEXT
+);

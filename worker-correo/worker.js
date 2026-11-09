@@ -119,6 +119,18 @@ function paginaBaja(ok) {
     { status: ok ? 200 : 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
 }
 
+// ---------- Objetivos del diagnóstico ----------
+// Qué quiere lograr cada persona (tabla objetivos). Sin correo: se guarda con su ref y, si luego deja
+// el correo en el mismo diagnóstico, el Worker lo une por ref.
+async function guardaObjetivo(env, d, h) {
+  if (!/^[a-f0-9]{32}$/.test(d.ref || '') || !['h', 'm'].includes(d.sexo)) return json({ ok: false, error: 'objetivo' }, 400, h);
+  const respuestas = JSON.stringify(d.respuestas || {}).slice(0, 2000);
+  await env.DB.prepare(
+    'INSERT OR IGNORE INTO objetivos (ref, creado, sexo, fallo, respuestas, pagina) VALUES (?, ?, ?, ?, ?, ?)'
+  ).bind(d.ref, Date.now(), d.sexo, corto(d.principal, 20), respuestas, corto(d.pagina, 20)).run();
+  return json({ ok: true }, 200, h);
+}
+
 // ---------- Entrada ----------
 
 export default {
@@ -141,8 +153,14 @@ export default {
     } catch (e) { return json({ ok: false, error: 'cuerpo' }, 400, h); }
 
     if (d.web) return json({ ok: true }, 200, h);                      // trampa para bots
+    if (d.tipo === 'objetivo') return guardaObjetivo(env, d, h);
     const email = corto(d.email, 200).toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ ok: false, error: 'email' }, 400, h);
+    // Si el diagnóstico tenía objetivo guardado, se le pone el correo a esa misma fila.
+    if (/^[a-f0-9]{32}$/.test(d.ref || '')) {
+      ctx.waitUntil(env.DB.prepare('UPDATE objetivos SET email = ?, nombre = ? WHERE ref = ?')
+        .bind(email, corto(d.nombre, 80), d.ref).run().catch(e => console.log('Objetivo', e && e.message)));
+    }
 
     const grupos = JSON.parse(env.GRUPOS || '{}');
     const origen = d.origen === 'prueba' ? 'prueba' : 'diagnostico';

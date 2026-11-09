@@ -763,6 +763,180 @@
     return null;
   }
 
+  /* ================================================================
+     2b. OBJETIVOS (solo la página pública)
+     Tras el fallo, 2 o 3 preguntas de qué quiere lograr. Siempre con rangos.
+     Hombres preguntan por lo que piensa ella; mujeres, por lo que piensa él.
+     Texto y orden según el borrador aprobado (ejemplos-objetivos.pdf, v3).
+     ================================================================ */
+  var TIEMPO = { id: 'tiempo', texto: '¿En cuánto tiempo?', ops: [
+    { id: '2_semanas', texto: '2 semanas' }, { id: '1_mes', texto: '1 mes' }, { id: '3_meses', texto: '3 meses' }
+  ] };
+  var CUANTAS_CITAS = { id: 'citas_mes', texto: '¿Cuántas conversaciones quieres que acaben en cita al mes?', ops: [
+    { id: '1_2', texto: '1 a 2' }, { id: '3_5', texto: '3 a 5' }, { id: 'mas_5', texto: 'Más de 5' }
+  ] };
+  var FILTROS_HABLEN = { id: 'hablen', texto: '¿Cuántos hombres que pasan tus filtros quieres que te hablen a la semana?', ops: [
+    { id: '1_3', texto: '1 a 3' }, { id: '4_6', texto: '4 a 6' }, { id: '7_10', texto: '7 a 10' }, { id: 'mas_10', texto: 'Más de 10' }
+  ] };
+  var CAMBIO_M_P1 = { id: 'cambio', texto: '¿Qué quieres que cambie?', ops: [
+    { id: 'atraer', texto: 'Atraer a los que me interesan' },
+    { id: 'primer_paso', texto: 'Que den el primer paso' },
+    { id: 'serio', texto: 'Que me escriban con intención de algo serio' }
+  ] };
+  var OBJETIVOS = {
+    h: {
+      P1: [
+        { id: 'matches', texto: '¿Cuántos matches quieres a la semana?', ops: [
+          { id: '1_4', texto: '1 a 4' }, { id: '5_10', texto: '5 a 10' }, { id: '10_15', texto: '10 a 15' }, { id: 'mas_15', texto: 'Más de 15' }
+        ] }, TIEMPO,
+        { id: 'cambio', texto: '¿Qué quieres que cambie?', ops: [
+          { id: 'fotos', texto: 'Mejorar mis fotos' },
+          { id: 'atraer', texto: 'Atraer a las que me interesan de verdad' },
+          { id: 'serio', texto: 'Que las que me escriben tengan intención de algo serio' }
+        ] }
+      ],
+      P2: [
+        { id: 'matches100', texto: '¿Cuántos matches quieres de cada 100 likes?', ops: [
+          { id: '4_7', texto: '4 a 7' }, { id: '8_15', texto: '8 a 15' }, { id: 'mas_15', texto: 'Más de 15' }
+        ] }, TIEMPO,
+        { id: 'cambio', texto: '¿Qué quieres que cambie?', ops: [
+          { id: 'fotos', texto: 'Mejorar mis fotos' },
+          { id: 'atraer', texto: 'Atraer a las que me interesan de verdad' },
+          { id: 'serio', texto: 'Que las que me escriben tengan intención de algo serio' }
+        ] }
+      ],
+      P3: [
+        { id: 'objetivo', texto: '¿Qué quieres lograr con las conversaciones?', ops: [
+          { id: 'cita_semana', texto: 'Que acaben en cita en menos de una semana' },
+          { id: 'cita_2_3', texto: 'Que lleguen a cita en 2 a 3 semanas' },
+          { id: 'no_mueran', texto: 'Que no se mueran a los pocos mensajes' }
+        ] }, CUANTAS_CITAS, TIEMPO
+      ],
+      P4: [
+        { id: 'despues', texto: '¿Qué quieres lograr después de la primera cita?', ops: [
+          { id: 'entender', texto: 'Entender por qué no hay segunda' },
+          { id: 'segunda', texto: 'Que haya una segunda cita' },
+          { id: 'interes', texto: 'Seguir manteniendo el interés después de la segunda' }
+        ] },
+        { id: 'segundas_mes', texto: '¿Cuántas primeras citas quieres que tengan segunda al mes?', ops: [
+          { id: '1', texto: '1' }, { id: '2_3', texto: '2 a 3' }, { id: 'mas_3', texto: 'Más de 3' }
+        ] }, TIEMPO
+      ],
+      P5: [
+        { id: 'lograr', texto: '¿Qué quieres lograr con lo que empieza?', ops: [
+          { id: 'mes', texto: 'Que dure más de un mes' },
+          { id: 'tres', texto: 'Que pase de 3 citas' },
+          { id: 'entre', texto: 'Que se mantenga la conversación entre citas' }
+        ] },
+        { id: 'entender', texto: '¿Qué quieres entender de ella?', ops: [
+          { id: 'interes', texto: 'Si le interesa de verdad' },
+          { id: 'enfria', texto: 'Por qué se enfría' },
+          { id: 'evitar', texto: 'Cómo evitar que se apague' }
+        ] }, TIEMPO
+      ],
+      S: [
+        { id: 'primera', texto: '¿Cuándo quieres tener tu primera cita?', ops: [
+          { id: '2_semanas', texto: '2 semanas' }, { id: '1_mes', texto: '1 mes' }, { id: '3_meses', texto: '3 meses' }
+        ] },
+        { id: 'conversaciones', texto: '¿Cuántas conversaciones quieres a la semana cuando estés en la app?', ops: [
+          { id: '1_4', texto: '1 a 4' }, { id: '5_10', texto: '5 a 10' }, { id: 'mas_10', texto: 'Más de 10' }
+        ] }
+      ],
+      ajuste: [
+        { id: 'mejorar', texto: '¿Qué quieres mejorar?', ops: [
+          { id: 'filtrar', texto: 'Aprender a filtrar mejor' },
+          { id: 'tercera', texto: 'Pasar de la tercera cita' },
+          { id: 'pareja', texto: 'Conseguir pareja estable' }
+        ] }, TIEMPO
+      ]
+    },
+    m: {
+      P1: [
+        { id: 'hablen', texto: FILTROS_HABLEN.texto, ops: FILTROS_HABLEN.ops }, TIEMPO, CAMBIO_M_P1
+      ],
+      P2: [
+        { id: 'matches100', texto: '¿Cuántos matches de cada 100 likes quieres?', ops: [
+          { id: '25_40', texto: '25 a 40' }, { id: '41_60', texto: '41 a 60' }, { id: 'mas_60', texto: 'Más de 60' }
+        ] }, TIEMPO,
+        { id: 'cambio', texto: '¿Qué quieres que cambie en tu perfil?', ops: [
+          { id: 'fotos', texto: 'Mejorar mis fotos' },
+          { id: 'no_encajan', texto: 'Dejar de recibir mensajes de los que no encajan' },
+          { id: 'atraer', texto: 'Atraer a los que me interesan' }
+        ] }
+      ],
+      P3: [
+        { id: 'entender', texto: '¿Qué te gustaría entender de lo que piensa él al escribirte?', ops: [
+          { id: 'interes', texto: 'Si le intereso de verdad' },
+          { id: 'cita_o_rato', texto: 'Si quiere una cita o solo pasar el rato' },
+          { id: 'por_que', texto: 'Por qué deja de escribir' }
+        ] }, CUANTAS_CITAS, TIEMPO
+      ],
+      P4: [
+        { id: 'entender', texto: '¿Qué te gustaría entender de lo que piensa él después de la primera cita?', ops: [
+          { id: 'interes', texto: 'Si le gustaste de verdad' },
+          { id: 'por_que', texto: 'Por qué no propone una segunda' },
+          { id: 'serio', texto: 'Si quiere algo serio o solo pasar el rato' }
+        ] },
+        { id: 'despues', texto: '¿Qué quieres que pase después?', ops: [
+          { id: 'propone', texto: 'Que proponga la segunda' },
+          { id: 'tercera', texto: 'Que mantenga el interés hasta la tercera' },
+          { id: 'interes_real', texto: 'Que demuestre interés real' }
+        ] }, TIEMPO
+      ],
+      P5: [
+        { id: 'entender', texto: '¿Qué te gustaría entender de lo que piensa él?', ops: [
+          { id: 'serio', texto: 'Si quiere algo serio' },
+          { id: 'enfria', texto: 'Por qué se enfría' },
+          { id: 'futuro', texto: 'Si lo que empieza tiene futuro' }
+        ] },
+        { id: 'lograr', texto: '¿Qué quieres lograr?', ops: [
+          { id: 'mes', texto: 'Que dure más de un mes' },
+          { id: 'planes', texto: 'Que proponga planes con día y hora' },
+          { id: 'tercera', texto: 'Pasar de la tercera cita' }
+        ] }, TIEMPO
+      ],
+      S: [
+        { id: 'primera', texto: '¿Cuándo quieres tener tu primera cita?', ops: [
+          { id: '2_semanas', texto: '2 semanas' }, { id: '1_mes', texto: '1 mes' }, { id: '3_meses', texto: '3 meses' }
+        ] },
+        { id: 'hablen', texto: '¿Cuántos hombres que pasan tus filtros quieres que te hablen a la semana?', ops: [
+          { id: '1_3', texto: '1 a 3' }, { id: '4_6', texto: '4 a 6' }, { id: 'mas_6', texto: 'Más de 6' }
+        ] }
+      ],
+      ajuste: [
+        { id: 'mejorar', texto: '¿Qué quieres mejorar?', ops: [
+          { id: 'filtrar', texto: 'Aprender a filtrar mejor' },
+          { id: 'tercera', texto: 'Pasar de la tercera cita' },
+          { id: 'pareja', texto: 'Conseguir pareja estable' }
+        ] }, TIEMPO
+      ]
+    }
+  };
+
+  // Plan de tres pasos, por fallo (borrador aprobado; igual para hombres y mujeres).
+  var PLANES = {
+    P1: ['Afina la primera foto y la frase de tu perfil.', 'Escribe primero a quien te interesa, sin esperar.', 'Revisa cada semana los matches que te llegan y cuántos responden.'],
+    P2: ['Pon una primera foto de cara, con luz y sin filtros.', 'Cambia la frase de tu perfil por algo concreto de ti.', 'Quita la foto más antigua y deja solo fotos de los últimos dos años.'],
+    P3: ['Propón la cita antes del quinto mensaje.', 'Pon día y hora concretos, no «un día de estos».', 'Si no contesta a la propuesta, cierra la conversación.'],
+    P4: ['Escríbele el mismo día, con algo concreto de la cita.', 'Propón la segunda con día y hora.', 'Si no responde en dos días, no insistas: pasa a la siguiente cita.'],
+    P5: ['Habla pronto de qué es lo que hay, sin dramatizar.', 'Que los planes los propongáis con día y hora.', 'Revisa cada dos semanas si de verdad avanza.'],
+    S: ['Monta el perfil antes de activarlo, con fotos de cara y de cuerpo entero.', 'Actívalo un día fijo y mira solo los primeros 7 días.', 'Elige dos apps como máximo, no todas.'],
+    ajuste: ['Elige un solo punto de los que marcaste.', 'Pruébalo durante dos semanas.', 'Vuelve a hacer el diagnóstico al cabo de un mes.']
+  };
+
+  // Preguntas de objetivo para un sexo y un fallo (principal: P1…P5, S o ajuste).
+  function objetivosDe(sexo, principal) {
+    return (OBJETIVOS[sexo] && OBJETIVOS[sexo][principal]) || [];
+  }
+
+  // Lo elegido, en texto: [{ pregunta, respuesta }] en el orden de las preguntas.
+  function objetivoElegido(sexo, principal, elegidas) {
+    return objetivosDe(sexo, principal).map(function (q) {
+      var op = q.ops.filter(function (o) { return o.id === elegidas[q.id]; })[0];
+      return op ? { pregunta: q.texto, respuesta: op.texto } : null;
+    }).filter(Boolean);
+  }
+
   // pagina: 'publica' | 'compradores'
   function informe(r, resp, opciones) {
     opciones = opciones || {};
@@ -823,6 +997,18 @@
       }
       if (sec) P.push(sec);
     }
+    // Objetivo elegido + plan de tres pasos (solo en la página pública, con las respuestas de la persona).
+    if (opciones.pagina === 'publica' && opciones.objetivos) {
+      var eleg = objetivoElegido(s, p, opciones.objetivos);
+      if (eleg.length) {
+        P.push(b('Lo que quieres lograr:') + ' ' + eleg.map(function (x) {
+          return x.pregunta.replace(/[¿?]/g, '') + ': ' + x.respuesta;
+        }).join('. ') + '.');
+        P.push(b('Lo primero que haría:'));
+        (PLANES[p] || PLANES.ajuste).forEach(function (t, i) { P.push((i + 1) + '. ' + t); });
+        P.push('Si quieres resultados rápidos, pide tu llamada de 30 minutos. Abajo tienes el botón.');
+      }
+    }
     if (opciones.pagina !== 'publica') P.push('Te recomiendo empezar por aquí. Si prefieres otra cosa, toda la biblioteca está abierta.');
 
     var aviso = r.bajaConfianza ? [
@@ -865,14 +1051,37 @@
     }
   }
 
+  /* ================================================================
+     4b. OBJETIVOS → Worker (mismo endpoint, tipo «objetivo»)
+     datos: { ref, sexo, principal, respuestas: {id: opcion}, pagina, fecha }
+     ref: identificador aleatorio de la visita; si luego deja correo, el Worker lo une.
+     ================================================================ */
+  function guardarObjetivo(datos, url, fetchImpl) {
+    url = url === undefined ? SUSCRIBIR_URL : url;
+    fetchImpl = fetchImpl || (typeof fetch !== 'undefined' ? fetch : null);
+    if (!url || !fetchImpl) return Promise.resolve(false);
+    try {
+      return Promise.resolve(fetchImpl(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.assign({ tipo: 'objetivo' }, datos)),
+        keepalive: true
+      })).then(function (r) { return !!(r && (r.ok === undefined || r.ok)); }, function () { return false; });
+    } catch (e) {
+      return Promise.resolve(false);
+    }
+  }
+
   var Diagnostico = {
     URL_CURSO: URL_CURSO, SUSCRIBIR_URL: SUSCRIBIR_URL,
     ENTRADA: ENTRADA, PREGUNTAS: PREGUNTAS, ORDEN: ORDEN,
     TITULOS: TITULOS, RETOS: RETOS, NOMBRE_ETAPA: NOMBRE_ETAPA, FRASES: FRASES,
+    OBJETIVOS: OBJETIVOS, PLANES: PLANES,
     secuencia: secuencia, pregunta: pregunta, opcion: opcion, opcionesEnOrden: opcionesEnOrden,
     analiza: analiza, descuido: descuido, calcula: calcula,
     citas: citas, loQueFunciona: loQueFunciona, informe: informe,
-    enviarResultado: enviarResultado
+    objetivosDe: objetivosDe, objetivoElegido: objetivoElegido,
+    enviarResultado: enviarResultado, guardarObjetivo: guardarObjetivo
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = Diagnostico;
