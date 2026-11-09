@@ -913,16 +913,69 @@
     }
   };
 
-  // Plan de tres pasos, por fallo (borrador aprobado; igual para hombres y mujeres).
-  var PLANES = {
-    P1: ['Afina la primera foto y la frase de tu perfil.', 'Escribe primero a quien te interesa, sin esperar.', 'Revisa cada semana los matches que te llegan y cuántos responden.'],
-    P2: ['Pon una primera foto de cara, con luz y sin filtros.', 'Cambia la frase de tu perfil por algo concreto de ti.', 'Quita la foto más antigua y deja solo fotos de los últimos dos años.'],
-    P3: ['Propón la cita antes del quinto mensaje.', 'Pon día y hora concretos, no «un día de estos».', 'Si no contesta a la propuesta, cierra la conversación.'],
-    P4: ['Escríbele el mismo día, con algo concreto de la cita.', 'Propón la segunda con día y hora.', 'Si no responde en dos días, no insistas: pasa a la siguiente cita.'],
-    P5: ['Habla pronto de qué es lo que hay, sin dramatizar.', 'Que los planes los propongáis con día y hora.', 'Revisa cada dos semanas si de verdad avanza.'],
-    S: ['Monta el perfil antes de activarlo, con fotos de cara y de cuerpo entero.', 'Actívalo un día fijo y mira solo los primeros 7 días.', 'Elige dos apps como máximo, no todas.'],
-    ajuste: ['Elige un solo punto de los que marcaste.', 'Pruébalo durante dos semanas.', 'Vuelve a hacer el diagnóstico al cabo de un mes.']
+  // Pasos por fallo y sexo (dictados por Jose el 9/11/2026, desarrollados con las guías 01, 03, 13, 18,
+  // 20, 21, 23, 34, 51, 54, 57 y 58). Fotos: nunca de cara ni primer plano. HTML fijo, sin datos de la persona.
+  var ENLACE_FOTOS = '<a href="/fotos/">Las fotos que te hacen ganar</a>';
+  var FOTOS_MINIMO = 'Cinco o seis, en vertical, de cintura para arriba o de cuerpo entero, con luz natural y sin espejo, ' +
+    'primeros planos, grupos ni fotos de más de cinco años.';
+  var PRIMERA_FOTO = { h: 'La primera, la de estatus o la de autoridad.', m: 'La primera, la llamativa.' };
+  var BIO = 'La bio, corta, sencilla o ninguna: de una frase a cuatro o cinco líneas como mucho. Fuera lo genérico, ' +
+    'lo que buscas, lo negativo, la política y la religión. Si pones humor, pruébalo antes con un amigo.';
+  var IMAGEN = {
+    h: 'Pelo una vez al mes, barba cada semana, hidratante diaria y perfume. Fuera camisetas con dibujos, pitillos y ' +
+      'zapatillas de deporte: empieza por una camisa oxford azul, unos chinos beige y unos mocasines marrones, ' +
+      'ajustados a tu talla. Y espalda recta y mirar a los ojos.',
+    m: 'Corte cada dos meses, manos hechas, rutina de piel y maquillaje para salir. Vestidos que marquen tu figura, ' +
+      'comprados por cómo te quedan. Llamativa no es vulgar. Y espalda recta, mirar a los ojos y sonreír.'
   };
+  var TEMAS = 'Fuera el ex, el pasado sexual, el dinero y la política, y no hables mal de nadie.';
+
+  function planDe(p, s, resp) {
+    var app = resp && resp.G1 === 'si';
+    var P = {
+      P1: [
+        b(app ? 'Mejora tus fotos y tu bio en la app.' : 'Mejora tus fotos y tu bio en tus redes sociales.') + ' ' +
+          'Fotos: ' + FOTOS_MINIMO.charAt(0).toLowerCase() + FOTOS_MINIMO.slice(1) + ' ' + PRIMERA_FOTO[s] +
+          ' Cómo hacerlas: ' + ENLACE_FOTOS + '. ' + BIO,
+        b('Trabaja tu imagen.') + ' ' + IMAGEN[s]
+      ],
+      P2: [
+        b('Revisa todas tus fotos y cambia las que no cumplan el mínimo.') + ' ' + FOTOS_MINIMO + ' ' +
+          PRIMERA_FOTO[s] + ' Cómo hacerlas: ' + ENLACE_FOTOS + '.',
+        b('Revisa tu bio: cámbiala o quítala.') + ' ' + BIO +
+          (s === 'h' ? ' Tu trabajo sí suma.' : '') + ' Rellena los intereses: pesan más que la bio.'
+      ],
+      P3: [
+        b('Nunca abras con «hola, qué tal», «cómo estás» o «qué tal el día».') + ' Esa conversación muere sola.',
+        b('Conecta con lo que tiene en su perfil o en sus fotos.') + ' Un viaje, un animal, algo de su bio; mejor si tú también has estado. ' +
+          (s === 'h' ? 'Dos o tres líneas, y escribes tú en cuanto hay match.' : 'Si abres tú la primera conversación, la siguiente la abre él.'),
+        b('Usa el humor para conectar.') + ' Si te contesta seco, cambia de tema y mete humor, sin insistir.'
+      ],
+      P4: [
+        b('Demuestra interés de forma sutil, pero que se note que tienes opciones.') + ' Esa noche, un mensaje corto que te deje bien sin exponerte. ' +
+          (s === 'h' ? 'Al día siguiente, una broma, y la conversación la cortas tú.' : 'Al día siguiente no le escribes tú.'),
+        b('Evita los temas polémicos.') + ' ' + TEMAS + (s === 'h' ? ' Que hable ella más que tú.' : ''),
+        b('Usa el humor para conectar en la cita.') + ' Desde el primer minuto, sin forzarlo.'
+      ],
+      P5: [
+        b('Ve a la misma velocidad: demuestra tanto interés como te demuestra.') + ' Si tarda un día en contestar, tú no contestas en un minuto.',
+        b(s === 'h' ? 'No propongas un plan nuevo hasta que pase una semana del anterior.' : 'Deja que pase una semana entre un plan y el siguiente.') +
+          ' Las prisas enfrían más que la distancia.',
+        b('No expongas demasiado lo que sientes.') + ' Nada de «me encantas» mientras no esté asentado. Si se enfría por su parte, déjalo ir.'
+      ],
+      S: [
+        b('Hazte buenas fotos.') + ' ' + FOTOS_MINIMO + ' Tú encuadras y otra persona dispara. ' + PRIMERA_FOTO[s] + ' Cómo hacerlas: ' + ENLACE_FOTOS + '.',
+        b('Elige una sola app para empezar.') + ' Tinder, Bumble o Hinge. Entre media hora y una hora al día, en dos ratos.',
+        b('Monta el perfil con esas fotos y una bio fresca, sencilla y corta, o ninguna.') + ' Rellena los intereses: pesan más que la bio.'
+      ],
+      ajuste: [
+        b('Elige un solo punto de los que marcaste.'),
+        b('Pruébalo durante dos semanas.'),
+        b('Vuelve a hacer el diagnóstico al cabo de un mes.')
+      ]
+    };
+    return P[p] || P.ajuste;
+  }
 
   // Preguntas de objetivo para un sexo y un fallo (principal: P1…P5, S o ajuste).
   function objetivosDe(sexo, principal) {
@@ -1005,7 +1058,7 @@
           return x.pregunta.replace(/[¿?]/g, '') + ': ' + x.respuesta;
         }).join('. ') + '.');
         P.push(b('Lo primero que haría:'));
-        (PLANES[p] || PLANES.ajuste).forEach(function (t, i) { P.push((i + 1) + '. ' + t); });
+        planDe(p, s, resp).forEach(function (t, i) { P.push((i + 1) + '. ' + t); });
         P.push('Si quieres resultados rápidos, pide tu llamada de 30 minutos. Abajo tienes el botón.');
       }
     }
@@ -1076,7 +1129,7 @@
     URL_CURSO: URL_CURSO, SUSCRIBIR_URL: SUSCRIBIR_URL,
     ENTRADA: ENTRADA, PREGUNTAS: PREGUNTAS, ORDEN: ORDEN,
     TITULOS: TITULOS, RETOS: RETOS, NOMBRE_ETAPA: NOMBRE_ETAPA, FRASES: FRASES,
-    OBJETIVOS: OBJETIVOS, PLANES: PLANES,
+    OBJETIVOS: OBJETIVOS, planDe: planDe,
     secuencia: secuencia, pregunta: pregunta, opcion: opcion, opcionesEnOrden: opcionesEnOrden,
     analiza: analiza, descuido: descuido, calcula: calcula,
     citas: citas, loQueFunciona: loQueFunciona, informe: informe,
