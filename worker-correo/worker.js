@@ -125,9 +125,14 @@ function paginaBaja(ok) {
 async function guardaObjetivo(env, d, h) {
   if (!/^[a-f0-9]{32}$/.test(d.ref || '') || !['h', 'm'].includes(d.sexo)) return json({ ok: false, error: 'objetivo' }, 400, h);
   const respuestas = JSON.stringify(d.respuestas || {}).slice(0, 2000);
+  // Respuestas del diagnóstico, anónimas, para calibrar umbrales con datos reales (v3.4).
+  const diag = d.diagnostico && typeof d.diagnostico === 'object' ? JSON.stringify(d.diagnostico).slice(0, 4000) : null;
+  // Si vuelve atrás y repite, la misma visita (ref) sobrescribe su fila en vez de duplicarla.
   await env.DB.prepare(
-    'INSERT OR IGNORE INTO objetivos (ref, creado, sexo, fallo, respuestas, pagina) VALUES (?, ?, ?, ?, ?, ?)'
-  ).bind(d.ref, Date.now(), d.sexo, corto(d.principal, 20), respuestas, corto(d.pagina, 20)).run();
+    'INSERT INTO objetivos (ref, creado, sexo, fallo, respuestas, pagina, diagnostico) VALUES (?, ?, ?, ?, ?, ?, ?) ' +
+    'ON CONFLICT(ref) DO UPDATE SET creado = excluded.creado, sexo = excluded.sexo, fallo = excluded.fallo, ' +
+    'respuestas = excluded.respuestas, pagina = excluded.pagina, diagnostico = excluded.diagnostico'
+  ).bind(d.ref, Date.now(), d.sexo, corto(d.principal, 20), respuestas, corto(d.pagina, 20), diag).run();
   return json({ ok: true }, 200, h);
 }
 

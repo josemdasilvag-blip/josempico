@@ -1,5 +1,5 @@
 /* =====================================================================
-   diagnostico.js — motor del diagnóstico de entrada (v3.3, algoritmo cerrado)
+   diagnostico.js — motor del diagnóstico de entrada (v3.4, revisión del 9/11/2026)
 
    Especificación: biblioteca-josepico/guias/47-diagnostico-borrador.md
    Este archivo es puro (sin DOM). Funciona en el navegador
@@ -247,9 +247,10 @@
         { id: 'nada', texto: 'No hubo nada que pagar', v: null, np: true }
       ] },
       '4c': { texto: 'En los días después de una primera cita que te gustó, ¿qué sueles hacer?', ops: [
-        { id: 'escribo', texto: 'Le escribo yo, y bastante', v: 3 },
-        { id: 'espero', texto: 'Espero a que haga todo él, sin demostrarle nada', v: 2 },
-        { id: 'contesto', texto: 'Le escribo yo, pero sin mucha intensidad', v: 0 }
+        // Esperar al día siguiente es bueno; no dar ninguna señal nunca, no (Jose, 9/11/2026).
+        { id: 'escribo', texto: 'Le escribo yo al día siguiente, y bastante', v: 3 },
+        { id: 'espero', texto: 'No le escribo nada, ni esa noche: espero a que lo haga todo él', v: 2 },
+        { id: 'contesto', texto: 'Esa noche le mando un mensaje corto, y al día siguiente espero a que escriba él', v: 0 }
       ] },
       '5a': tercerasCitas('cuántos hombres', 'Ninguno'),
       '5b': interesReal('el último hombre con el que llegaste a la tercera cita'),
@@ -313,6 +314,13 @@
   }
 
   var MALA_SEGUNDA = { casi_ninguna_queria: 1, menos_mitad: 1 };
+
+  // Lo máximo que puede puntuar una pregunta.
+  function maxV(sexo, q) {
+    var p = pregunta(sexo, q), m = 0;
+    if (p) p.ops.forEach(function (o) { if (o.v != null && o.v > m) m = o.v; });
+    return m;
+  }
 
   // Construye las etapas con sus respuestas que puntúan y todas las señales.
   function analiza(resp) {
@@ -394,7 +402,13 @@
       e.suma = e.extra;
       e.items.forEach(function (it) { e.suma += it.v; });
       var n = e.items.length;
-      if (e.k === 1) { e.datos = true; e.max = 6; e.rota = e.suma >= 4; }
+      if (e.k === 1) {
+        // Máximo real de lo que puntúa (en hombres 1b vale 0 o 1), con un suelo de 4 para que
+        // una sola respuesta no dé el 100 %. El extra de la señal de imagen no sube el máximo.
+        var mx = 0;
+        e.items.forEach(function (it) { mx += maxV(s, it.q); });
+        e.datos = true; e.max = Math.max(4, mx); e.rota = e.suma >= 4;
+      }
       else if (e.k === 5) { e.datos = hay5 && n > 0; e.max = 6; e.rota = e.datos && e.suma >= 4; }
       else {
         e.datos = n >= 2; e.max = 3 * n;
@@ -430,7 +444,16 @@
       var media = t.reduce(function (a, b) { return a + b; }, 0) / t.length;
       if (media < 3000) motivos.push('rapido');
     }
+    // Solo cuentan las preguntas barajadas: en las escalas ordenadas la peor opción va siempre
+    // arriba, y quien va mal y contesta la verdad pulsa casi siempre la primera.
     var p = meta.posiciones || [];
+    if (meta.preguntas && meta.preguntas.length === p.length) {
+      p = p.filter(function (x, i) {
+        var pr = pregunta(resp.G0, meta.preguntas[i]);
+        return pr && !pr.orden;
+      });
+      if (p.length < 5) p = [];
+    }
     if (p.length) {
       var cuenta = {};
       p.forEach(function (x) { cuenta[x] = (cuenta[x] || 0) + 1; });
@@ -453,13 +476,10 @@
       fotos: false, bajaConfianza: false, motivos: [], etapas: E, senales: f
     };
 
-    // 6. Control de descuido → ruta conservadora
+    // 6. Control de descuido: solo avisa. El resultado se calcula igual (v3.4, decidido con Jose
+    // el 9/11/2026: equivocarse con el aviso cuesta poco; equivocarse con el fallo pierde la llamada).
     r.motivos = descuido(resp, meta);
-    if (r.motivos.length) {
-      r.bajaConfianza = true;
-      r.principal = f.g2 === 'tres_mas' ? 'P4' : (!f.apps ? 'S' : 'P2');
-      return r;
-    }
+    r.bajaConfianza = r.motivos.length > 0;
 
     function tiene3(k) { return E[k].tiene3; }
     // ¿gana a sobre b? (a, b: números de etapa)
@@ -518,7 +538,11 @@
         if (rotas.length || (f.apps && f.g2 === 'ninguna')) {
           // Solo rotas bloqueadas, o sin citas y con apps: la de más proporción.
           var m = mejor(perm);
-          r.principal = m ? 'P' + m : (f.apps ? 'P2' : 'S');
+          if (rotas.length && (m == null || E[m].suma === 0)) {
+            // La etapa rota está bloqueada y las permitidas no tienen ni un punto: no se inventa
+            // un fallo. Ajuste con el margen en la rota (p. ej. 3+ citas con fotos flojas → perfil).
+            r.principal = 'ajuste'; r.etapaAjuste = rotas[0]; r.ajusteRota = true;
+          } else r.principal = m ? 'P' + m : (f.apps ? 'P2' : 'S');
         } else {
           // Informe de ajuste
           var cands = perm.filter(function (k) {
@@ -530,7 +554,7 @@
           var ka = todasCero ? cands[cands.length - 1] : mejor(cands);
           if (ka == null) ka = 3;
           if (E[ka].tiene3 || E[ka].dosDe2) r.principal = 'P' + ka;
-          else { r.principal = 'ajuste'; r.etapaAjuste = ka; }
+          else { r.principal = 'ajuste'; r.etapaAjuste = ka; r.todoCero = todasCero; }
         }
       }
     }
@@ -942,8 +966,10 @@
       P2: [
         b('Revisa todas tus fotos y cambia las que no cumplan el mínimo.') + ' ' + FOTOS_MINIMO + ' ' +
           PRIMERA_FOTO[s] + ' Cómo hacerlas: ' + ENLACE_FOTOS + '.',
-        b('Revisa tu bio: cámbiala o quítala.') + ' ' + BIO +
+        app ? b('Revisa tu bio: cámbiala o quítala.') + ' ' + BIO +
           (s === 'h' ? ' Tu trabajo sí suma.' : '') + ' Rellena los intereses: pesan más que la bio.'
+          : b('Cambia también las de tus redes.') + ' La foto de perfil y lo primero que se ve es lo que miran ' +
+          'antes de quedar contigo: que sean estas fotos nuevas, no las de hace años.'
       ],
       P3: [
         b('Nunca abras con «hola, qué tal», «cómo estás» o «qué tal el día».') + ' Esa conversación muere sola.',
@@ -969,7 +995,7 @@
         b('Monta el perfil con esas fotos y una bio fresca, sencilla y corta, o ninguna.') + ' Rellena los intereses: pesan más que la bio.'
       ],
       ajuste: [
-        b('Elige un solo punto de los que marcaste.'),
+        b('Céntrate solo en lo que has elegido.'),
         b('Pruébalo durante dos semanas.'),
         b('Vuelve a hacer el diagnóstico al cabo de un mes.')
       ]
@@ -977,14 +1003,28 @@
     return P[p] || P.ajuste;
   }
 
+  // Sin apps no hay matches ni likes: la primera pregunta de P1 y P2 se cambia.
+  var SIN_APPS = {
+    h: { id: 'pie', texto: '¿Cuántas mujeres que te interesen quieres que te den pie a la semana, después de una conversación?', ops: [
+      { id: '1_2', texto: '1 a 2' }, { id: '3_5', texto: '3 a 5' }, { id: 'mas_5', texto: 'Más de 5' }
+    ] },
+    m: FILTROS_HABLEN
+  };
+
   // Preguntas de objetivo para un sexo y un fallo (principal: P1…P5, S o ajuste).
-  function objetivosDe(sexo, principal) {
-    return (OBJETIVOS[sexo] && OBJETIVOS[sexo][principal]) || [];
+  // apps: false si no usa apps (resp.G1 === 'no').
+  function objetivosDe(sexo, principal, apps) {
+    var l = (OBJETIVOS[sexo] && OBJETIVOS[sexo][principal]) || [];
+    if (apps === false && (principal === 'P1' || principal === 'P2') && l.length) {
+      var q0 = l[0].id;
+      if (q0 === 'matches' || q0 === 'matches100') l = [SIN_APPS[sexo]].concat(l.slice(1));
+    }
+    return l;
   }
 
   // Lo elegido, en texto: [{ pregunta, respuesta }] en el orden de las preguntas.
-  function objetivoElegido(sexo, principal, elegidas) {
-    return objetivosDe(sexo, principal).map(function (q) {
+  function objetivoElegido(sexo, principal, elegidas, apps) {
+    return objetivosDe(sexo, principal, apps).map(function (q) {
       var op = q.ops.filter(function (o) { return o.id === elegidas[q.id]; })[0];
       return op ? { pregunta: q.texto, respuesta: op.texto } : null;
     }).filter(Boolean);
@@ -1001,15 +1041,40 @@
     var dicho = meHasDicho(cs);
     // En la página pública no se manda al reto: el reto está dentro del programa.
     var paso = function (h) { if (opciones.pagina !== 'publica') P.push(h); };
-    var sec = r.secundario ? b('Y otra cosa que también flojea: ' + NOMBRE_ETAPA[r.secundario] + '.') +
-      ' Pero déjala para después: se nota mucho más cuando lo primero está resuelto.' : null;
+    var apps = resp.G1 === 'si';
+    var titulo = TITULOS[p];
+    if (p === 'P2' && !apps) titulo = 'Tus fotos no se parecen a ti';
+    if (p === 'ajuste' && r.ajusteRota) titulo = 'Te va bien, pero hay margen en ' + NOMBRE_ETAPA[clave];
+    var nombreSec = r.secundario === 'P2' && !apps ? 'tus fotos' : NOMBRE_ETAPA[r.secundario];
+    var sec = null;
+    if (r.secundario === 'S') {
+      // Sin apps no es un fallo: es una recomendación (Jose, 9/11/2026).
+      sec = b('Y una recomendación: abrirte un perfil en una app.') +
+        (p === 'ajuste' ? ' No es obligatorio, porque te va bien,' : ' No es obligatorio,') +
+        ' pero te abre muchas más opciones. Hazlo con buenas fotos, no con lo primero que tengas en la galería.';
+    } else if (r.secundario) {
+      sec = b('Y otra cosa que también flojea: ' + nombreSec + '.') +
+        ' Pero déjala para después: se nota mucho más cuando lo primero está resuelto.';
+    }
+    var OBJ_AJUSTE = {
+      filtrar: 'aprender a filtrar mejor con quién quedas', tercera: 'pasar de la tercera cita',
+      pareja: 'que lo que empiece acabe en una pareja estable'
+    };
 
     if (p === 'ajuste') {
       var lf = loQueFunciona(r, resp);
       P.push(b('Tu recorrido funciona.') + (lf.length ? ' ' + parrafoFunciona(lf) : ''));
-      var c1 = citas(r, resp, r.etapaAjuste, 1);
-      P.push('Lo que sí hay es margen, y está en ' + b(NOMBRE_ETAPA[clave]) + '.' + (c1.length ? ' ' + meHasDicho(c1) : ''));
-      P.push('No es un problema. Es lo siguiente que afinar.');
+      if (r.todoCero) {
+        // Todo a cero: no se inventa margen en una etapa; manda lo que la persona quiere lograr.
+        var quiere = opciones.objetivos && OBJ_AJUSTE[opciones.objetivos.mejorar];
+        P.push('No hay nada que corregir en lo que me has contado. ' +
+          (quiere ? 'Lo siguiente es lo que tú has elegido: ' + b(quiere) + '.' : 'Lo siguiente que afinar depende de lo que busques ahora.'));
+      } else {
+        var c1 = citas(r, resp, r.etapaAjuste, 1);
+        P.push('Lo que sí hay es margen, y está en ' + b(NOMBRE_ETAPA[clave]) + '.' + (c1.length ? ' ' + meHasDicho(c1) : ''));
+        P.push('No es un problema. Es lo siguiente que afinar.');
+      }
+      if (sec && r.secundario === 'S') P.push(sec);
       paso(b('Tu siguiente paso: ' + reto.nombre + '.'));
     } else {
       P.push(b(funciona));
@@ -1021,8 +1086,11 @@
         paso(b('Tu siguiente paso: el reto de 7 días de imagen.') + ' Siete acciones pequeñas, la mayoría gratis, y al final una foto tuya al lado de otra del primer día.');
       } else if (p === 'P2') {
         if (dicho) P.push(dicho);
-        if (r.fotos) {
+        if (r.fotos && resp.F === 'mas_una') {
           P.push(b('Tus fotos enseñan a alguien que no es exactamente quien llega a la cita.') + ' Con ellas atraes, y por eso haces match. Pero quien queda contigo espera ver a esa persona, la diferencia se nota en el primer segundo, y por eso no hay segunda. ' + b('Lo primero es cambiar esas fotos.'));
+        } else if (r.fotos) {
+          // Solo por la foto antigua: nadie se lo ha dicho todavía, así que no se habla de segundas.
+          P.push(b('Tienes fotos de hace más de cinco años.') + ' Aunque te favorezcan, el día que quedes con alguien la diferencia se va a notar en el primer segundo. ' + b('Lo primero es cambiarlas.'));
         } else {
           P.push('Traducido: ' + b('tu perfil no está enseñando lo que tienes.') + ' Ahí se pierde la gente antes de llegar a leerte.');
           if (libre(r, [3])) P.push(b('No necesitas cambiar cómo hablas.') + ' Necesitas que la primera puerta de la app funcione.');
@@ -1052,7 +1120,7 @@
     }
     // Objetivo elegido + plan de tres pasos (solo en la página pública, con las respuestas de la persona).
     if (opciones.pagina === 'publica' && opciones.objetivos) {
-      var eleg = objetivoElegido(s, p, opciones.objetivos);
+      var eleg = objetivoElegido(s, p, opciones.objetivos, apps);
       if (eleg.length) {
         P.push(b('Lo que quieres lograr:') + ' ' + eleg.map(function (x) {
           return x.pregunta.replace(/[¿?]/g, '') + ': ' + x.respuesta;
@@ -1070,9 +1138,10 @@
     ] : null;
 
     return {
-      titulo: TITULOS[p],
+      titulo: titulo,
       clave: clave,
-      gancho: (GANCHO[p] || GANCHO.ajuste)[s] || (GANCHO[p] || GANCHO.ajuste).h,
+      gancho: p === 'P2' && !apps ? 'que tus fotos se parezcan a ti' :
+        (GANCHO[p] || GANCHO.ajuste)[s] || (GANCHO[p] || GANCHO.ajuste).h,
       reto: reto[s],
       retoNombre: reto.nombre,
       modulo: reto.modulo,
@@ -1106,7 +1175,7 @@
 
   /* ================================================================
      4b. OBJETIVOS → Worker (mismo endpoint, tipo «objetivo»)
-     datos: { ref, sexo, principal, respuestas: {id: opcion}, pagina, fecha }
+     datos: { ref, sexo, principal, respuestas: {id: opcion}, diagnostico: {r, m, s}, pagina, fecha }
      ref: identificador aleatorio de la visita; si luego deja correo, el Worker lo une.
      ================================================================ */
   function guardarObjetivo(datos, url, fetchImpl) {

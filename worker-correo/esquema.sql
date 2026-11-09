@@ -22,5 +22,7 @@ CREATE TABLE IF NOT EXISTS objetivos (
   respuestas TEXT NOT NULL,
   pagina     TEXT,
   email      TEXT,
-  nombre     TEXT
+  nombre     TEXT,
+  diagnostico TEXT          -- JSON {r: respuestas, s: secundario, a: etapa de ajuste, m: motivos de descuido}
 );
+-- Añadida el 9/11/2026: ALTER TABLE objetivos ADD COLUMN diagnostico TEXT;

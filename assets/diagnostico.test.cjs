@@ -30,7 +30,7 @@ const ANEXO = [
   ['H10', 'h', ['si', 'una_dos', 'casi_ninguna', 'una_dos', 'normal', 'cuatro_mas', 'preparada', 'reciente', 'una_dos', 'no_propongo', 'el_dia', 'casi_ninguna_queria', 'hablamos', 'yo', 'ninguna', _, _, _, 'nunca'], 'P3', 'P4'],
   ['H11', 'h', ['si', 'tres_mas', 'algunas', 'una_dos', 'regular', 'dos_tres', 'preparada', 'reciente', 'tres_cinco', 'la_dejo', 'de_todo', 'casi_ninguna_queria', 'hablamos', 'yo', 'ninguna', _, _, _, 'una'], 'P4', 'P2'],
   ['H12', 'h', ['si', 'tres_mas', 'casi_ninguna', 'una_dos', 'normal', 'cuatro_mas', 'preparada', 'reciente', 'seis_mas', 'la_dejo', 'de_todo', 'mitad_mas', 'quedamos', 'yo', 'dos_mas', 'a_medias', 'lo_deje', 'alguna', 'nunca'], 'ajuste', null],
-  ['H13', 'h', ['si', 'ninguna', 'casi_ninguna', 'ninguna', 'bajo', 'ninguna', 'selfie', 'reciente', 'ninguna', 'pocos', 'el_dia', _, _, _, 'ninguna', _, _, _, 'nunca'], 'P2', null, RAPIDO],
+  ['H13', 'h', ['si', 'ninguna', 'casi_ninguna', 'ninguna', 'bajo', 'ninguna', 'selfie', 'reciente', 'ninguna', 'pocos', 'el_dia', _, _, _, 'ninguna', _, _, _, 'nunca'], 'P2', 'P1', RAPIDO],   // v3.4: la baja confianza ya no quita el secundario
   ['H14', 'h', ['no', 'ninguna', 'mayoria', 'ninguna', _, _, _, _, 'no_hablo', 'no_hablo', 'no_hablo', _, _, _, 'ninguna', _, _, _, 'no_he_quedado'], 'S', 'P1'],
   ['H15', 'h', ['si', 'una_dos', 'casi_ninguna', 'una_dos', 'normal', 'dos_tres', 'preparada', 'reciente', 'tres_cinco', 'no_mueren', 'de_todo', 'mitad_mas', 'quedamos', 'yo', 'dos_mas', 'si', 'discutir', 'casi_todas', 'nunca'], 'P5', null],
   ['M16', 'm', ['no', 'ninguna', 'no_hablo', 'una_dos', _, _, _, _, 'no_hablo', 'no_hablo', 'no_hablo', _, _, _, 'una', 'si', 'enfrio', 'mitad', 'no_he_quedado'], 'S', 'P5'],
@@ -44,7 +44,7 @@ const ANEXO = [
   ['M24', 'm', ['si', 'tres_mas', 'bastantes', 'una_dos', 'normal', 'dos_tres', 'preparada', 'dos_cinco', 'a_veces', 'la_dejo', 'de_todo', 'casi_ninguna_queria', 'hablamos', 'contesto', 'ninguna', _, _, _, 'una'], 'P4', 'P2'],
   ['M25', 'm', ['no', 'una_dos', 'bastantes', 'una_dos', _, _, _, _, 'a_veces', 'no_mueren', 'de_todo', 'mitad_mas', 'quedamos', 'contesto', 'una', 'si', 'va_bien', 'ninguna', 'no_he_quedado'], 'ajuste', 'S'],
   ['M26', 'm', ['si', 'tres_mas', 'bastantes', 'tres_mas', 'normal', 'cuatro_mas', 'preparada', 'reciente', 'a_veces', 'la_dejo', 'de_todo', 'mitad_mas', 'quedamos', 'contesto', 'dos_mas', 'a_medias', 'diluyo', 'alguna', 'nunca'], 'ajuste', null],
-  ['M27', 'm', ['si', 'ninguna', 'casi_ninguno', 'ninguno', 'bajo', 'ninguna', 'selfie', 'reciente', 'siempre_yo', 'pocos', 'el_dia', _, _, _, 'ninguna', _, _, _, 'nunca'], 'P2', null, RAPIDO],
+  ['M27', 'm', ['si', 'ninguna', 'casi_ninguno', 'ninguno', 'bajo', 'ninguna', 'selfie', 'reciente', 'siempre_yo', 'pocos', 'el_dia', _, _, _, 'ninguna', _, _, _, 'nunca'], 'P2', 'P1', RAPIDO],
   ['M28', 'm', ['si', 'ninguna', 'pocos', 'ninguno', 'bajo', 'una', 'primer_plano', 'reciente', 'a_veces', 'pocos', 'reimos', _, _, _, 'ninguna', _, _, _, 'no_he_quedado'], 'P2', 'P1'],
   ['M29', 'm', ['no', 'ninguna', 'no_hablo', 'una_dos', _, _, _, _, 'no_hablo', 'no_hablo', 'no_hablo', _, _, _, 'ninguna', _, _, _, 'no_he_quedado'], 'S', null],
   ['M30', 'm', ['si', 'tres_mas', 'pocos', 'una_dos', 'normal', 'dos_tres', 'preparada', 'reciente', 'a_veces', 'no_propone', 'de_todo', 'mitad_mas', 'quedamos', 'contesto', 'dos_mas', 'si', 'no_serio', 'mitad', 'nunca'], 'P5', null]
@@ -373,10 +373,13 @@ test('descuido: incoherencias de hombres y mujeres', () => {
   assert.ok(D.descuido(con('M18', { '1a': 'casi_todos', '3b': 'no_propone' }), {}).includes('incoherente'));
 });
 
-test('ruta conservadora: 3+ citas → P4; sin apps → S; con apps → P2; nunca P1, sin secundario', () => {
-  const a = calc(P.H09, RAPIDO); assert.equal(a.principal, 'P4'); assert.equal(a.secundario, null);
-  const b = calc(P.H14, RAPIDO); assert.equal(b.principal, 'S');
-  const c = calc(P.H05, RAPIDO); assert.equal(c.principal, 'P2');
+test('v3.4: la baja confianza solo avisa; el resultado es el mismo que sin descuido', () => {
+  for (const id of ['H09', 'H14', 'H05', 'M18', 'M22']) {
+    const lento = calc(P[id]), rapido = calc(P[id], RAPIDO);
+    assert.equal(rapido.bajaConfianza, true, id);
+    assert.equal(rapido.principal, lento.principal, id);
+    assert.equal(rapido.secundario, lento.secundario, id);
+  }
 });
 
 /* ------------------------------------------------------------------ */
@@ -431,7 +434,8 @@ test('informe P2 de fotos: cita x2d y sustituye el párrafo "Traducido"; sin "no
   const i = D.informe(calc(resp), resp, {});
   const t = i.parrafos.map(txt).join('\n');
   assert.ok(t.includes('tu foto más antigua es de hace más de cinco años'));
-  assert.ok(t.includes('Tus fotos enseñan a alguien'));
+  assert.ok(t.includes('Tienes fotos de hace más de cinco años'));       // v3.4: solo foto antigua → sin "no hay segunda"
+  assert.ok(!t.includes('por eso no hay segunda'));
   assert.ok(!t.includes('Traducido'));
   assert.ok(!t.includes('No necesitas cambiar cómo hablas'));
 });
@@ -452,7 +456,6 @@ test('informe: secundario con su frase; baja confianza con aviso y sin secundari
   assert.ok(inf('H10').parrafos.map(txt).join(' ').includes('Y otra cosa que también flojea: lo que pasa después de la primera cita.'));
   const b = inf('H13', 'compradores', RAPIDO);
   assert.ok(b.aviso && b.aviso.length === 2);
-  assert.ok(!b.parrafos.join(' ').includes('también flojea'));
 });
 
 test('informe: la página pública no habla de "toda la biblioteca"', () => {
@@ -505,4 +508,96 @@ test('mujeres: "quién pagó" (4p) sale solo a mujeres con citas y no cambia el 
 
 test('2d ya no tiene "No lo sé"', () => {
   assert.ok(!D.pregunta('h', '2d').ops.some(o => o.id === 'no_se'));
+});
+
+/* ------------------------------------------------------------------ */
+/* v3.4 · revisión del 9/11/2026 (casos sacados de la simulación)     */
+/* ------------------------------------------------------------------ */
+const plano = h => h.replace(/<[^>]+>/g, '');
+const textoDe = (r, resp, op) => D.informe(r, resp, op || {}).parrafos.map(plano).join('\n');
+
+test('v3.4 · posición: no cuenta las escalas ordenadas (hombre honesto que va mal)', () => {
+  const resp = { G0: 'h', G1: 'si', G2: 'ninguna', '2a': 'bajo', '3a': 'ninguna', '1b': 'ninguna', '2b': 'ninguna',
+    '3c': 'el_dia', '1a': 'casi_todas', '5a': 'ninguna', '2c': 'selfie', '3b': 'pocos', '2d': 'reciente', F: 'nunca' };
+  const qs = D.secuencia(resp).filter(q => !/^G/.test(q));
+  const pos = qs.map(q => (D.pregunta('h', q).orden ? 0 : 1));     // primera en todas las ordenadas
+  assert.ok(!D.descuido(resp, { preguntas: qs, posiciones: pos }).includes('posicion'));
+  // Sin la lista de preguntas se comporta como antes.
+  assert.ok(D.descuido(resp, { posiciones: [0, 0, 0, 0, 1] }).includes('posicion'));
+});
+
+test('v3.4 · incoherencia: avisa pero no cambia el fallo (mujer con perfil perfecto)', () => {
+  const resp = { G0: 'm', G1: 'si', G2: 'una_dos', '2a': 'normal', '3a': 'no_hablo', '1b': 'una_dos', '4a': 'menos_mitad',
+    '2b': 'cuatro_mas', '3c': 'de_todo', '1a': 'casi_todos', '5a': 'dos_mas', '5b': 'a_medias', '5c': 'discutir', '5d': 'ninguna',
+    '4b': 'espere', '2c': 'preparada', '3b': 'no_propone', '4p': 'el', '4c': 'espero', '2d': 'dos_cinco', F: 'nunca' };
+  const r = D.calcula(resp, {});
+  assert.equal(r.bajaConfianza, true);
+  assert.equal(r.principal, 'P4');
+});
+
+test('v3.4 · etapa rota bloqueada y las demás a cero → ajuste en la rota, no un fallo sin pruebas', () => {
+  const resp = { G0: 'h', G1: 'si', G2: 'tres_mas', '2a': 'bajo', '3a': 'seis_mas', '1b': 'tres_mas', '4a': 'mitad_mas',
+    '2b': 'ninguna', '3c': 'de_todo', '1a': 'mayoria', '5a': 'una', '5b': 'a_medias', '5c': 'discutir', '5d': 'ninguna',
+    '4b': 'quedamos', '2c': 'primer_plano', '3b': 'no_hablo', '4c': 'nada', '2d': 'reciente', F: 'no_he_quedado' };
+  const r = D.calcula(resp, {});
+  assert.equal(r.principal, 'ajuste');
+  assert.equal(r.etapaAjuste, 2);
+  const i = D.informe(r, resp, {});
+  assert.equal(i.titulo, 'Te va bien, pero hay margen en tu perfil');
+  assert.ok(i.parrafos.map(plano).join(' ').includes('está en tu perfil'));
+});
+
+test('v3.4 · sin apps y le va bien: la app es una recomendación, no algo que «flojea»', () => {
+  const resp = { G0: 'm', G1: 'no', G2: 'tres_mas', '3a': 'no_hablo', '1b': 'ninguno', '4a': 'casi_ninguna_no_quise',
+    '3c': 'de_todo', '1a': 'no_hablo', '5a': 'ninguna', '4b': 'no_quise', '3b': 'la_dejo', '4p': 'yo', '4c': 'contesto', F: 'no_he_quedado' };
+  const r = D.calcula(resp, {});
+  assert.equal(r.secundario, 'S');
+  const t = textoDe(r, resp);
+  assert.ok(t.includes('Y una recomendación: abrirte un perfil en una app. No es obligatorio, porque te va bien'));
+  assert.ok(!t.includes('flojea'));
+});
+
+test('v3.4 · regla de fotos por «me lo han dicho»: se mantiene el texto de la segunda cita', () => {
+  const resp = con('H11', { F: 'mas_una' });
+  const t = textoDe(calc(resp), resp);
+  assert.ok(t.includes('Tus fotos enseñan a alguien'));
+});
+
+test('v3.4 · sin apps con la regla de fotos: «Tus fotos no se parecen a ti» y plan de redes', () => {
+  const resp = { G0: 'h', G1: 'no', G2: 'ninguna', '3a': 'tres_cinco', '1b': 'una_dos', '3c': 'de_todo', '1a': 'mayoria',
+    '5a': 'una', '5b': 'a_medias', '5c': 'va_bien', '5d': 'mitad', '3b': 'excusas', F: 'mas_una' };
+  const r = D.calcula(resp, {});
+  assert.equal(r.principal, 'P2');
+  const i = D.informe(r, resp, { pagina: 'publica', objetivos: { pie: '1_2', tiempo: '1_mes', cambio: 'fotos' } });
+  assert.equal(i.titulo, 'Tus fotos no se parecen a ti');
+  const t = i.parrafos.map(plano).join(' ');
+  assert.ok(t.includes('Cambia también las de tus redes'));
+  assert.ok(!t.includes('Rellena los intereses'));
+  assert.ok(t.includes('den pie'));
+});
+
+test('v3.4 · objetivos sin apps: ni matches ni likes', () => {
+  assert.equal(D.objetivosDe('h', 'P1', false)[0].id, 'pie');
+  assert.equal(D.objetivosDe('h', 'P1', true)[0].id, 'matches');
+  assert.equal(D.objetivosDe('m', 'P2', false)[0].id, 'hablen');
+  assert.equal(D.objetivosDe('h', 'P3', false)[0].id, 'objetivo');
+});
+
+test('v3.4 · etapa 1 de hombres: máximo real (4), no 6', () => {
+  const r = calc(con('H05', { '1a': 'casi_todas', '1b': 'ninguna' }));
+  assert.equal(r.etapas[1].max, 4);
+  assert.equal(D.calcula({ G0: 'm', G1: 'no', G2: 'ninguna', '1a': 'pocos', '1b': 'ninguno' }, {}).etapas[1].max, 6);
+});
+
+test('v3.4 · ajuste con todo a cero: manda el objetivo elegido, no se inventa margen', () => {
+  const resp = { G0: 'h', G1: 'si', G2: 'tres_mas', '2a': 'normal', '3a': 'seis_mas', '1b': 'tres_mas', '4a': 'mitad_mas',
+    '2b': 'cuatro_mas', '3c': 'de_todo', '1a': 'casi_ninguna', '5a': 'dos_mas', '5b': 'si', '5c': 'va_bien', '5d': 'ninguna',
+    '4b': 'quedamos', '2c': 'preparada', '3b': 'no_mueren', '4c': 'yo', '2d': 'reciente', F: 'nunca' };
+  const r = D.calcula(resp, {});
+  assert.equal(r.principal, 'ajuste');
+  assert.equal(r.todoCero, true);
+  const t = textoDe(r, resp, { pagina: 'publica', objetivos: { mejorar: 'tercera', tiempo: '1_mes' } });
+  assert.ok(t.includes('Lo siguiente es lo que tú has elegido: pasar de la tercera cita'));
+  assert.ok(!t.includes('Lo que sí hay es margen'));
+  assert.ok(t.includes('Céntrate solo en lo que has elegido'));
 });

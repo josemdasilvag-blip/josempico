@@ -77,8 +77,9 @@
 
   function atras() {
     if (fase === 'objetivos') {
-      if (objIdx > 0) { objIdx--; delete objResp[objPreg[objIdx].id]; pintaObj(); }
-      return;
+      if (objIdx > 0) { objIdx--; delete objResp[objPreg[objIdx].id]; pintaObj(); return; }
+      // En la primera de objetivo, atrás vuelve a la última del diagnóstico.
+      fase = 'diagnostico'; objPreg = []; objResp = {};
     }
     var h = historial.pop();
     if (!h) return;
@@ -98,6 +99,7 @@
   function meta() {
     var cuest = historial.filter(function (h) { return !ENTRADA[h.q]; });
     return {
+      preguntas: cuest.map(function (h) { return h.q; }),
       tiempos: cuest.map(function (h) { return h.ms; }),
       posiciones: cuest.map(function (h) { return h.pos; })
     };
@@ -116,7 +118,7 @@
   function termina() {
     limpia();
     resultado = D.calcula(resp, meta());
-    var preguntas = PAGINA === 'publica' ? D.objetivosDe(resp.G0, resultado.principal) : [];
+    var preguntas = PAGINA === 'publica' ? D.objetivosDe(resp.G0, resultado.principal, resp.G1 === 'si') : [];
     if (preguntas.length) { empiezaObjetivos(preguntas); return; }
     cierra();
   }
@@ -131,7 +133,7 @@
   function empiezaObjetivos(preguntas) {
     fase = 'objetivos';
     objPreg = preguntas; objIdx = 0; objResp = {};
-    ref = nuevoRef();
+    if (!ref) ref = nuevoRef();       // al volver atrás y repetir, se sobrescribe la misma fila
     pintaObj();
   }
 
@@ -139,6 +141,7 @@
     if (objIdx >= objPreg.length) {
       fase = 'diagnostico';
       D.guardarObjetivo({ ref: ref, sexo: resp.G0, principal: resultado.principal, respuestas: objResp,
+        diagnostico: { r: resp, s: resultado.secundario, a: resultado.etapaAjuste, m: resultado.motivos },
         pagina: PAGINA, fecha: new Date().toISOString() });
       cierra();
       return;
@@ -158,7 +161,7 @@
       b.onclick = function () { objResp[q.id] = o.id; objIdx++; pintaObj(); };
       cont.appendChild(b);
     });
-    $('atras').hidden = objIdx === 0;
+    $('atras').hidden = false;
     $('enunciado').focus();
   }
 
