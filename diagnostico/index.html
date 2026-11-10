@@ -18,7 +18,7 @@
 <meta property="og:image:alt" content="Jose Pico">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/estilo.css?v=20261008">
-<link rel="stylesheet" href="/assets/diagnostico.css?v=2">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=3">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
 <script defer src="/assets/medir.js?v=1"></script><script defer src="/assets/pixel.js?v=2"></script>
 </head>
@@ -67,37 +67,33 @@
       <div class="nota" id="aviso" hidden></div>
       <div class="cuerpo" id="cuerpo"></div>
 
-      <div class="carta">
-        <h3>Esto tiene solución</h3>
-        <p>Si quieres darle la vuelta a esto, mira el vídeo aquí abajo.</p>
-      </div>
-
-      <figure class="video-web">
-        <video controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa y por qué empezar por el diagnóstico">
-          <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4?v=20261019" type="video/mp4">
-          <source src="/assets/video/bienvenida.mp4?v=20261019" type="video/mp4">
-        </video>
-        <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
-      </figure>
-
-      <div class="carta destacada" id="cartaAcompanamiento" hidden>
-        <h3>Trabajemos tu caso</h3>
-        <p>Tu resultado es <strong id="resultadoTitulo"></strong>. Pide tu llamada de 30 minutos: en el formulario me cuentas dónde estás y eliges día y hora.</p>
-        <div class="acciones">
-          <a class="boton" href="/prepara-tu-llamada/?origen=diagnostico#solicitud" data-umami-event="diagnostico_a_preparacion">Pedir mi llamada de 30 minutos</a>
-        </div>
-      </div>
-
       <div class="carta destacada" id="cartaWhatsApp">
-        <h3>Revisa tu resultado conmigo</h3>
-        <p>Una llamada de 30 minutos para verlo con tu caso delante. Escribe tu nombre, pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
+        <h3>Pide tu llamada gratis</h3>
+        <p>30 minutos gratis para ver tu caso conmigo. Escribe tu nombre, pulsa el botón y se abre WhatsApp con tu resultado ya escrito: lo envías y cerramos día y hora.</p>
         <label class="campo">Tu nombre
           <input type="text" id="nombreLlamada" autocomplete="given-name" maxlength="60" required>
         </label>
         <p class="aviso-nombre" id="avisoNombre" hidden>Escribe tu nombre para que sepa con quién hablo.</p>
         <div class="acciones">
-          <a class="boton" id="botonLlamada" href="https://wa.me/34621321861">Pedir mi llamada gratis</a>
+          <a class="boton ancho" id="botonLlamada" href="https://wa.me/34621321861">Pedir mi llamada gratis</a>
         </div>
+      </div>
+
+      <div class="carta">
+        <h3>Esto tiene solución</h3>
+        <p>Si antes quieres saber cómo trabajo, mira el vídeo.</p>
+      </div>
+
+      <figure class="video-web">
+        <video id="videoResultado" controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa y por qué empezar por el diagnóstico">
+          <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4?v=20261110" type="video/mp4">
+          <source src="/assets/video/bienvenida.mp4?v=20261019" type="video/mp4">
+        </video>
+        <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
+      </figure>
+
+      <div class="acciones repetida">
+        <a class="boton ancho" href="#cartaWhatsApp" id="botonLlamada2">Pedir mi llamada gratis</a>
       </div>
 
       <div class="carta" id="datos">
@@ -135,7 +131,7 @@
   </footer>
 
 </div>
-<script src="/assets/diagnostico.js?v=9"></script>
-<script src="/assets/diagnostico-ui.js?v=16"></script>
+<script src="/assets/diagnostico.js?v=10"></script>
+<script src="/assets/diagnostico-ui.js?v=17"></script>
 </body>
 </html>

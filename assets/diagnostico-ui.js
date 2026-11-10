@@ -10,7 +10,7 @@
   'use strict';
   var D = window.Diagnostico;
   var PAGINA = document.body.getAttribute('data-pagina') === 'compradores' ? 'compradores' : 'publica';
-  var ENTRADA = { G0: 1, G1: 1, G2: 1 };
+  var ENTRADA = { G0: 1, G1: 1, G2: 1, G3: 1 };
 
   var resp = {};
   var historial = [];     // [{q, ms, pos}]
@@ -109,9 +109,18 @@
   function cuenta(evento) {
     try {
       if (window.umami && typeof window.umami.track === 'function') {
-        window.umami.track(evento, { resultado: informe.titulo, sexo: resp.G0 === 'm' ? 'mujer' : 'hombre', pagina: PAGINA });
+        window.umami.track(evento, { resultado: informe.titulo, principal: resultado.principal,
+          sexo: resp.G0 === 'm' ? 'mujer' : 'hombre', pagina: PAGINA });
       }
     } catch (e) { /* medir nunca rompe el diagnóstico */ }
+    // Píxel de Meta (solo si aceptó cookies): señales para que los anuncios aprendan con más volumen
+    // que el Lead de Tally. CompleteRegistration = diagnóstico terminado; Contact = pidió la llamada.
+    try {
+      var FB = { 'diagnostico-completado': 'CompleteRegistration', 'diagnostico-whatsapp': 'Contact' };
+      if (FB[evento] && typeof window.fbq === 'function') {
+        window.fbq('track', FB[evento], { content_name: resultado ? resultado.principal : '' });
+      }
+    } catch (e) { /* idem */ }
   }
 
   // Al contestar la última: el resultado sale directamente, sin pedir nada.
@@ -211,15 +220,9 @@
     } else {
       // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
       $('avisoNombre').hidden = true;
-      // La campaña lleva a cada uno a su landing del acompañamiento (páginas separadas por sexo).
-      if ($('cartaAcompanamiento')) {
-        var mujer = resp.G0 === 'm';
-        var enlace = $('cartaAcompanamiento').querySelector('a.boton');
-        enlace.href = (mujer ? '/prepara-tu-llamada/' : '/prepara-tu-llamada-hombre/') + '?origen=diagnostico#solicitud';
-        if ($('resultadoTitulo')) $('resultadoTitulo').textContent = informe.titulo;
-        $('cartaAcompanamiento').hidden = false;
-        $('cartaWhatsApp').hidden = true;
-      }
+      // v3.5 (Jose, 10/11/2026): un solo paso. Debajo del plan, WhatsApp con el resultado escrito;
+      // el vídeo va después. Se mide si el botón llega a verse.
+      vigilaBoton();
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
     // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.
@@ -228,6 +231,21 @@
     $('enviado').hidden = true;
     ver('resultado');
     $('titulo').focus();
+  }
+
+  // Umami: «boton-llamada-visto» una vez por resultado, cuando la tarjeta entra en pantalla.
+  var vistoBoton = false, observador = null;
+  function vigilaBoton() {
+    vistoBoton = false;
+    var carta = $('cartaWhatsApp');
+    if (!carta || typeof IntersectionObserver === 'undefined') return;
+    if (observador) observador.disconnect();
+    observador = new IntersectionObserver(function (es) {
+      if (!vistoBoton && es.some(function (e) { return e.isIntersecting; })) {
+        vistoBoton = true; cuenta('boton-llamada-visto'); observador.disconnect();
+      }
+    }, { threshold: 0.5 });
+    observador.observe(carta);
   }
 
   function otraVez() {
@@ -260,10 +278,24 @@
       'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n\n' +
       'Mi resultado: ' + informe.titulo + '\n\n' +
       explicacion + '\n\n' +
-      'Quiero la llamada de 30 minutos.';
+      'Quiero la llamada gratis de 30 minutos.';
     // Se abre en la misma pestaña: las ventanas nuevas las bloquean algunos navegadores.
+    // Un respiro de 300 ms para que Umami registre el clic antes de salir de la página.
     ev.preventDefault();
-    window.location.href = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+    cuenta('diagnostico-whatsapp');
+    var destino = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+    setTimeout(function () { window.location.href = destino; }, 300);
   };
+  // El botón repetido debajo del vídeo sube a la tarjeta y pone el cursor en el nombre.
+  if ($('botonLlamada2')) $('botonLlamada2').onclick = function (ev) {
+    ev.preventDefault();
+    cuenta('boton-llamada-repetido');
+    $('cartaWhatsApp').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function () { $('nombreLlamada').focus({ preventScroll: true }); }, 400);
+  };
+  var yaPlay = false;
+  if ($('videoResultado')) $('videoResultado').addEventListener('play', function () {
+    if (!yaPlay) { yaPlay = true; cuenta('video-resultado'); }
+  });
   $('volver').onclick = function () { ver('test'); atras(); };
 })();

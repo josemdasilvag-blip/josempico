@@ -82,7 +82,7 @@ test('anexo: las respuestas coinciden con las preguntas que salen (secuencia)', 
     const r = P[id];
     const sec = D.secuencia(r);
     for (const q of Object.keys(r)) assert.ok(sec.includes(q), `${id}: ${q} contestada pero no sale`);
-    for (const q of sec) if (q !== '4p') assert.ok(r[q] != null, `${id}: ${q} sale pero no está contestada`);  // 4p (quién pagó, mujeres) es posterior al anexo y no puntúa
+    for (const q of sec) if (q !== '4p' && q !== 'G3') assert.ok(r[q] != null, `${id}: ${q} sale pero no está contestada`);  // 4p (quién pagó, mujeres) es posterior al anexo y no puntúa
   }
 });
 
@@ -113,7 +113,7 @@ test('anexo: cálculos clave del anexo (sumas de etapa)', () => {
 /* ------------------------------------------------------------------ */
 
 test('secuencia: entre 7 y 17 preguntas tras G0-G2', () => {
-  assert.equal(D.secuencia(P.M29).length - 3, 7);
+  assert.equal(D.secuencia(P.M29).filter(q => q !== 'G3').length - 3, 7);   // G3 (v3.5) solo sin apps y sin citas
   assert.equal(D.secuencia(P.H09).length - 3, 17);
 });
 
@@ -600,4 +600,58 @@ test('v3.4 · ajuste con todo a cero: manda el objetivo elegido, no se inventa m
   assert.ok(t.includes('Lo siguiente es lo que tú has elegido: pasar de la tercera cita'));
   assert.ok(!t.includes('Lo que sí hay es margen'));
   assert.ok(t.includes('Céntrate solo en lo que has elegido'));
+});
+
+/* ------------------------------------------------------------------ */
+/* v3.5 · sin apps y sin citas: el motivo decide                       */
+/* ------------------------------------------------------------------ */
+
+const SIN_APPS_SIN_CITAS = { G0: 'm', G1: 'no', G2: 'ninguna', '1a': 'pocos', '1b': 'ninguno' };
+
+test('v3.5 · G3 solo sale sin apps y sin citas, justo después de G2', () => {
+  assert.equal(D.secuencia({ G0: 'm', G1: 'no', G2: 'ninguna' })[3], 'G3');
+  assert.ok(!D.secuencia({ G0: 'm', G1: 'no', G2: 'una_dos' }).includes('G3'));
+  assert.ok(!D.secuencia({ G0: 'm', G1: 'si', G2: 'ninguna' }).includes('G3'));
+  assert.ok(D.pregunta('h', 'G3').ops.length === 4);
+});
+
+test('v3.5 · «prefiero en persona» y «no me gustan» → P1 con la app como recomendación', () => {
+  for (const g3 of ['persona', 'no_gustan']) {
+    const resp = Object.assign({}, SIN_APPS_SIN_CITAS, { G3: g3 });
+    const r = D.calcula(resp, {});
+    assert.equal(r.principal, 'P1', g3);
+    assert.equal(r.secundario, 'S', g3);
+    const i = D.informe(r, resp, { pagina: 'publica', objetivos: {} });
+    assert.equal(i.titulo, 'Tienes dificultad para atraer');
+    const t = i.parrafos.map(plano).join(' ');
+    assert.ok(t.includes('eso no lo arregla ninguna app'), g3);
+    assert.ok(t.includes('Y una recomendación: abrirte un perfil en una app'), g3);
+    assert.ok(!t.includes('Lo primero es estar en una app'), g3);
+  }
+});
+
+test('v3.5 · «ya probé» y «no sé qué fotos poner» → títulos de imagen, no «no estás en la app»', () => {
+  const titulos = { probe: 'Tu perfil no te estaba funcionando', no_se: 'Te falta la imagen para empezar' };
+  for (const g3 of Object.keys(titulos)) {
+    const resp = Object.assign({}, SIN_APPS_SIN_CITAS, { G3: g3 });
+    const r = D.calcula(resp, {});
+    assert.equal(r.principal, 'S');
+    const i = D.informe(r, resp, { pagina: 'publica', objetivos: {} });
+    assert.equal(i.titulo, titulos[g3]);
+    assert.ok(!i.parrafos.map(plano).join(' ').includes('Lo primero es estar en una app'));
+  }
+});
+
+test('v3.5 · sin G3 (respuestas antiguas) sigue el resultado S de siempre', () => {
+  const r = D.calcula(SIN_APPS_SIN_CITAS, {});
+  assert.equal(r.principal, 'S');
+  assert.equal(D.informe(r, SIN_APPS_SIN_CITAS, {}).titulo, 'Todavía no estás en la app');
+});
+
+test('v3.5 · la llamada se anuncia gratis y con el botón debajo', () => {
+  const resp = Object.assign({}, SIN_APPS_SIN_CITAS, { G3: 'persona' });
+  const r = D.calcula(resp, {});
+  const t = D.informe(r, resp, { pagina: 'publica', objetivos: { hablen: '1_3' } }).parrafos.map(plano).join(' ');
+  assert.ok(t.includes('llamada gratis de 30 minutos'));
+  assert.ok(!t.includes('Abajo tienes el botón'));
 });

@@ -1,5 +1,5 @@
 /* =====================================================================
-   diagnostico.js — motor del diagnóstico de entrada (v3.4, revisión del 9/11/2026)
+   diagnostico.js — motor del diagnóstico de entrada (v3.5, revisión del 10/11/2026)
 
    Especificación: biblioteca-josepico/guias/47-diagnostico-borrador.md
    Este archivo es puro (sin DOM). Funciona en el navegador
@@ -45,6 +45,13 @@
       { id: 'ninguna', texto: 'Ninguna' },
       { id: 'una_dos', texto: 'Una o dos' },
       { id: 'tres_mas', texto: 'Tres o más' }
+    ] },
+    // Solo sin apps y sin citas (v3.5): el motivo decide el resultado en vez de «no estás en la app».
+    G3: { id: 'G3', texto: '¿Por qué no usas apps de citas?', orden: true, ops: [
+      { id: 'persona', texto: 'Prefiero conocer gente en persona' },
+      { id: 'no_gustan', texto: 'No me gustan o no me fío de ellas' },
+      { id: 'probe', texto: 'Ya las probé y no me fue bien' },
+      { id: 'no_se', texto: 'No sé qué fotos poner ni cómo hacerme el perfil' }
     ] }
   };
 
@@ -277,6 +284,7 @@
     resp = resp || {};
     var sec = ['G0', 'G1', 'G2'];
     if (!resp.G0 || !resp.G1 || !resp.G2) return sec;
+    if (resp.G1 === 'no' && resp.G2 === 'ninguna') sec.push('G3');
     ORDEN.forEach(function (q) {
       var e = etapaDe(q);
       if (e === 2 && resp.G1 !== 'si') return;
@@ -519,7 +527,13 @@
     // 3. Filtros que fijan el principal
     var ruta = 'normal';
     if (f.reglaFotos) { r.principal = 'P2'; r.fotos = true; ruta = 'fotos'; }
-    else if (!f.apps && f.g2 === 'ninguna') { r.principal = 'S'; ruta = 'sinAppsSinCitas'; }
+    else if (!f.apps && f.g2 === 'ninguna') {
+      // v3.5: quien prefiere conocer gente en persona (o no se fía de las apps) y no tiene citas
+      // tiene un problema de atraer, no de app. El resto sigue en S, con el texto de su motivo.
+      if ((resp.G3 === 'persona' || resp.G3 === 'no_gustan') && E[1].datos) { r.principal = 'P1'; ruta = 'sinAppsPersona'; }
+      else { r.principal = 'S'; ruta = 'sinAppsSinCitas'; }
+      if (resp.G3) r.motivoSinApps = resp.G3;
+    }
     else if (f.reglaMujeres) { r.principal = f.fotosFallan ? 'P2' : 'P1'; ruta = 'mujeres'; }
     else if (f.sinMatchesSinCitas) {
       // Con señal de atracción P1 queda vetado y la etapa 2 está rota: P2.
@@ -578,6 +592,8 @@
     if (!f.apps && f.g2 !== 'ninguna') return ok('S') ? 'S' : null;
     if (!f.apps && f.g2 === 'ninguna') {
       if (E[5].rota && ok('P5')) return 'P5';
+      if (ruta === 'sinAppsPersona') return 'S';        // la app, como recomendación
+
       if (!f.senalAtraccion && f.e1Propia >= 2 && ok('P1')) return 'P1';
       return null;
     }
@@ -1044,6 +1060,8 @@
     var apps = resp.G1 === 'si';
     var titulo = TITULOS[p];
     if (p === 'P2' && !apps) titulo = 'Tus fotos no se parecen a ti';
+    if (p === 'S' && r.motivoSinApps === 'probe') titulo = 'Tu perfil no te estaba funcionando';
+    if (p === 'S' && r.motivoSinApps === 'no_se') titulo = 'Te falta la imagen para empezar';
     if (p === 'ajuste' && r.ajusteRota) titulo = 'Te va bien, pero hay margen en ' + NOMBRE_ETAPA[clave];
     var nombreSec = r.secundario === 'P2' && !apps ? 'tus fotos' : NOMBRE_ETAPA[r.secundario];
     var sec = null;
@@ -1079,6 +1097,8 @@
     } else {
       P.push(b(funciona));
       if (p === 'P1') {
+        if (r.motivoSinApps === 'persona') P.push('Me dices que prefieres conocer gente en persona. Está muy bien, pero en tres meses no ha salido ninguna cita, ' + b('y eso no lo arregla ninguna app.'));
+        else if (r.motivoSinApps === 'no_gustan') P.push('Me dices que las apps no te gustan. No te hacen falta, pero en tres meses no ha salido ninguna cita, ' + b('y eso no lo arregla ninguna app.'));
         if (dicho) P.push(dicho);
         P.push('Eso tiene una lectura clara: ' + b('te está costando atraer.') + ' Y atraer, antes que ninguna otra cosa, es imagen: la física, lo que ven cuando te tienen delante, y la proyectada: lo que transmites en persona y en tus perfiles digitales.');
         P.push('La buena noticia es que ' + b('la imagen es lo que más se puede trabajar') + ', y lo que más rápido se nota.');
@@ -1112,6 +1132,16 @@
         P.push('Llegar a la tercera cita no es poco: atraes, conversas y tienes segundas. ' + b('Lo que falla viene después, cuando ya hay algo empezando:') + ' leer si el interés es real, ponerle nombre a lo que tienen y el primer roce.');
         if (libre(r, [2, 3])) P.push(b('No tienes que cambiar tu perfil ni cómo consigues citas.'));
         paso(b('Tu siguiente paso: el reto de 7 días para retener.') + ' Una semana para mirar qué pasó las últimas veces y qué vas a hacer distinto. Y si ahora mismo estás con alguien, ve directo al de 4 semanas, que está en el mismo módulo.');
+      } else if (p === 'S' && r.motivoSinApps === 'probe') {
+        P.push('Me dices que ya probaste las apps y no te fue bien. Casi nunca es culpa de la app: ' +
+          b('es lo que la gente veía de ti en los primeros segundos,') + ' tus fotos y tu perfil. Si vuelves con lo mismo, va a pasar lo mismo.');
+        P.push(b('Primero se construye la imagen, y después se vuelve a la app.'));
+        paso(b('Tu siguiente paso: el reto de 7 días de tu primer perfil.') + ' Al séptimo día tienes un perfil hecho bien desde cero, y un número que te dice por dónde seguir.');
+      } else if (p === 'S' && r.motivoSinApps === 'no_se') {
+        P.push('Me dices que no sabes qué fotos poner ni cómo hacerte el perfil. Es justo por donde hay que empezar: ' +
+          b('primero se construye la imagen, y después se abre la app.'));
+        P.push('Si entras sin eso, vas a tener pocos matches y vas a pensar que el problema eres tú, cuando el problema es lo que enseñas.');
+        paso(b('Tu siguiente paso: el reto de 7 días de tu primer perfil.') + ' Al séptimo día tienes un perfil hecho bien desde cero, y un número que te dice por dónde seguir.');
       } else if (p === 'S') {
         P.push('Lo primero es estar en una app. Pero no te la descargues esta noche y subas lo primero que tengas en la galería: ' + b('primero se construye la imagen, y después se abre la app.'));
         paso(b('Tu siguiente paso: el reto de 7 días de tu primer perfil.') + ' Al séptimo día tienes un perfil hecho bien desde cero, y un número que te dice por dónde seguir.');
@@ -1127,7 +1157,7 @@
         }).join('. ') + '.');
         P.push(b('Lo primero que haría:'));
         planDe(p, s, resp).forEach(function (t, i) { P.push((i + 1) + '. ' + t); });
-        P.push('Si quieres resultados rápidos, pide tu llamada de 30 minutos. Abajo tienes el botón.');
+        P.push('Si quieres resultados rápidos, pide tu llamada gratis de 30 minutos con el botón de aquí debajo.');
       }
     }
     if (opciones.pagina !== 'publica') P.push('Te recomiendo empezar por aquí. Si prefieres otra cosa, toda la biblioteca está abierta.');
