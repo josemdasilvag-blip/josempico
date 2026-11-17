@@ -67,6 +67,19 @@
     $('atras').hidden = historial.length === 0;
     inicio = Date.now();
     $('enunciado').focus();
+    pregunta(a.q, a.i + 1);
+  }
+
+  // Umami: «diagnostico-pregunta» cada vez que sale una pregunta en pantalla (17/11/2026).
+  // Con la propiedad «pregunta» (id) y «n» (posición) se ve en qué pregunta abandona la gente:
+  // vistas de una pregunta menos vistas de la siguiente. Sin respuestas ni datos personales.
+  function pregunta(id, n) {
+    try {
+      if (window.umami && typeof window.umami.track === 'function') {
+        window.umami.track('diagnostico-pregunta', { pregunta: id, n: n,
+          sexo: resp.G0 ? (resp.G0 === 'm' ? 'mujer' : 'hombre') : '', pagina: PAGINA });
+      }
+    } catch (e) { /* medir nunca rompe el diagnóstico */ }
   }
 
   function responde(q, id, pos) {
@@ -116,7 +129,7 @@
     // Píxel de Meta (solo si aceptó cookies): señales para que los anuncios aprendan con más volumen
     // que el Lead de Tally. CompleteRegistration = diagnóstico terminado; Contact = pidió la llamada.
     try {
-      var FB = { 'diagnostico-completado': 'CompleteRegistration', 'diagnostico-whatsapp': 'Contact' };
+      var FB = { 'diagnostico-completado': 'CompleteRegistration', 'diagnostico_a_preparacion': 'Contact' };
       if (FB[evento] && typeof window.fbq === 'function') {
         window.fbq('track', FB[evento], { content_name: resultado ? resultado.principal : '' });
       }
@@ -172,6 +185,7 @@
     });
     $('atras').hidden = false;
     $('enunciado').focus();
+    pregunta('obj-' + q.id, historial.length + objIdx + 1);
   }
 
   // El email es opcional y va debajo del resultado.
@@ -218,10 +232,11 @@
       $('modulo').textContent = informe.modulo;
       $('reto').textContent = 'Reto ' + informe.reto + ' · ' + informe.retoNombre.charAt(0).toUpperCase() + informe.retoNombre.slice(1);
     } else {
-      // La llamada se pide por WhatsApp: el mensaje lleva el nombre y el resultado.
-      $('avisoNombre').hidden = true;
-      // v3.5 (Jose, 10/11/2026): un solo paso. Debajo del plan, WhatsApp con el resultado escrito;
-      // el vídeo va después. Se mide si el botón llega a verse.
+      // 17/11/2026 (Jose): vuelve el formulario. Con WhatsApp, 0 de 43 escribieron; con Tally + agenda,
+      // 3 llamadas de 63. Cada uno va a su página de preparación (separadas por sexo), formulario y agenda.
+      var destino = (resp.G0 === 'm' ? '/prepara-tu-llamada/' : '/prepara-tu-llamada-hombre/') + '?origen=diagnostico#solicitud';
+      $('botonLlamada').href = destino;
+      if ($('botonLlamada2')) $('botonLlamada2').href = destino;
       vigilaBoton();
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
@@ -237,7 +252,7 @@
   var vistoBoton = false, observador = null;
   function vigilaBoton() {
     vistoBoton = false;
-    var carta = $('cartaWhatsApp');
+    var carta = $('cartaLlamada');
     if (!carta || typeof IntersectionObserver === 'undefined') return;
     if (observador) observador.disconnect();
     observador = new IntersectionObserver(function (es) {
@@ -262,37 +277,17 @@
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
   $('otra').onclick = otraVez;
-  // Al pulsar "Pedir mi llamada": exige el nombre y monta el mensaje en ese momento.
-  if ($('botonLlamada')) $('botonLlamada').onclick = function (ev) {
-    var nombre = $('nombreLlamada').value.trim();
-    if (!nombre) {
-      ev.preventDefault();
-      $('avisoNombre').hidden = false;
-      $('nombreLlamada').focus();
-      return;
-    }
-    // La explicación del resultado, en texto plano (el informe viene en HTML).
-    var plano = function (html) { var d = document.createElement('div'); d.innerHTML = html; return d.textContent.trim(); };
-    var explicacion = informe.parrafos.map(plano).filter(Boolean).join('\n\n');
-    var texto = 'Hola Jose! Soy ' + nombre + ' y he hecho el diagnóstico.\n' +
-      'Soy ' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + '.\n\n' +
-      'Mi resultado: ' + informe.titulo + '\n\n' +
-      explicacion + '\n\n' +
-      'Quiero la llamada gratis de 30 minutos.';
-    // Se abre en la misma pestaña: las ventanas nuevas las bloquean algunos navegadores.
-    // Un respiro de 300 ms para que Umami registre el clic antes de salir de la página.
+  // Al pulsar "Pedir mi llamada": se cuenta (mismo evento que el camino Tally de antes, para
+  // comparar) y se va a la página de preparación. 300 ms para que Umami registre el clic.
+  function vaALlamada(ev, extra) {
     ev.preventDefault();
-    cuenta('diagnostico-whatsapp');
-    var destino = 'https://wa.me/34621321861?text=' + encodeURIComponent(texto);
+    var destino = ev.currentTarget.href;
+    if (extra) cuenta(extra);
+    cuenta('diagnostico_a_preparacion');
     setTimeout(function () { window.location.href = destino; }, 300);
-  };
-  // El botón repetido debajo del vídeo sube a la tarjeta y pone el cursor en el nombre.
-  if ($('botonLlamada2')) $('botonLlamada2').onclick = function (ev) {
-    ev.preventDefault();
-    cuenta('boton-llamada-repetido');
-    $('cartaWhatsApp').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(function () { $('nombreLlamada').focus({ preventScroll: true }); }, 400);
-  };
+  }
+  if ($('botonLlamada')) $('botonLlamada').onclick = function (ev) { vaALlamada(ev); };
+  if ($('botonLlamada2')) $('botonLlamada2').onclick = function (ev) { vaALlamada(ev, 'boton-llamada-repetido'); };
   var yaPlay = false;
   if ($('videoResultado')) $('videoResultado').addEventListener('play', function () {
     if (!yaPlay) { yaPlay = true; cuenta('video-resultado'); }
