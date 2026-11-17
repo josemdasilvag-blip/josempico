@@ -52,3 +52,8 @@
   .embudo .solicitud-marco{padding:4px}
 }
 @media(max-width:480px){.embudo .pasos-linea{grid-template-columns:1fr}.embudo .video-resumen{min-height:270px}}
+/* Recuadro "que incluye" bajo el formulario (17/11/2026): destacado, sin competir con el boton de enviar. */
+.embudo .mas-info{display:block;max-width:560px;margin:32px auto 0;padding:16px 20px;border:1px solid var(--rojo);border-left-width:4px;border-radius:8px;background:rgba(201,169,97,.08);color:var(--bone);font-size:16px;line-height:1.5;text-align:center;text-decoration:none}
+.embudo .mas-info strong{display:inline-block;margin-left:4px;color:var(--rojo);font-weight:700;white-space:nowrap}
+.embudo .mas-info:hover,.embudo .mas-info:focus-visible{background:rgba(201,169,97,.16)}
+.embudo .mas-info:hover strong{text-decoration:underline}
