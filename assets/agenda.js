@@ -13,6 +13,23 @@
   var dias = [];       // [{clave, fecha, huecos:[{inicio, estado}]}]
   var diaSel = null, horaSel = null;
 
+  // Si viene de enviar el formulario de Tally, ya tenemos nombre, correo y WhatsApp
+  // (los guarda /prepara-tu-llamada/ en este navegador): solo hace falta confirmar.
+  var BOTON = 'Reservar mi llamada';
+  try {
+    var s = JSON.parse(sessionStorage.getItem('solicitud-llamada') || '{}');
+    if (s.nombre && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(s.email || '') && String(s.telefono || '').replace(/\D/g, '').length >= 8) {
+      $('nombre').value = s.nombre; $('email').value = s.email; $('telefono').value = s.telefono;
+      $('campos').hidden = true;
+      $('conocido').innerHTML = 'Te llega la invitación a <strong></strong>. <button type="button" id="cambiarDatos">¿Datos distintos?</button>';
+      $('conocido').querySelector('strong').textContent = s.email;
+      $('conocido').hidden = false;
+      $('cambiarDatos').onclick = function () { $('campos').hidden = false; $('conocido').hidden = true; $('nombre').focus(); };
+      BOTON = 'Confirmar mi llamada';
+      $('reservar').textContent = BOTON;
+    }
+  } catch (e) { /* sin datos guardados: se piden en la agenda */ }
+
   function mide(evento, datos) {
     try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(evento, datos || {}); } catch (e) {}
   }
@@ -99,7 +116,7 @@
       fmt(h.fecha, { hour: '2-digit', minute: '2-digit', hour12: false });
     $('error').hidden = true;
     $('form').hidden = false;
-    $('nombre').focus({ preventScroll: true });
+    ($('campos').hidden ? $('reservar') : $('nombre')).focus({ preventScroll: true });
     $('form').scrollIntoView({ behavior: 'smooth', block: 'start' });
     mide('agenda-hora-elegida');
   }
@@ -124,11 +141,11 @@
         setTimeout(function () { location.href = '/llamada-confirmada/'; }, 300);
         return;
       }
-      boton.disabled = false; boton.textContent = 'Reservar mi llamada';
+      boton.disabled = false; boton.textContent = BOTON;
       error(d.mensaje || 'No se ha podido reservar. Inténtalo otra vez.');
       if (d.error === 'cogida') { dias = []; carga(); }
     }).catch(function () {
-      boton.disabled = false; boton.textContent = 'Reservar mi llamada';
+      boton.disabled = false; boton.textContent = BOTON;
       error('No se ha podido reservar. Escríbeme por WhatsApp al +34 621 32 18 61 y te la reservo yo.');
     });
   });
