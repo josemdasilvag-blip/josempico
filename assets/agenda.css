@@ -1,0 +1,27 @@
+/* Agenda propia de /agenda/ (17/11/2026): se ven las horas libres y las ocupadas. */
+.embudo .agenda{max-width:760px;margin:26px auto 0;border:1px solid var(--borde);border-radius:8px;background:var(--charcoal);padding:22px 18px}
+.agenda-zona{margin:0 0 14px;font-size:14px;color:var(--pebble)}
+.agenda-dias{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.agenda-dia{flex:0 0 auto;min-width:74px;padding:10px 8px;border:1px solid var(--borde);border-radius:8px;background:transparent;color:var(--bone);font:600 13px/1.25 var(--sans);text-align:center;cursor:pointer}
+.agenda-dia small{display:block;font-weight:400;color:var(--pebble);font-size:11px;margin-top:3px}
+.agenda-dia[aria-selected=true]{border-color:var(--rojo);background:rgba(201,169,97,.12)}
+.agenda-dia.lleno{color:var(--iron)}
+.agenda-dia.lleno small{color:var(--iron)}
+.agenda-horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px;margin-top:16px}
+.agenda-hora{padding:10px 4px;border:1px solid var(--ash);border-radius:6px;background:transparent;color:var(--bone);font:600 14px/1.2 var(--sans);cursor:pointer}
+.agenda-hora:hover,.agenda-hora:focus-visible{border-color:var(--rojo);background:rgba(201,169,97,.12)}
+.agenda-hora[aria-pressed=true]{background:var(--rojo);border-color:var(--rojo);color:var(--void)}
+.agenda-hora.ocupado{border-color:var(--smoke);background:var(--smoke);color:var(--iron);text-decoration:line-through;cursor:not-allowed}
+.agenda-hora.ocupado small{display:block;text-decoration:none;font-weight:400;font-size:10px;margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+.agenda-leyenda{margin:14px 0 0;font-size:12px;color:var(--pebble)}
+.agenda-leyenda .muestra{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin:0 4px 0 10px}
+.agenda-leyenda .muestra:first-child{margin-left:0}
+.agenda-leyenda .libre{border:1px solid var(--ash)}
+.agenda-leyenda .ocupado{background:var(--smoke)}
+.agenda-form{margin-top:22px;border-top:1px solid var(--borde);padding-top:18px}
+.agenda-elegida{margin:0 0 12px;font-weight:600;color:var(--bone)}
+.agenda-form .campo{display:block;margin:0 0 12px;font-size:14px;color:var(--ash)}
+.agenda-form input{display:block;width:100%;box-sizing:border-box;margin-top:6px;padding:11px 12px;border:1px solid var(--borde);border-radius:6px;background:var(--void);color:var(--bone);font:16px var(--sans)}
+.agenda-form .trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.agenda-error{margin:0 0 12px;color:#f0a0a0;font-size:14px}
+.agenda-form .boton[disabled]{opacity:.6;cursor:wait}
