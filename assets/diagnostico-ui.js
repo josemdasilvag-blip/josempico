@@ -238,6 +238,7 @@
       $('botonLlamada').href = destino;
       if ($('botonLlamada2')) $('botonLlamada2').href = destino;
       vigilaBoton();
+      yaReservada();
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
     // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.
@@ -274,6 +275,40 @@
     if (window.umami && typeof window.umami.track === 'function') window.umami.track('diagnostico-iniciado', { pagina: PAGINA });
     ver('test'); pinta();
   };
+  // 21/11/2026 (Jose): reservar la llamada desde la portada, sin hacer antes el diagnóstico.
+  // La agenda (assets/agenda.js) se monta al abrirla, con ids «ag-…» para no chocar con el formulario del correo.
+  function reservada() { try { return sessionStorage.getItem('llamada-reservada') === '1'; } catch (e) { return false; } }
+  // Quien ya reservó y luego hace el diagnóstico no ve otra vez «Pide tu llamada gratis».
+  function yaReservada() {
+    if (!reservada() || !$('cartaLlamada')) return;
+    $('cartaLlamada').querySelector('h3').textContent = 'Ya tienes tu llamada reservada';
+    $('cartaLlamada').querySelector('p').textContent = 'Te llegó la invitación por correo. Nos vemos en la llamada.';
+    $('botonLlamada').hidden = true;
+    if ($('botonLlamada2')) $('botonLlamada2').parentNode.hidden = true;
+  }
+  if ($('reservarPortada') && window.AgendaJP) {
+    $('reservarPortada').onclick = function () {
+      var abierta = !$('ag-agenda').hidden;
+      if (!abierta) {
+        $('ag-agenda').hidden = false;
+        $('reservarPortada').setAttribute('aria-expanded', 'true');
+        if (window.umami && typeof window.umami.track === 'function') window.umami.track('portada-reserva-abierta', { pagina: PAGINA });
+        window.AgendaJP.monta({
+          prefijo: 'ag-', origen: 'diagnostico-portada', conMotivo: true,
+          alReservar: function () {
+            try { sessionStorage.setItem('llamada-reservada', '1'); } catch (e) {}
+            if (window.fbq) { try { window.fbq('track', 'Schedule'); } catch (e) {} }
+            ['ag-zona', 'ag-dias', 'ag-horas', 'ag-leyenda', 'ag-form'].forEach(function (id) { $(id).hidden = true; });
+            $('reservarPortada').hidden = true;
+            $('ag-hecho').hidden = false;
+            $('ag-hecho').focus();
+          }
+        });
+      }
+      $('ag-agenda').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    $('ag-diagnostico').onclick = function () { $('empezar').click(); };
+  }
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
   $('otra').onclick = otraVez;

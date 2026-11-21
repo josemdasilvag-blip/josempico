@@ -27,3 +27,16 @@
 .agenda-conocido button{background:none;border:0;padding:0;color:var(--ash);text-decoration:underline;font:inherit;cursor:pointer}
 .agenda-error{margin:0 0 12px;color:#f0a0a0;font-size:14px}
 .agenda-form .boton[disabled]{opacity:.6;cursor:wait}
+
+/* 21/11/2026: la misma agenda en la portada de /diagnostico/, con pregunta opcional y confirmación sin salir. */
+.diag .agenda{margin:14px 0 0;border:1px solid var(--borde);border-radius:8px;background:var(--charcoal);padding:22px 18px;text-align:left}
+.agenda-titulo{font-size:20px;margin:0 0 8px}
+.agenda-motivo{border:0;margin:0 0 16px;padding:0}
+.agenda-motivo legend{padding:0;margin:0 0 10px;font-size:14px;color:var(--ash)}
+.agenda-motivo legend span{color:var(--pebble)}
+.agenda-motivo-ops{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.agenda-motivo-ops button{padding:9px 12px;border:1px solid var(--ash);border-radius:20px;background:transparent;color:var(--bone);font:14px/1.2 var(--sans);cursor:pointer}
+.agenda-motivo-ops button:hover,.agenda-motivo-ops button:focus-visible{border-color:var(--rojo)}
+.agenda-motivo-ops button[aria-pressed=true]{background:var(--rojo);border-color:var(--rojo);color:var(--void)}
+.agenda-motivo input{display:block;width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--borde);border-radius:6px;background:var(--void);color:var(--bone);font:16px var(--sans)}
+.agenda-hecho p{margin:0 0 12px}

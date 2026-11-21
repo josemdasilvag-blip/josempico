@@ -71,3 +71,6 @@
 .diag .aviso-nombre{margin:8px 0 0;font-size:14px;color:var(--ash)}
 .diag .carta.destacada label.campo{margin-top:16px}
 .diag .acciones.repetida{margin:8px 0 24px;text-align:center}
+
+/* 21/11/2026: segunda puerta de la portada, mismo peso que «Empezar», separada un poco */
+.diag .portada .reservar-portada{margin-top:12px}

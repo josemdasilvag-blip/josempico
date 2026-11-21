@@ -18,7 +18,8 @@
 <meta property="og:image:alt" content="Jose Pico">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/estilo.css?v=20261008">
-<link rel="stylesheet" href="/assets/diagnostico.css?v=3">
+<link rel="stylesheet" href="/assets/agenda.css?v=3">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=4">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
 <script defer src="/assets/medir.js?v=1"></script><script defer src="/assets/pixel.js?v=2"></script>
 </head>
@@ -45,6 +46,42 @@
       <h1>¿Dónde se te <em>cortan</em> las relaciones?</h1>
       <p class="entradilla">Conocer gente, tu perfil en apps, conversaciones que nunca llegan a una cita o se pierde el interés después de una primera cita. Te hago las preguntas y al final te digo dónde puede estar el fallo y qué es lo primero que haría.</p>
       <button type="button" class="boton ancho" id="empezar">Empezar el diagnóstico</button>
+      <!-- 21/11/2026 (Jose): segunda puerta, igual de visible, para quien prefiere hablar sin hacer el diagnóstico -->
+      <button type="button" class="boton ancho reservar-portada" id="reservarPortada" aria-expanded="false" aria-controls="ag-agenda">Prefiero hablarlo contigo: reservar mi llamada gratis (30&nbsp;min)</button>
+      <div class="agenda" id="ag-agenda" hidden>
+        <h2 class="agenda-titulo">Elige cuándo hablamos</h2>
+        <p class="agenda-zona" id="ag-zona">Cargando la agenda…</p>
+        <div class="agenda-dias" id="ag-dias" role="tablist" aria-label="Días"></div>
+        <div class="agenda-horas" id="ag-horas" aria-live="polite"></div>
+        <p class="agenda-leyenda" id="ag-leyenda" hidden><span class="muestra libre"></span> Libre <span class="muestra ocupado"></span> Ocupado</p>
+        <form class="agenda-form" id="ag-form" hidden novalidate>
+          <p class="agenda-elegida" id="ag-elegida"></p>
+          <p class="agenda-conocido" id="ag-conocido" hidden></p>
+          <fieldset class="agenda-motivo">
+            <legend>¿Qué te gustaría resolver en la llamada? <span>(opcional)</span></legend>
+            <div class="agenda-motivo-ops" id="ag-motivo">
+              <button type="button">Conocer gente</button>
+              <button type="button">Mi perfil en apps</button>
+              <button type="button">Conversaciones que no llegan a cita</button>
+              <button type="button">Después de la primera cita</button>
+            </div>
+            <input type="text" id="ag-motivoTexto" maxlength="300" placeholder="Si quieres, cuéntame algo más" aria-label="Si quieres, cuéntame algo más">
+          </fieldset>
+          <div id="ag-campos">
+            <label class="campo">Tu nombre<input type="text" id="ag-nombre" autocomplete="given-name" maxlength="60" required></label>
+            <label class="campo">Tu correo (te llega la invitación con el Meet)<input type="email" id="ag-email" autocomplete="email" maxlength="120" required></label>
+            <label class="campo">Tu WhatsApp, con el prefijo del país<input type="tel" id="ag-telefono" autocomplete="tel" maxlength="20" placeholder="+34 600 000 000" required></label>
+          </div>
+          <label class="trampa" aria-hidden="true">No rellenar<input type="text" id="ag-web" tabindex="-1" autocomplete="off"></label>
+          <p class="agenda-error" id="ag-error" role="alert" hidden></p>
+          <button type="submit" class="boton ancho" id="ag-reservar">Reservar mi llamada</button>
+        </form>
+        <div class="agenda-hecho" id="ag-hecho" hidden tabindex="-1">
+          <p><strong>Hecho: te llega la invitación a tu correo con el enlace de Meet.</strong></p>
+          <p>Mientras tanto, haz el diagnóstico (3 min) y llego a la llamada con tu caso.</p>
+          <button type="button" class="boton ancho" id="ag-diagnostico">Hacer mi diagnóstico</button>
+        </div>
+      </div>
       <div class="intro">
         <b>Menos de tres minutos</b>
         <p>Contesta pensando en lo que te ha pasado de verdad, no en lo que te gustaría que pasara. Cuanta más honestidad le pongas, mejor te acierto por dónde empezar.</p>
@@ -128,6 +165,7 @@
 
 </div>
 <script src="/assets/diagnostico.js?v=10"></script>
-<script src="/assets/diagnostico-ui.js?v=18"></script>
+<script src="/assets/agenda.js?v=3"></script>
+<script src="/assets/diagnostico-ui.js?v=19"></script>
 </body>
 </html>
