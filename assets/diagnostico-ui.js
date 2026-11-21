@@ -307,7 +307,6 @@
       }
       $('ag-agenda').scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
-    $('ag-diagnostico').onclick = function () { $('empezar').click(); };
   }
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
