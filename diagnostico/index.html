@@ -18,7 +18,7 @@
 <meta property="og:image:alt" content="Jose Pico">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/estilo.css?v=20261008">
-<link rel="stylesheet" href="/assets/agenda.css?v=3">
+<link rel="stylesheet" href="/assets/agenda.css?v=4">
 <link rel="stylesheet" href="/assets/diagnostico.css?v=5">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
 <script defer src="/assets/medir.js?v=1"></script><script defer src="/assets/pixel.js?v=2"></script>
@@ -58,7 +58,7 @@
           <p class="agenda-elegida" id="ag-elegida"></p>
           <p class="agenda-conocido" id="ag-conocido" hidden></p>
           <fieldset class="agenda-motivo">
-            <legend>¿Qué te gustaría resolver en la llamada? <span>(opcional)</span></legend>
+            <legend>¿Qué te gustaría resolver en la llamada? <span>(opcional, puedes marcar varias)</span></legend>
             <div class="agenda-motivo-ops" id="ag-motivo">
               <button type="button">Conocer gente</button>
               <button type="button">Mi perfil en apps</button>
@@ -70,7 +70,9 @@
           <div id="ag-campos">
             <label class="campo">Tu nombre<input type="text" id="ag-nombre" autocomplete="given-name" maxlength="60" required></label>
             <label class="campo">Tu correo (te llega la invitación con el Meet)<input type="email" id="ag-email" autocomplete="email" maxlength="120" required></label>
-            <label class="campo">Tu WhatsApp, con el prefijo del país<input type="tel" id="ag-telefono" autocomplete="tel" maxlength="20" placeholder="+34 600 000 000" required></label>
+            <div class="campo">Tu WhatsApp
+              <div class="agenda-tel"><select id="ag-prefijo" aria-label="País (prefijo)" autocomplete="tel-country-code"></select><input type="tel" id="ag-telefono" autocomplete="tel-national" maxlength="20" placeholder="600 000 000" aria-label="Número de WhatsApp" required></div>
+            </div>
           </div>
           <label class="trampa" aria-hidden="true">No rellenar<input type="text" id="ag-web" tabindex="-1" autocomplete="off"></label>
           <p class="agenda-error" id="ag-error" role="alert" hidden></p>
@@ -164,7 +166,7 @@
 
 </div>
 <script src="/assets/diagnostico.js?v=10"></script>
-<script src="/assets/agenda.js?v=3"></script>
+<script src="/assets/agenda.js?v=4"></script>
 <script src="/assets/diagnostico-ui.js?v=20"></script>
 </body>
 </html>

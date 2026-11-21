@@ -17,6 +17,35 @@
   var zona = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Europe/Madrid';
   var montadas = {};
 
+  // [código ISO, prefijo, nombre]. España y Latinoamérica primero (el público de la campaña).
+  var PAISES = [
+    ['ES', '34', 'España'], ['MX', '52', 'México'], ['CO', '57', 'Colombia'], ['AR', '54', 'Argentina'],
+    ['CL', '56', 'Chile'], ['PE', '51', 'Perú'], ['VE', '58', 'Venezuela'], ['EC', '593', 'Ecuador'],
+    ['US', '1', 'Estados Unidos'], ['DO', '1', 'República Dominicana'], ['PR', '1', 'Puerto Rico'],
+    ['GT', '502', 'Guatemala'], ['CU', '53', 'Cuba'], ['BO', '591', 'Bolivia'], ['HN', '504', 'Honduras'],
+    ['PY', '595', 'Paraguay'], ['SV', '503', 'El Salvador'], ['NI', '505', 'Nicaragua'], ['CR', '506', 'Costa Rica'],
+    ['PA', '507', 'Panamá'], ['UY', '598', 'Uruguay'], ['CA', '1', 'Canadá'], ['BR', '55', 'Brasil'],
+    ['PT', '351', 'Portugal'], ['AD', '376', 'Andorra'], ['FR', '33', 'Francia'], ['IT', '39', 'Italia'],
+    ['DE', '49', 'Alemania'], ['GB', '44', 'Reino Unido'], ['IE', '353', 'Irlanda'], ['CH', '41', 'Suiza'],
+    ['BE', '32', 'Bélgica'], ['NL', '31', 'Países Bajos']
+  ];
+  var ZONAS = {
+    'Europe/Madrid': 'ES', 'Atlantic/Canary': 'ES', 'Africa/Ceuta': 'ES', 'America/Bogota': 'CO', 'America/Santiago': 'CL',
+    'America/Lima': 'PE', 'America/Caracas': 'VE', 'America/Guayaquil': 'EC', 'America/Guatemala': 'GT', 'America/Havana': 'CU',
+    'America/La_Paz': 'BO', 'America/Santo_Domingo': 'DO', 'America/Tegucigalpa': 'HN', 'America/Asuncion': 'PY',
+    'America/El_Salvador': 'SV', 'America/Managua': 'NI', 'America/Costa_Rica': 'CR', 'America/Panama': 'PA',
+    'America/Montevideo': 'UY', 'America/Puerto_Rico': 'PR', 'America/Sao_Paulo': 'BR', 'Europe/Lisbon': 'PT',
+    'Europe/Andorra': 'AD', 'Europe/Paris': 'FR', 'Europe/Rome': 'IT', 'Europe/Berlin': 'DE', 'Europe/London': 'GB',
+    'Europe/Dublin': 'IE', 'Europe/Zurich': 'CH', 'Europe/Brussels': 'BE', 'Europe/Amsterdam': 'NL', 'America/Toronto': 'CA'
+  };
+  function paisPorZona(z) {
+    if (ZONAS[z]) return ZONAS[z];
+    if (/^America\/Argentina\//.test(z) || z === 'America/Buenos_Aires') return 'AR';
+    if (/^America\/(Mexico_City|Monterrey|Cancun|Merida|Chihuahua|Tijuana|Hermosillo|Mazatlan|Matamoros|Bahia_Banderas)$/.test(z)) return 'MX';
+    if (/^America\/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Detroit|Anchorage|Indiana\/.*|Kentucky\/.*|Boise)$/.test(z) || z === 'Pacific/Honolulu') return 'US';
+    return 'ES';
+  }
+
   function mide(evento, datos) {
     try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(evento, datos || {}); } catch (e) {}
   }
@@ -33,7 +62,7 @@
 
     var $ = function (id) { return document.getElementById(prefijo + id); };
     var dias = [];       // [{clave, fecha, huecos:[{inicio, estado}]}]
-    var diaSel = null, horaSel = null, motivoSel = '';
+    var diaSel = null, horaSel = null;
 
     // Solo en /agenda/: si viene de enviar el formulario de Tally, ya tenemos nombre, correo y WhatsApp
     // (los guarda /prepara-tu-llamada/ en este navegador): solo hace falta confirmar.
@@ -54,17 +83,37 @@
       } catch (e) { /* sin datos guardados: se piden en la agenda */ }
     }
 
-    // Pregunta opcional de un toque: una sola opción, se puede desmarcar.
+    // Pregunta opcional de un toque: se pueden marcar varias (21/11/2026, Jose) y desmarcarlas.
     if (op.conMotivo && $('motivo')) {
       [].forEach.call($('motivo').querySelectorAll('button'), function (b) {
         b.setAttribute('aria-pressed', 'false');
-        b.onclick = function () {
-          var si = b.getAttribute('aria-pressed') !== 'true';
-          [].forEach.call($('motivo').querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', 'false'); });
-          b.setAttribute('aria-pressed', si ? 'true' : 'false');
-          motivoSel = si ? b.textContent.trim() : '';
-        };
+        b.onclick = function () { b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); };
       });
+    }
+    function motivosMarcados() {
+      if (!$('motivo')) return '';
+      return [].filter.call($('motivo').querySelectorAll('button'), function (b) { return b.getAttribute('aria-pressed') === 'true'; })
+        .map(function (b) { return b.textContent.trim(); }).join(', ');
+    }
+
+    // Prefijo del país en un desplegable (21/11/2026, Jose): sin prefijo no sabemos a qué país escribir.
+    // Se preselecciona por la zona horaria del navegador.
+    if ($('prefijo')) {
+      var pais = paisPorZona(zona);
+      PAISES.forEach(function (p) {
+        var o = document.createElement('option');
+        o.value = p[1]; o.textContent = p[2] + ' +' + p[1];
+        if (p[0] === pais) o.selected = true;
+        $('prefijo').appendChild(o);
+      });
+    }
+    // Número completo con prefijo. Si la persona ya escribió +… o 00…, se respeta lo que puso.
+    function telefonoCompleto() {
+      var t = $('telefono').value.trim();
+      if (/^\+/.test(t)) return '+' + t.replace(/\D/g, '');
+      if (/^00/.test(t)) return '+' + t.replace(/\D/g, '').slice(2);
+      if (!$('prefijo')) return t;
+      return '+' + $('prefijo').value + t.replace(/\D/g, '').replace(/^0+/, '');
     }
 
     function carga() {
@@ -155,14 +204,14 @@
     $('form').addEventListener('submit', function (ev) {
       ev.preventDefault();
       if (!horaSel) return;
-      var nombre = $('nombre').value.trim(), email = $('email').value.trim(), tel = $('telefono').value.trim();
+      var nombre = $('nombre').value.trim(), email = $('email').value.trim(), tel = telefonoCompleto();
       if (!nombre) { error('Escribe tu nombre.'); $('nombre').focus(); return; }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { error('Revisa tu correo: ahí te llega el enlace de Meet.'); $('email').focus(); return; }
-      if (tel.replace(/\D/g, '').length < 8) { error('Escribe tu WhatsApp con el prefijo del país (por ejemplo, +34).'); $('telefono').focus(); return; }
+      if (tel.replace(/\D/g, '').length < 8 || !/^\+/.test(tel)) { error($('prefijo') ? 'Elige tu país y escribe tu número de WhatsApp.' : 'Escribe tu WhatsApp con el prefijo del país (por ejemplo, +34).'); $('telefono').focus(); return; }
       var cuerpo = { accion: 'reservar', inicio: horaSel.inicio, nombre: nombre, email: email, telefono: tel, web: $('web').value, origen: origen };
       if (op.conMotivo) {
         var libre = $('motivoTexto') ? $('motivoTexto').value.trim() : '';
-        var motivo = [motivoSel, libre].filter(Boolean).join(' · ');
+        var motivo = [motivosMarcados(), libre].filter(Boolean).join(' · ');
         if (motivo) cuerpo.motivo = motivo;
       }
       var boton = $('reservar'); boton.disabled = true; boton.textContent = 'Reservando…';
