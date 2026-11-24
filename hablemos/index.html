@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hablemos: tu llamada gratis | Jose Pico</title>
+<meta name="description" content="Mira cómo trabajo y reserva una llamada gratis de 30 minutos para ver tu caso.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://josempico.com/hablemos/">
+<meta name="theme-color" content="#080808"><meta name="color-scheme" content="dark">
+<link rel="stylesheet" href="/assets/estilo.css?v=20261008">
+<link rel="stylesheet" href="/assets/captacion.css?v=4">
+<link rel="stylesheet" href="/assets/agenda.css?v=4">
+<style>
+.hablemos .video-web{margin:8px auto 40px}
+.hablemos .agenda{margin-top:8px}
+.hablemos .agenda-hecho .boton{margin-top:16px}
+.hablemos .otra-opcion{margin:28px 0 0;font-size:15px;color:var(--ash);line-height:1.6}
+.hablemos .otra-opcion a{color:var(--bone)}
+</style>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
+<script defer src="/assets/medir.js?v=1"></script><script defer src="/assets/pixel.js?v=2"></script>
+</head>
+<!-- 24/11/2026 (Jose): página a la que lleva el DM de «Comenta DIAGNÓSTICO». Orden: vídeo → reservar la llamada →
+     diagnóstico. Quien llega de los anuncios va directo a /diagnostico/ (resultado con la agenda dentro). -->
+<body><a class="salto" href="#contenido">Saltar al contenido</a><div class="wrap">
+<div class="barra"><a class="marca" href="/">Jose Pico</a><nav aria-label="Navegación principal"><a href="/mentoria/">Mentoría</a><a href="/match-link/">Match Link</a><a href="/vibes/">VIBES</a><a href="/recursos/">Recursos</a><a href="/clases/">Clases</a></nav></div>
+<main id="contenido" class="embudo hablemos">
+
+  <header class="hero">
+    <p class="kicker">Llamada gratis · 30 minutos</p>
+    <h1>Primero, <em>conóceme</em></h1>
+    <p class="entradilla">En este vídeo te cuento cómo trabajo. Si después quieres que veamos tu caso, reserva tu llamada gratis justo debajo. Es por Google Meet y no te comprometes a nada.</p>
+  </header>
+
+  <section aria-label="Vídeo de Jose">
+    <figure class="video-web">
+      <video id="videoHablemos" controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de Jose: cómo trabajo">
+        <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4?v=20261110" type="video/mp4">
+        <source src="/assets/video/bienvenida.mp4?v=20261019" type="video/mp4">
+      </video>
+      <script>if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
+    </figure>
+  </section>
+
+  <section aria-labelledby="t-reserva">
+    <div class="bloque-corto"><p class="marcador">Tu llamada gratis</p><h2 id="t-reserva">Elige cuándo hablamos</h2></div>
+    <div class="agenda" id="ag-agenda">
+      <p class="agenda-zona" id="ag-zona">Cargando la agenda…</p>
+      <div class="agenda-dias" id="ag-dias" role="tablist" aria-label="Días"></div>
+      <div class="agenda-horas" id="ag-horas" aria-live="polite"></div>
+      <p class="agenda-leyenda" id="ag-leyenda" hidden><span class="muestra libre"></span> Libre <span class="muestra ocupado"></span> Ocupado</p>
+      <form class="agenda-form" id="ag-form" hidden novalidate>
+        <p class="agenda-elegida" id="ag-elegida"></p>
+        <p class="agenda-conocido" id="ag-conocido" hidden></p>
+        <fieldset class="agenda-motivo">
+          <legend>¿Qué te gustaría resolver en la llamada? <span>(opcional, puedes marcar varias)</span></legend>
+          <div class="agenda-motivo-ops" id="ag-motivo">
+            <button type="button">Conocer gente</button>
+            <button type="button">Mi perfil en apps</button>
+            <button type="button">Conversaciones que no llegan a cita</button>
+            <button type="button">Después de la primera cita</button>
+          </div>
+          <input type="text" id="ag-motivoTexto" maxlength="300" placeholder="Si quieres, cuéntame algo más" aria-label="Si quieres, cuéntame algo más">
+        </fieldset>
+        <div id="ag-campos">
+          <label class="campo">Tu nombre<input type="text" id="ag-nombre" autocomplete="given-name" maxlength="60" required></label>
+          <label class="campo">Tu correo (te llega la invitación con el Meet)<input type="email" id="ag-email" autocomplete="email" maxlength="120" required></label>
+          <div class="campo">Tu WhatsApp
+            <div class="agenda-tel"><select id="ag-prefijo" aria-label="País (prefijo)" autocomplete="tel-country-code"></select><input type="tel" id="ag-telefono" autocomplete="tel-national" maxlength="20" placeholder="600 000 000" aria-label="Número de WhatsApp" required></div>
+          </div>
+        </div>
+        <label class="trampa" aria-hidden="true">No rellenar<input type="text" id="ag-web" tabindex="-1" autocomplete="off"></label>
+        <p class="agenda-error" id="ag-error" role="alert" hidden></p>
+        <button type="submit" class="boton ancho" id="ag-reservar">Reservar mi llamada</button>
+      </form>
+      <div class="agenda-hecho" id="ag-hecho" hidden tabindex="-1">
+        <p><strong>Hecho: te llega la invitación a tu correo con el enlace de Meet.</strong></p>
+        <p>Mientras tanto, haz el diagnóstico (3 minutos) y llego a la llamada con tu caso.</p>
+        <a class="boton ancho" id="irDiagnosticoHecho" href="/diagnostico/?utm_source=instagram&amp;utm_campaign=hablemos">Hacer el diagnóstico</a>
+      </div>
+    </div>
+
+    <p class="otra-opcion" id="otraOpcion">¿Aún no lo tienes claro? <a id="irDiagnostico" href="/diagnostico/?utm_source=instagram&amp;utm_campaign=hablemos">Haz antes el diagnóstico (3 minutos)</a> o <a href="https://wa.me/34621321861?text=Hola%20Jose%2C%20vengo%20de%20Instagram%20y%20quiero%20hablar%20contigo">escríbeme por WhatsApp</a>.</p>
+  </section>
+
+</main>
+<footer><div class="enlaces"><a href="https://instagram.com/josempico">@josempico</a><a href="https://www.youtube.com/@Josempico90">YouTube</a><a href="/privacidad/">Privacidad</a></div><p><a href="/">Jose Pico</a></p></footer>
+</div>
+<script src="/assets/agenda.js?v=6"></script>
+<script>
+(function () {
+  function mide(ev, datos) { try { if (window.umami && typeof window.umami.track === 'function') window.umami.track(ev, datos || {}); } catch (e) {} }
+  var reservada = false;
+  try { reservada = sessionStorage.getItem('llamada-reservada') === '1'; } catch (e) {}
+  if (reservada) {
+    ['ag-zona', 'ag-dias', 'ag-horas', 'ag-leyenda', 'ag-form', 'otraOpcion'].forEach(function (id) { document.getElementById(id).hidden = true; });
+    document.getElementById('ag-hecho').hidden = false;
+  } else {
+    AgendaJP.monta({
+      prefijo: 'ag-', origen: 'hablemos', conMotivo: true,
+      motivo: function () { return 'Vino de un comentario en Instagram (josempico.com/hablemos/)'; },
+      alReservar: function () {
+        try { sessionStorage.setItem('llamada-reservada', '1'); } catch (e) {}
+        if (window.fbq) { try { window.fbq('track', 'Schedule'); } catch (e) {} }
+        ['ag-zona', 'ag-dias', 'ag-horas', 'ag-leyenda', 'ag-form', 'otraOpcion'].forEach(function (id) { document.getElementById(id).hidden = true; });
+        document.getElementById('ag-hecho').hidden = false;
+        document.getElementById('ag-hecho').focus();
+      }
+    });
+  }
+  var visto = false;
+  document.getElementById('videoHablemos').addEventListener('play', function () { if (!visto) { visto = true; mide('hablemos-video'); } });
+  document.getElementById('irDiagnostico').addEventListener('click', function () { mide('hablemos-diagnostico', { momento: 'antes-de-reservar' }); });
+  document.getElementById('irDiagnosticoHecho').addEventListener('click', function () { mide('hablemos-diagnostico', { momento: 'tras-reservar' }); });
+})();
+</script>
+</body></html>

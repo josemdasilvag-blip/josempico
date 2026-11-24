@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="/assets/estilo.css?v=20261008">
 <link rel="stylesheet" href="/assets/agenda.css?v=4">
-<link rel="stylesheet" href="/assets/diagnostico.css?v=5">
+<link rel="stylesheet" href="/assets/diagnostico.css?v=6">
 <script defer src="https://cloud.umami.is/script.js" data-website-id="b3817e9f-579f-4f32-8957-29af74f194b4"></script>
 <script defer src="/assets/medir.js?v=1"></script><script defer src="/assets/pixel.js?v=2"></script>
 </head>
@@ -105,29 +105,36 @@
       <div class="nota" id="aviso" hidden></div>
       <div class="cuerpo" id="cuerpo"></div>
 
+      <!-- 24/11/2026 (Jose): sin vídeo ni formulario de Tally. La agenda va aquí mismo: eliges hora y reservas
+           sin salir de la página. Antes: botón → /prepara-tu-llamada/ → Tally → /agenda/ (3 de 47 pulsaron, 0 reservas). -->
       <div class="carta destacada" id="cartaLlamada">
-        <h3>Pide tu llamada gratis</h3>
-        <p>30 minutos gratis para ver tu caso conmigo. En el formulario me cuentas dónde estás y eliges día y hora.</p>
-        <div class="acciones">
-          <a class="boton ancho" id="botonLlamada" href="/prepara-tu-llamada/?origen=diagnostico#solicitud">Pedir mi llamada gratis</a>
+        <h3>Hablemos 30 minutos, gratis</h3>
+        <p id="cartaTexto">Vemos tu caso juntos y te digo por dónde empezaría yo. Sin compromiso. Elige día y hora aquí mismo.</p>
+        <div class="agenda" id="re-agenda">
+          <p class="agenda-zona" id="re-zona">Cargando la agenda…</p>
+          <div class="agenda-dias" id="re-dias" role="tablist" aria-label="Días"></div>
+          <div class="agenda-horas" id="re-horas" aria-live="polite"></div>
+          <p class="agenda-leyenda" id="re-leyenda" hidden><span class="muestra libre"></span> Libre <span class="muestra ocupado"></span> Ocupado</p>
+          <form class="agenda-form" id="re-form" hidden novalidate>
+            <p class="agenda-elegida" id="re-elegida"></p>
+            <p class="agenda-conocido" id="re-conocido" hidden></p>
+            <div id="re-campos">
+              <label class="campo">Tu nombre<input type="text" id="re-nombre" autocomplete="given-name" maxlength="60" required></label>
+              <label class="campo">Tu correo (te llega la invitación con el Meet)<input type="email" id="re-email" autocomplete="email" maxlength="120" required></label>
+              <div class="campo">Tu WhatsApp
+                <div class="agenda-tel"><select id="re-prefijo" aria-label="País (prefijo)" autocomplete="tel-country-code"></select><input type="tel" id="re-telefono" autocomplete="tel-national" maxlength="20" placeholder="600 000 000" aria-label="Número de WhatsApp" required></div>
+              </div>
+            </div>
+            <label class="trampa" aria-hidden="true">No rellenar<input type="text" id="re-web" tabindex="-1" autocomplete="off"></label>
+            <p class="agenda-error" id="re-error" role="alert" hidden></p>
+            <button type="submit" class="boton ancho" id="re-reservar">Reservar mi llamada</button>
+          </form>
+          <div class="agenda-hecho" id="re-hecho" hidden tabindex="-1">
+            <p><strong>Hecho: te llega la invitación a tu correo con el enlace de Meet.</strong></p>
+            <p>Llego a la llamada con tu resultado ya leído.</p>
+          </div>
         </div>
-      </div>
-
-      <div class="carta">
-        <h3>Esto tiene solución</h3>
-        <p>Si antes quieres saber cómo trabajo, mira el vídeo.</p>
-      </div>
-
-      <figure class="video-web">
-        <video id="videoResultado" controls playsinline preload="none" poster="/assets/video/bienvenida-portada.webp" data-poster-movil="/assets/video/bienvenida-portada-movil.webp" aria-label="Vídeo de bienvenida de Jose: cómo funciona el programa y por qué empezar por el diagnóstico">
-          <source media="(max-width: 760px)" src="/assets/video/bienvenida-movil.mp4?v=20261110" type="video/mp4">
-          <source src="/assets/video/bienvenida.mp4?v=20261019" type="video/mp4">
-        </video>
-        <script>/* portada vertical en móvil */if(matchMedia("(max-width:760px)").matches)document.querySelectorAll("video[data-poster-movil]").forEach(function(v){v.poster=v.getAttribute("data-poster-movil")});</script>
-      </figure>
-
-      <div class="acciones repetida">
-        <a class="boton ancho" href="/prepara-tu-llamada/?origen=diagnostico#solicitud" id="botonLlamada2">Pedir mi llamada gratis</a>
+        <p class="resultado-whatsapp" id="resWhatsappP">¿Prefieres escribirme? <a id="resWhatsapp" href="https://wa.me/34621321861?text=Hola%20Jose%2C%20acabo%20de%20hacer%20el%20diagn%C3%B3stico%20y%20quiero%20hablar%20contigo">Escríbeme por WhatsApp</a></p>
       </div>
 
       <div class="carta" id="datos">
@@ -166,7 +173,7 @@
 
 </div>
 <script src="/assets/diagnostico.js?v=10"></script>
-<script src="/assets/agenda.js?v=4"></script>
-<script src="/assets/diagnostico-ui.js?v=20"></script>
+<script src="/assets/agenda.js?v=6"></script>
+<script src="/assets/diagnostico-ui.js?v=21"></script>
 </body>
 </html>

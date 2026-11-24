@@ -74,3 +74,8 @@
 
 /* 21/11/2026: segunda puerta de la portada, mismo peso que «Empezar», separada un poco */
 .diag .portada .reservar-portada{margin-top:12px}
+
+/* 24/11/2026: agenda dentro del resultado y WhatsApp como segunda opción */
+.diag .carta .agenda{margin-top:18px}
+.diag .resultado-whatsapp{margin:18px 0 0;font-size:15px;color:var(--ash)}
+.diag .resultado-whatsapp a{color:var(--bone)}

@@ -10,6 +10,7 @@
  *  - origen: va en el POST y en el evento llamada_reservada de Umami.
  *  - conMotivo: muestra la pregunta opcional «¿Qué te gustaría resolver?» (ids motivo y motivoTexto).
  *  - alReservar(hora): si existe, se llama en vez de saltar a /llamada-confirmada/.
+ *  - motivo(): opcional (24/11/2026), texto que se antepone al motivo (resultado del diagnóstico, página de origen).
  */
 (function () {
   'use strict';
@@ -167,7 +168,9 @@
       horaSel = null; $('form').hidden = true;
       [].forEach.call($('dias').children, function (b) {
         var si = b.dataset.clave === clave; b.setAttribute('aria-selected', si ? 'true' : 'false');
-        if (si && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        // Solo se desplaza la fila de días, no la página (24/11/2026: scrollIntoView movía la página al cargar
+        // y, dentro del resultado del diagnóstico, se saltaba el texto del resultado).
+        if (si) { var fila = $('dias'); fila.scrollLeft = Math.max(0, b.offsetLeft - fila.offsetLeft - 8); }
       });
       var cont = $('horas'); cont.innerHTML = '';
       if (!diaSel) return;
@@ -209,11 +212,15 @@
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { error('Revisa tu correo: ahí te llega el enlace de Meet.'); $('email').focus(); return; }
       if (tel.replace(/\D/g, '').length < 8 || !/^\+/.test(tel)) { error($('prefijo') ? 'Elige tu país y escribe tu número de WhatsApp.' : 'Escribe tu WhatsApp con el prefijo del país (por ejemplo, +34).'); $('telefono').focus(); return; }
       var cuerpo = { accion: 'reservar', inicio: horaSel.inicio, nombre: nombre, email: email, telefono: tel, web: $('web').value, origen: origen };
+      var partes = [];
+      // op.motivo(): texto fijo que pone la página (p. ej. el resultado del diagnóstico o de dónde viene).
+      if (typeof op.motivo === 'function') { try { partes.push(op.motivo() || ''); } catch (e) {} }
       if (op.conMotivo) {
-        var libre = $('motivoTexto') ? $('motivoTexto').value.trim() : '';
-        var motivo = [motivosMarcados(), libre].filter(Boolean).join(' · ');
-        if (motivo) cuerpo.motivo = motivo;
+        partes.push(motivosMarcados());
+        partes.push($('motivoTexto') ? $('motivoTexto').value.trim() : '');
       }
+      var motivo = partes.filter(Boolean).join(' · ');
+      if (motivo) cuerpo.motivo = motivo;
       var boton = $('reservar'); boton.disabled = true; boton.textContent = 'Reservando…';
       var hora = horaSel;
       fetch(API, {

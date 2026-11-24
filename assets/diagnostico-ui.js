@@ -232,11 +232,9 @@
       $('modulo').textContent = informe.modulo;
       $('reto').textContent = 'Reto ' + informe.reto + ' · ' + informe.retoNombre.charAt(0).toUpperCase() + informe.retoNombre.slice(1);
     } else {
-      // 17/11/2026 (Jose): vuelve el formulario. Con WhatsApp, 0 de 43 escribieron; con Tally + agenda,
-      // 3 llamadas de 63. Cada uno va a su página de preparación (separadas por sexo), formulario y agenda.
-      var destino = (resp.G0 === 'm' ? '/prepara-tu-llamada/' : '/prepara-tu-llamada-hombre/') + '?origen=diagnostico#solicitud';
-      $('botonLlamada').href = destino;
-      if ($('botonLlamada2')) $('botonLlamada2').href = destino;
+      // 24/11/2026 (Jose): la agenda va dentro del resultado (sin Tally ni páginas de preparación).
+      // Del 17 al 23/11, con botón → /prepara-tu-llamada/ → Tally → /agenda/: 3 clics de 47 y 0 reservas.
+      montaAgendaResultado();
       vigilaBoton();
       yaReservada();
     }
@@ -281,10 +279,29 @@
   // Quien ya reservó y luego hace el diagnóstico no ve otra vez «Pide tu llamada gratis».
   function yaReservada() {
     if (!reservada() || !$('cartaLlamada')) return;
+    // Quien reservó aquí mismo ya ve «Hecho…» dentro de la agenda; quien reservó antes (portada o /hablemos/) ve esto.
+    if ($('re-hecho') && !$('re-hecho').hidden) return;
     $('cartaLlamada').querySelector('h3').textContent = 'Ya tienes tu llamada reservada';
-    $('cartaLlamada').querySelector('p').textContent = 'Te llegó la invitación por correo. Nos vemos en la llamada.';
-    $('botonLlamada').hidden = true;
-    if ($('botonLlamada2')) $('botonLlamada2').parentNode.hidden = true;
+    $('cartaTexto').textContent = 'Te llegó la invitación por correo. Llego a la llamada con tu resultado ya leído.';
+    if ($('re-agenda')) $('re-agenda').hidden = true;
+    if ($('resWhatsappP')) $('resWhatsappP').hidden = true;
+  }
+  // Agenda del resultado (ids «re-…»). Se monta una vez; el motivo lleva el resultado que salga en ese momento.
+  function montaAgendaResultado() {
+    if (!$('re-agenda') || !window.AgendaJP || reservada()) return;
+    window.AgendaJP.monta({
+      prefijo: 're-', origen: 'diagnostico-resultado',
+      motivo: function () { return 'Hizo el diagnóstico: ' + (informe && informe.titulo ? informe.titulo : '') + ' (' + (resp.G0 === 'm' ? 'mujer' : 'hombre') + ')'; },
+      alReservar: function () {
+        try { sessionStorage.setItem('llamada-reservada', '1'); } catch (e) {}
+        if (window.fbq) { try { window.fbq('track', 'Schedule'); } catch (e) {} }
+        ['re-zona', 're-dias', 're-horas', 're-leyenda', 're-form'].forEach(function (id) { $(id).hidden = true; });
+        $('cartaTexto').hidden = true;
+        if ($('resWhatsappP')) $('resWhatsappP').hidden = true;
+        $('re-hecho').hidden = false;
+        $('re-hecho').focus();
+      }
+    });
   }
   if ($('reservarPortada') && window.AgendaJP) {
     $('reservarPortada').onclick = function () {
@@ -311,20 +328,7 @@
   $('atras').onclick = atras;
   $('formDatos').addEventListener('submit', enviaDatos);
   $('otra').onclick = otraVez;
-  // Al pulsar "Pedir mi llamada": se cuenta (mismo evento que el camino Tally de antes, para
-  // comparar) y se va a la página de preparación. 300 ms para que Umami registre el clic.
-  function vaALlamada(ev, extra) {
-    ev.preventDefault();
-    var destino = ev.currentTarget.href;
-    if (extra) cuenta(extra);
-    cuenta('diagnostico_a_preparacion');
-    setTimeout(function () { window.location.href = destino; }, 300);
-  }
-  if ($('botonLlamada')) $('botonLlamada').onclick = function (ev) { vaALlamada(ev); };
-  if ($('botonLlamada2')) $('botonLlamada2').onclick = function (ev) { vaALlamada(ev, 'boton-llamada-repetido'); };
-  var yaPlay = false;
-  if ($('videoResultado')) $('videoResultado').addEventListener('play', function () {
-    if (!yaPlay) { yaPlay = true; cuenta('video-resultado'); }
-  });
+  // El clic en «Escríbeme por WhatsApp» lo mide medir.js como «whatsapp» (pagina /diagnostico/); además, este:
+  if ($('resWhatsapp')) $('resWhatsapp').addEventListener('click', function () { cuenta('resultado-whatsapp'); });
   $('volver').onclick = function () { ver('test'); atras(); };
 })();
