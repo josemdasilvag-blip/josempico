@@ -98,10 +98,42 @@
     </section>
 
 
+    <!-- ============ CORREO ANTES DEL RESULTADO (25/11/2026) ============
+         Se ve el nombre del fallo; el resultado completo sale al dejar el correo (y llega también por correo).
+         Se desactiva con CANDADO = false en assets/diagnostico-ui.js. -->
+    <section id="llave" class="resultado llave" hidden>
+      <p class="kicker">Tu resultado está listo</p>
+      <h2 id="llaveTitulo" tabindex="-1"></h2>
+      <p class="entradilla">Te lo enseño ahora mismo, completo: dónde se te corta, por qué y qué es lo primero que cambiaría yo. Y te lo mando también al correo, con los 7 cambios para <span id="llaveGancho">darle la vuelta a esto</span>.</p>
+      <div class="carta destacada">
+        <h3>¿A dónde te lo mando?</h3>
+        <form id="formLlave" novalidate>
+          <label class="campo">Nombre
+            <input type="text" id="llaveNombre" autocomplete="given-name" required maxlength="80">
+          </label>
+          <label class="campo">Email
+            <input type="email" id="llaveEmail" autocomplete="email" required maxlength="160">
+          </label>
+          <label class="consentimiento">
+            <input type="checkbox" id="llaveAcepto" required>
+            <span>Acepto que Jose Pico guarde mi nombre, mi email y mi resultado para escribirme sobre el diagnóstico y el programa. Me puedo dar de baja cuando quiera. Lo explico todo en la <a href="/privacidad/" target="_blank" rel="noopener">política de privacidad</a>.</span>
+          </label>
+          <button type="submit" class="boton ancho">Ver mi resultado</button>
+        </form>
+        <div id="errorLlave" role="alert" hidden>
+          <p class="pronto">No se ha podido enviar. Revisa que el correo esté bien escrito y vuelve a pulsar el botón.</p>
+          <button type="button" class="enlace" id="sinCorreo">Ver mi resultado sin guardarlo</button>
+        </div>
+      </div>
+      <p class="letra-chica">Sin spam. Solo tu resultado y lo que te sirva para darle la vuelta.</p>
+      <button type="button" class="enlace" id="volverLlave">← Cambiar la última respuesta</button>
+    </section>
+
     <!-- ============ RESULTADO ============ -->
     <section id="resultado" class="resultado" hidden>
       <p class="kicker">Tu resultado</p>
       <h2 id="titulo" tabindex="-1"></h2>
+      <p class="pronto" id="yaEnviado" hidden>Te lo he mandado también a tu correo. Si no lo ves en unos minutos, mira en promociones o spam.</p>
       <div class="nota" id="aviso" hidden></div>
       <div class="cuerpo" id="cuerpo"></div>
 
@@ -175,6 +207,6 @@
 </div>
 <script src="/assets/diagnostico.js?v=11"></script>
 <script src="/assets/agenda.js?v=6"></script>
-<script src="/assets/diagnostico-ui.js?v=22"></script>
+<script src="/assets/diagnostico-ui.js?v=23"></script>
 </body>
 </html>

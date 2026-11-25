@@ -32,11 +32,23 @@
   function $(id) { return document.getElementById(id); }
 
   function ver(id) {
-    ['portada', 'test', 'resultado'].forEach(function (p) {
-      $(p).hidden = p !== id;
+    ['portada', 'test', 'llave', 'resultado'].forEach(function (p) {
+      if ($(p)) $(p).hidden = p !== id;
     });
     window.scrollTo(0, 0);
   }
+
+  // 25/11/2026 (embudo «Elige tu camino»): quien llega desde /el/ o /ella/ trae ?sexo=h|m.
+  // G0 ya va contestada y el test arranca sin la portada del diagnóstico.
+  var CAMINO = (function () {
+    try { var s = new URLSearchParams(location.search).get('sexo'); return s === 'h' || s === 'm' ? s : ''; }
+    catch (e) { return ''; }
+  })();
+
+  // 25/11/2026: el correo se pide ANTES del resultado completo (en pantalla ya se ve el nombre del fallo).
+  // Para volver al resultado sin correo, poner CANDADO = false.
+  var CANDADO = true;
+  var correoDado = false, datosCorreo = null;
 
   function actual() {
     var sec = D.secuencia(resp);
@@ -147,8 +159,61 @@
 
   function cierra() {
     informe = D.informe(resultado, resp, { pagina: PAGINA, objetivos: PAGINA === 'publica' ? objResp : null });
-    muestra();
     cuenta('diagnostico-completado');
+    if (PAGINA === 'publica' && CANDADO && D.SUSCRIBIR_URL && !correoDado && $('llave')) { muestraLlave(); return; }
+    muestra();
+  }
+
+  // Pantalla del correo: título del resultado + formulario. Al confirmar el Worker, sale el resultado completo.
+  function muestraLlave() {
+    $('llaveTitulo').textContent = informe.titulo;
+    if (informe.gancho) $('llaveGancho').textContent = informe.gancho;
+    $('formLlave').hidden = false;
+    $('errorLlave').hidden = true;
+    ver('llave');
+    $('llaveTitulo').focus();
+    cuenta('diagnostico-llave-vista');
+  }
+
+  function mandaCorreo(nombre, email) {
+    return D.enviarResultado({
+      nombre: nombre,
+      email: email,
+      sexo: resp.G0,
+      principal: resultado.principal,
+      secundario: resultado.secundario,
+      reto: informe.reto,
+      pagina: PAGINA,
+      origen: CAMINO ? 'diagnostico-camino' : 'diagnostico',
+      ref: ref,
+      fecha: new Date().toISOString()
+    });
+  }
+
+  function enviaLlave(ev) {
+    ev.preventDefault();
+    var form = $('formLlave');
+    if (!form.reportValidity()) return;
+    var boton = form.querySelector('button[type="submit"]');
+    var textoBoton = boton.textContent;
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+    $('errorLlave').hidden = true;
+    var nombre = $('llaveNombre').value.trim(), email = $('llaveEmail').value.trim();
+    mandaCorreo(nombre, email).then(function (ok) {
+      boton.disabled = false;
+      boton.textContent = textoBoton;
+      if (ok) {
+        correoDado = true;
+        datosCorreo = { nombre: nombre, email: email };
+        cuenta('diagnostico-correo');
+        try { if (typeof window.fbq === 'function') window.fbq('track', 'Lead', { content_name: resultado.principal }); } catch (e) {}
+        muestra();
+      } else {
+        $('errorLlave').hidden = false;
+        cuenta('diagnostico-correo-error');
+      }
+    });
   }
 
   // Preguntas de objetivo: se pintan en la misma pantalla de test, con su propio progreso.
@@ -200,18 +265,7 @@
     boton.textContent = 'Enviando…';
     var aviso = $('errorCorreo');
     if (aviso) aviso.hidden = true;
-    D.enviarResultado({
-      nombre: $('nombre').value.trim(),
-      email: $('email').value.trim(),
-      sexo: resp.G0,
-      principal: resultado.principal,
-      secundario: resultado.secundario,
-      reto: informe.reto,
-      pagina: PAGINA,
-      origen: 'diagnostico',
-      ref: ref,
-      fecha: new Date().toISOString()
-    }).then(function (ok) {
+    mandaCorreo($('nombre').value.trim(), $('email').value.trim()).then(function (ok) {
       boton.disabled = false;
       boton.textContent = textoBoton;
       if (ok) {
@@ -255,9 +309,16 @@
     }
     if ($('gancho') && informe.gancho) $('gancho').textContent = informe.gancho;
     // Mientras no esté conectado el correo (SUSCRIBIR_URL vacío), no se ofrece guardar el resultado.
-    $("datos").hidden = !D.SUSCRIBIR_URL;
+    // Si ya dejó el correo en la pantalla anterior, no se le vuelve a pedir: solo el aviso.
+    $("datos").hidden = !D.SUSCRIBIR_URL || correoDado;
     $('formDatos').hidden = false;
     $('enviado').hidden = true;
+    if ($('yaEnviado')) $('yaEnviado').hidden = !correoDado;
+    // La agenda del resultado sale ya con su nombre y su correo.
+    if (datosCorreo) {
+      if ($('re-nombre') && !$('re-nombre').value) $('re-nombre').value = datosCorreo.nombre;
+      if ($('re-email') && !$('re-email').value) $('re-email').value = datosCorreo.email;
+    }
     ver('resultado');
     $('titulo').focus();
   }
@@ -280,14 +341,24 @@
   function otraVez() {
     resp = {}; historial = []; ordenes = {}; resultado = null; informe = null;
     fase = 'diagnostico'; objPreg = []; objIdx = 0; objResp = {}; ref = '';
+    if (CAMINO) { resp.G0 = CAMINO; ver('test'); pinta(); return; }
     ver('portada');
     $('empezar').focus();
   }
 
-  $('empezar').onclick = function () {
-    if (window.umami && typeof window.umami.track === 'function') window.umami.track('diagnostico-iniciado', { pagina: PAGINA });
+  function empieza() {
+    if (CAMINO) resp.G0 = CAMINO;
+    if (window.umami && typeof window.umami.track === 'function') {
+      window.umami.track('diagnostico-iniciado', { pagina: PAGINA, camino: CAMINO ? (CAMINO === 'm' ? 'ella' : 'el') : '' });
+    }
     ver('test'); pinta();
-  };
+  }
+  $('empezar').onclick = empieza;
+  if ($('formLlave')) $('formLlave').addEventListener('submit', enviaLlave);
+  if ($('volverLlave')) $('volverLlave').onclick = function () { ver('test'); atras(); };
+  // Solo aparece si falla el envío: nunca se deja a nadie sin su resultado por un error nuestro.
+  if ($('sinCorreo')) $('sinCorreo').onclick = function () { cuenta('diagnostico-sin-correo'); muestra(); };
+  if (CAMINO && PAGINA === 'publica') empieza();
   // 21/11/2026 (Jose): reservar la llamada desde la portada, sin hacer antes el diagnóstico.
   // La agenda (assets/agenda.js) se monta al abrirla, con ids «ag-…» para no chocar con el formulario del correo.
   function reservada() { try { return sessionStorage.getItem('llamada-reservada') === '1'; } catch (e) { return false; } }
