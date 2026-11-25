@@ -1191,16 +1191,27 @@
     fetchImpl = fetchImpl || (typeof fetch !== 'undefined' ? fetch : null);
     if (!url || !fetchImpl) return Promise.resolve(false);
     // JSON al Worker de josempico.com, que lo pasa a MailerLite (el token vive allí, no en la web).
-    try {
-      return Promise.resolve(fetchImpl(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(datos),
-        keepalive: true
-      })).then(function (r) { return !!(r && (r.ok === undefined || r.ok)); }, function () { return false; });
-    } catch (e) {
-      return Promise.resolve(false);
+    // Sin keepalive (25/11/2026): en el navegador de Instagram en iPhone, 7 de 8 envíos con keepalive no llegaron
+    // al Worker aunque la página dijera «Hecho». Aquí la página sigue abierta, así que no hace falta.
+    // Un reintento si falla la red o el Worker (5xx); un 400 (correo mal escrito) no se repite.
+    function intento() {
+      try {
+        return Promise.resolve(fetchImpl(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(datos)
+        })).then(function (r) {
+          if (!r || r.ok === undefined || r.ok) return 'ok';
+          return r.status >= 400 && r.status < 500 ? 'datos' : 'red';
+        }, function () { return 'red'; });
+      } catch (e) {
+        return Promise.resolve('red');
+      }
     }
+    return intento().then(function (res) {
+      if (res !== 'red') return res === 'ok';
+      return new Promise(function (ok) { setTimeout(ok, 1500); }).then(intento).then(function (r2) { return r2 === 'ok'; });
+    });
   }
 
   /* ================================================================

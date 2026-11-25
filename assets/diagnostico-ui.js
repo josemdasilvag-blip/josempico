@@ -193,6 +193,13 @@
     ev.preventDefault();
     var form = $('formDatos');
     if (!form.reportValidity()) return;
+    // «Hecho» solo cuando el Worker confirma (25/11/2026: antes salía siempre, y 7 de 8 correos se perdían).
+    var boton = form.querySelector('button[type="submit"]');
+    var textoBoton = boton.textContent;
+    boton.disabled = true;
+    boton.textContent = 'Enviando…';
+    var aviso = $('errorCorreo');
+    if (aviso) aviso.hidden = true;
     D.enviarResultado({
       nombre: $('nombre').value.trim(),
       email: $('email').value.trim(),
@@ -204,10 +211,18 @@
       origen: 'diagnostico',
       ref: ref,
       fecha: new Date().toISOString()
+    }).then(function (ok) {
+      boton.disabled = false;
+      boton.textContent = textoBoton;
+      if (ok) {
+        form.hidden = true;
+        $('enviado').hidden = false;
+        cuenta('diagnostico-correo');
+      } else {
+        if (aviso) aviso.hidden = false;
+        cuenta('diagnostico-correo-error');
+      }
     });
-    form.hidden = true;
-    $('enviado').hidden = false;
-    cuenta('diagnostico-correo');
   }
 
   function parrafo(html, clase) {
