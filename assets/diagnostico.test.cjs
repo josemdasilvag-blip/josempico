@@ -655,3 +655,29 @@ test('v3.5 · la llamada se anuncia gratis y con el botón debajo', () => {
   assert.ok(t.includes('llamada gratis de 30 minutos'));
   assert.ok(!t.includes('Abajo tienes el botón'));
 });
+
+// 25/11/2026 — versión corta de la página pública (12 como máximo sin contar G0)
+test('corta: nunca más de 12 preguntas sin G0, y la completa no cambia', () => {
+  let s = 9; const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
+  for (let i = 0; i < 500; i++) {
+    const o = {};
+    for (;;) {
+      const q = D.secuencia(o, { corto: true }).find(x => o[x] == null);
+      if (!q) break;
+      const p = D.pregunta(o.G0, q);
+      o[q] = p.ops[Math.floor(rnd() * p.ops.length)].id;
+    }
+    assert.ok(Object.keys(o).filter(q => q !== 'G0').length <= D.LIMITE_CORTO);
+    assert.ok(D.calcula(o, { preguntas: [], tiempos: [], posiciones: [] }).principal);
+  }
+  assert.equal(D.secuencia(P.H09).length - 3, 17);
+});
+
+test('corta: si x5a es «ninguna», su hueco pasa a la siguiente de la prioridad', () => {
+  const base = { G0: 'h', G1: 'si', G2: 'una_dos' };
+  const antes = D.secuencia(base, { corto: true });
+  assert.ok(antes.includes('5a'));
+  const despues = D.secuencia(Object.assign({}, base, { '5a': 'ninguna' }), { corto: true });
+  assert.ok(!despues.includes('5c') && !despues.includes('5d'));
+  assert.equal(despues.filter(q => q !== 'G0').length, D.LIMITE_CORTO);
+});

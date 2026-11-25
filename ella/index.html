@@ -62,5 +62,11 @@
   </footer>
 
 </div>
+<script>
+/* 25/11/2026: los anuncios traen utm_*: se pasan al diagnóstico para que Umami y el informe sigan sabiendo de qué anuncio viene. */
+(function(){try{var q=new URLSearchParams(location.search);if(![...q.keys()].length)return;
+document.querySelectorAll('a[href^="/diagnostico/"]').forEach(function(a){var u=new URL(a.getAttribute('href'),location.origin);
+q.forEach(function(v,k){if(k!=='sexo')u.searchParams.set(k,v);});a.setAttribute('href',u.pathname+u.search);});}catch(e){}})();
+</script>
 </body>
 </html>

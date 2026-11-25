@@ -279,8 +279,16 @@
 
   function etapaDe(q) { return q === 'F' ? 0 : +q.charAt(0); }
 
-  // Las preguntas que tocan, según lo contestado hasta ahora.
-  function secuencia(resp) {
+  // VERSIÓN CORTA (25/11/2026, decisión de Jose: 12 como máximo sin contar G0).
+  // Se hacen las que tocan siguiendo esta prioridad hasta llegar al límite; se enseñan en el orden de ORDEN.
+  // La puntuación no cambia: solo qué preguntas se hacen. Prioridad elegida midiendo con los 69 diagnósticos
+  // reales de D1: da el mismo fallo principal que la versión completa en 62 de 69 (90 %), sin etapa ciega.
+  // Cálculo: biblioteca-josepico/propuesta-embudo/diagnostico-12-preguntas.md
+  var LIMITE_CORTO = 12;
+  var PRIORIDAD_CORTA = ['5a', '4c', '2c', '5c', '5d', '2d', '3c', '3b', '2a', '4a', '4b', '3a', '5b', '1a', 'F', '1b', '4p', '2b'];
+
+  // Las preguntas que tocan, según lo contestado hasta ahora. op.corto: versión de 12 (página pública).
+  function secuencia(resp, op) {
     resp = resp || {};
     var sec = ['G0', 'G1', 'G2'];
     if (!resp.G0 || !resp.G1 || !resp.G2) return sec;
@@ -293,7 +301,20 @@
       sec.push(q);
       if (q === '5a' && resp['5a'] && resp['5a'] !== 'ninguna') sec.push('5b', '5c', '5d');
     });
-    return sec;
+    if (!op || !op.corto) return sec;
+
+    // Corta: mientras x5a no está contestada, x5b-d guardan su sitio (si luego es «ninguna», el hueco pasa
+    // a la siguiente de la prioridad). Así el conjunto final es el mismo que el medido con los datos reales.
+    var posibles = {};
+    sec.forEach(function (q) { posibles[q] = 1; });
+    if (posibles['5a'] && resp['5a'] == null) { posibles['5b'] = posibles['5c'] = posibles['5d'] = 1; }
+    var n = sec.filter(function (q) { return ENTRADA[q] && q !== 'G0'; }).length;
+    var elegidas = {};
+    PRIORIDAD_CORTA.forEach(function (q) {
+      if (n >= LIMITE_CORTO || !posibles[q]) return;
+      elegidas[q] = 1; n++;
+    });
+    return sec.filter(function (q) { return ENTRADA[q] || elegidas[q]; });
   }
 
   function pregunta(sexo, id) {
@@ -1240,6 +1261,7 @@
     ENTRADA: ENTRADA, PREGUNTAS: PREGUNTAS, ORDEN: ORDEN,
     TITULOS: TITULOS, RETOS: RETOS, NOMBRE_ETAPA: NOMBRE_ETAPA, FRASES: FRASES,
     OBJETIVOS: OBJETIVOS, planDe: planDe,
+    LIMITE_CORTO: LIMITE_CORTO, PRIORIDAD_CORTA: PRIORIDAD_CORTA,
     secuencia: secuencia, pregunta: pregunta, opcion: opcion, opcionesEnOrden: opcionesEnOrden,
     analiza: analiza, descuido: descuido, calcula: calcula,
     citas: citas, loQueFunciona: loQueFunciona, informe: informe,

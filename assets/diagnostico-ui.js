@@ -11,6 +11,8 @@
   var D = window.Diagnostico;
   var PAGINA = document.body.getAttribute('data-pagina') === 'compradores' ? 'compradores' : 'publica';
   var ENTRADA = { G0: 1, G1: 1, G2: 1, G3: 1 };
+  // 25/11/2026: la página pública hace la versión corta (12 como máximo); la de compradores, la completa.
+  var OPC = { corto: PAGINA === 'publica' };
 
   var resp = {};
   var historial = [];     // [{q, ms, pos}]
@@ -51,9 +53,9 @@
   var correoDado = false, datosCorreo = null;
 
   function actual() {
-    var sec = D.secuencia(resp);
-    // Hasta contestar G0-G2 no se sabe cuántas salen: se estima con un recorrido medio (15).
-    var total = sec.length <= 3 ? 15 : sec.length;
+    var sec = D.secuencia(resp, OPC);
+    // Hasta contestar G0-G2 no se sabe cuántas salen: se estima (versión corta: el límite, 12 + G0).
+    var total = sec.length <= 3 ? (OPC.corto ? D.LIMITE_CORTO + 1 : 15) : sec.length;
     for (var i = 0; i < sec.length; i++) if (resp[sec[i]] == null) return { q: sec[i], i: i, total: total };
     return null;
   }
@@ -116,7 +118,7 @@
 
   // Quita respuestas de preguntas que ya no tocan (p. ej. al volver atrás y cambiar G1).
   function limpia() {
-    var sec = D.secuencia(resp);
+    var sec = D.secuencia(resp, OPC);
     Object.keys(resp).forEach(function (q) { if (sec.indexOf(q) < 0) delete resp[q]; });
     historial = historial.filter(function (h) { return resp[h.q] != null; });
   }
