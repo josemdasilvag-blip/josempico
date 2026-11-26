@@ -18,7 +18,8 @@
   var zona = (Intl.DateTimeFormat().resolvedOptions().timeZone) || 'Europe/Madrid';
   var montadas = {};
 
-  // [código ISO, prefijo, nombre]. España y Latinoamérica primero (el público de la campaña).
+  // [código ISO, prefijo, nombre]. En el desplegable salen por orden alfabético (26/11/2026, Jose);
+  // el país de la persona se preselecciona por la zona horaria.
   var PAISES = [
     ['ES', '34', 'España'], ['MX', '52', 'México'], ['CO', '57', 'Colombia'], ['AR', '54', 'Argentina'],
     ['CL', '56', 'Chile'], ['PE', '51', 'Perú'], ['VE', '58', 'Venezuela'], ['EC', '593', 'Ecuador'],
@@ -101,7 +102,7 @@
     // Se preselecciona por la zona horaria del navegador.
     if ($('prefijo')) {
       var pais = paisPorZona(zona);
-      PAISES.forEach(function (p) {
+      PAISES.slice().sort(function (x, y) { return x[2].localeCompare(y[2], 'es'); }).forEach(function (p) {
         var o = document.createElement('option');
         o.value = p[1]; o.textContent = p[2] + ' +' + p[1];
         if (p[0] === pais) o.selected = true;
