@@ -12,7 +12,8 @@
 
 import CORREOS from './correos.js';
 
-const ORIGENES = ['https://josempico.com', 'https://www.josempico.com'];
+// También http (26/11/2026): algunos navegadores de apps en Android abren la web sin https y el envío se bloqueaba.
+const ORIGENES = ['https://josempico.com', 'https://www.josempico.com', 'http://josempico.com', 'http://www.josempico.com'];
 const API = 'https://connect.mailerlite.com/api';
 const BREVO = 'https://api.brevo.com/v3/smtp/email';
 const URL_BAJA = 'https://josempico.com/api/suscribir?baja=';
