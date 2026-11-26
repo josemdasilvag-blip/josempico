@@ -40,7 +40,7 @@ const dia = ms => Math.floor(ms / 86400000);               // día natural (UTC)
 // ---------- Series ----------
 
 // Guía gratis «Elige tu camino» (26/11/2026, Jose): va en el primer correo de todas las series,
-// la de cada sexo, justo antes de los botones del final.
+// la de cada sexo, arriba: justo antes de «Estos son tus 7 cambios» (si no lo encuentra, antes de los botones del final).
 const GUIA = {
   h: { titulo: 'Lo que de verdad buscan las mujeres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-las-mujeres.pdf?v=1' },
   m: { titulo: 'Lo que de verdad buscan los hombres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-los-hombres.pdf?v=1' }
@@ -50,14 +50,13 @@ function bloqueGuia(sexo) {
   const g = GUIA[sexo === 'm' ? 'm' : 'h'];
   const sans = "Inter,'Segoe UI',Helvetica,Arial,sans-serif";
   const serif = "'Playfair Display',Georgia,'Times New Roman',serif";
-  return '<tr><td class="carta" style="background:#FFFFFF;padding:0 48px 28px">' +
-    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="background:#080808;border-radius:2px;padding:26px 26px 24px">' +
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:4px 0 26px"><tr><td style="background:#080808;border-radius:2px;padding:26px 26px 24px">' +
     '<p style="margin:0 0 8px;font:400 11px/1.4 ' + sans + ';letter-spacing:.24em;text-transform:uppercase;color:#C9A961">Tu guía gratis</p>' +
     '<p style="margin:0 0 10px;font:italic 400 24px/1.2 ' + serif + ';color:#FCFCFC">' + g.titulo + '</p>' +
     '<p style="margin:0 0 18px;font:400 15px/1.55 ' + sans + ';color:#D4D2D2">Te la preparé para que veas, punto por punto, qué es lo que de verdad cuenta. Léela con calma.</p>' +
     '<table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border:1px solid #C9A961;border-radius:2px">' +
     '<a href="' + g.pdf + '" style="display:block;padding:13px 22px;font:700 14px/1.3 ' + sans + ';letter-spacing:.04em;color:#FCFCFC;text-decoration:none">Descargar la guía (PDF)</a>' +
-    '</td></tr></table></td></tr></table></td></tr>';
+    '</td></tr></table></td></tr></table>';
 }
 
 function correo(serie, n, sexo) {
@@ -73,7 +72,11 @@ async function enviar(env, c, n) {
   let html = plantilla.html
     .replace(nombre ? '{$name}' : ' {$name}', nombre ? escapa(nombre) : '')
     .split('{$unsubscribe}').join(baja);
-  if (n === 1) html = html.replace(HUECO_GUIA, bloqueGuia(c.sexo) + HUECO_GUIA);
+  if (n === 1) {
+    const arriba = /<p [^>]*>Estos son tus 7 cambios:<\/p>/;
+    html = arriba.test(html) ? html.replace(arriba, m => bloqueGuia(c.sexo) + m)
+      : html.replace(HUECO_GUIA, HUECO_GUIA + bloqueGuia(c.sexo));
+  }
   const r = await fetch(BREVO, {
     method: 'POST',
     headers: { 'api-key': env.BREVO_KEY, 'Content-Type': 'application/json', 'Accept': 'application/json' },
