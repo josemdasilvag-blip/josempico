@@ -1009,14 +1009,16 @@
           'antes de quedar contigo: que sean estas fotos nuevas, no las de hace años.'
       ],
       P3: [
-        b('Nunca abras con «hola, qué tal», «cómo estás» o «qué tal el día».') + ' Esa conversación muere sola.',
+        // «Hola, qué tal»: a ellas sí les puede funcionar; a ellos no (Jose, 26/11/2026).
+        (s === 'h' ? b('Nunca abras con «hola, qué tal», «cómo estás» o «qué tal el día».') + ' Esa conversación muere sola.'
+          : b('Un «hola, qué tal» te puede funcionar, pero no te quedes ahí.') + ' Si puedes, súmale algo de su perfil y la conversación arranca mejor.'),
         b('Conecta con lo que tiene en su perfil o en sus fotos.') + ' Un viaje, un animal, algo de su bio; mejor si tú también has estado. ' +
           (s === 'h' ? 'Dos o tres líneas, y escribes tú en cuanto hay match.' : 'Si abres tú la primera conversación, la siguiente la abre él.'),
         b('Usa el humor para conectar.') + ' Si te contesta seco, cambia de tema y mete humor, sin insistir.'
       ],
       P4: [
         b('Demuestra interés de forma sutil, pero que se note que tienes opciones.') + ' Esa noche, un mensaje corto que te deje bien sin exponerte. ' +
-          (s === 'h' ? 'Al día siguiente, una broma, y la conversación la cortas tú.' : 'Al día siguiente no le escribes tú.'),
+          (s === 'h' ? 'Al día siguiente, una broma, y la conversación la cortas tú.' : 'Al día siguiente no le escribes tú. Si él no escribe, al segundo día puedes escribirle tú.'),
         b('Evita los temas polémicos.') + ' ' + TEMAS + (s === 'h' ? ' Que hable ella más que tú.' : ''),
         b('Usa el humor para conectar en la cita.') + ' Desde el primer minuto, sin forzarlo.'
       ],
