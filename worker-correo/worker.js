@@ -41,8 +41,8 @@ const dia = ms => Math.floor(ms / 86400000);               // día natural (UTC)
 // Guía gratis «Elige tu camino» (26/11/2026, Jose): va en el primer correo de todas las series,
 // la de cada sexo, justo antes de los botones del final.
 const GUIA = {
-  h: { titulo: 'Lo que de verdad buscan las mujeres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-las-mujeres.pdf' },
-  m: { titulo: 'Lo que de verdad buscan los hombres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-los-hombres.pdf' }
+  h: { titulo: 'Lo que de verdad buscan las mujeres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-las-mujeres.pdf?v=1' },
+  m: { titulo: 'Lo que de verdad buscan los hombres', pdf: 'https://josempico.com/recursos/guia-lo-que-buscan-los-hombres.pdf?v=1' }
 };
 const HUECO_GUIA = '<tr><td class="carta" style="background:#FFFFFF;padding:8px 48px 40px">';
 function bloqueGuia(sexo) {
