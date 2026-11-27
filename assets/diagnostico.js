@@ -1018,7 +1018,7 @@
       ],
       P4: [
         b('Demuestra interés de forma sutil, pero que se note que tienes opciones.') + ' Esa noche, un mensaje corto que te deje bien sin exponerte. ' +
-          (s === 'h' ? 'Al día siguiente, una broma, y la conversación la cortas tú.' : 'Al día siguiente no le escribes tú. Si él no escribe, al segundo día puedes escribirle tú.'),
+          (s === 'h' ? 'A los dos días, algo ligero (una broma), no al día siguiente, y la conversación la cortas tú.' : 'Al día siguiente no le escribes tú. Si él no escribe, al segundo día puedes escribirle tú.'),
         b('Evita los temas polémicos.') + ' ' + TEMAS + (s === 'h' ? ' Que hable ella más que tú.' : ''),
         b('Usa el humor para conectar en la cita.') + ' Desde el primer minuto, sin forzarlo.'
       ],
