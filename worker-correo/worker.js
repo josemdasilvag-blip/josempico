@@ -98,12 +98,19 @@ async function empezarSerie(env, email, nombre, sexo, principal) {
   const serie = SERIE_DE[principal];
   if (!serie || !env.DB || !env.BREVO_KEY) return;
   const token = crypto.randomUUID().replace(/-/g, '');
-  // Si ya estaba (repite el diagnóstico), no se reinicia ni se duplica.
+  const s = sexo === 'm' ? 'm' : 'h';
   const r = await env.DB.prepare(
     'INSERT OR IGNORE INTO contactos (email, nombre, sexo, serie, inicio, enviados, baja, token) VALUES (?, ?, ?, ?, ?, 0, 0, ?)')
-    .bind(email, nombre, sexo === 'm' ? 'm' : 'h', serie, Date.now(), token).run();
-  if (!r.meta.changes) return;
-  await enviar(env, { email, nombre, sexo, serie, token }, 1);
+    .bind(email, nombre, s, serie, Date.now(), token).run();
+  if (r.meta.changes) return enviar(env, { email, nombre, sexo: s, serie, token }, 1);
+  // Ya estaba: repite el diagnóstico (27/11/2026). Antes no se le mandaba nada; ahora recibe el correo 1
+  // de su resultado nuevo y la serie vuelve a empezar desde ahí. Dejó el correo otra vez, así que se reactiva.
+  // Solo se evita el doble envío del mismo momento (reintento del navegador): 10 minutos.
+  const c = await env.DB.prepare('SELECT token, ultimo FROM contactos WHERE email = ?').bind(email).first();
+  if (!c || (c.ultimo && Date.now() - c.ultimo < 10 * 60 * 1000)) return;
+  await env.DB.prepare('UPDATE contactos SET nombre = ?, sexo = ?, serie = ?, inicio = ?, enviados = 0, baja = 0 WHERE email = ?')
+    .bind(nombre, s, serie, Date.now(), email).run();
+  await enviar(env, { email, nombre, sexo: s, serie, token: c.token }, 1);
 }
 
 async function ronda(env) {
